@@ -1,0 +1,106 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@backend/account/authentication": [
+        "libs/account/authentication/src/index.ts"
+      ],
+      "@backend/account/blog-user": [
+        "libs/account/blog-user/src/index.ts"
+      ],
+      "@backend/account/config": [
+        "libs/account/config/src/index.ts"
+      ],
+      "@backend/account/notify": [
+        "libs/account/notify/src/index.ts"
+      ],
+      "@backend/account/refresh-token": [
+        "libs/account/refresh-token/src/index.ts"
+      ],
+      "@backend/api/config": [
+        "libs/api/config/src/index.ts"
+      ],
+      "@backend/blog/blog-post": [
+        "libs/blog/blog-post/src/index.ts"
+      ],
+      "@backend/blog/blog-post-comment": [
+        "libs/blog/blog-post-comment/src/index.ts"
+      ],
+      "@backend/blog/blog-post-like": [
+        "libs/blog/blog-post-like/src/index.ts"
+      ],
+      "@backend/blog/blog-subscription": [
+        "libs/blog/blog-subscription/src/index.ts"
+      ],
+      "@backend/blog/blog-tag": [
+        "libs/blog/blog-tag/src/index.ts"
+      ],
+      "@backend/blog/config": [
+        "libs/blog/config/src/index.ts"
+      ],
+      "@backend/blog/models": [
+        "libs/blog/models/src/index.ts"
+      ],
+      "@backend/blog/news-letter": [
+        "libs/blog/news-letter/src/index.ts"
+      ],
+      "@backend/blog/notify": [
+        "libs/blog/notify/src/index.ts"
+      ],
+      "@backend/file-storage/config": [
+        "libs/file-storage/config/src/index.ts"
+      ],
+      "@backend/file-storage/file-uploader": [
+        "libs/file-storage/file-uploader/src/index.ts"
+      ],
+      "@backend/notify/config": [
+        "libs/notify/config/src/index.ts"
+      ],
+      "@backend/notify/email-subsriber": [
+        "libs/notify/email-subsriber/src/index.ts"
+      ],
+      "@backend/notify/mail": [
+        "libs/notify/mail/src/index.ts"
+      ],
+      "@backend/shared/core": [
+        "libs/shared/core/src/index.ts"
+      ],
+      "@backend/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ],
+      "@backend/shared/exception-filters": [
+        "libs/shared/exception-filters/src/index.ts"
+      ],
+      "@backend/shared/helpers": [
+        "libs/shared/helpers/src/index.ts"
+      ],
+      "@backend/shared/interceptors": [
+        "libs/shared/interceptors/src/index.ts"
+      ],
+      "@backend/shared/pipes": [
+        "libs/shared/pipes/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
+}
