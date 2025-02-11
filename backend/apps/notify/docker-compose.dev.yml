@@ -1,16 +1,16 @@
 services:
-  guitar-shop.notify.fakesmtp:
+  notify.fakesmtp:
     image: gessnerfl/fake-smtp-server:2.2.0
-    container_name: guitar-shop.notify.fakesmtp
-    hostname: guitar-shop.notify.fakesmtp
+    container_name: notify.fakesmtp
+    hostname: notify.fakesmtp
 
     ports:
       -  ${MAIL_SMTP_PORT}:8025
       - 1085:8080
 
-  guitar-shop.notify.rabbitmq:
+  notify.rabbitmq:
     image: rabbitmq:3.11-management
-    container_name: guitar-shop.notify.rabbitmq
+    container_name: notify.rabbitmq
 
     ports:
       - 1088:15672
@@ -26,9 +26,9 @@ services:
       timeout: 5s
       retries: 5
 
-  guitar-shop.notify.mongodb:
+  notify.mongodb:
     image: mongo:4.4
-    container_name: guitar-shop.notify.mongodb
+    container_name: notify.mongodb
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
@@ -39,7 +39,7 @@ services:
       - ${MONGODB_PORT}:27017
 
     volumes:
-      - guitar-shop.notify.mongodb:/data/db
+      - notify.mongodb:/data/db
 
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/${MONGODB_DATABASE} --quiet
@@ -47,10 +47,10 @@ services:
       timeout: 10s
       retries: 5
 
-  guitar-shop.notify.mongodb.ui:
+  notify.mongodb.ui:
     image: mongo-express:1.0-20
     restart: always
-    container_name: guitar-shop.notify.mongodb.ui
+    container_name: notify.mongodb.ui
 
     ports:
       - 8083:8081
@@ -60,7 +60,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGODB_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGODB_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@guitar-shop.notify.mongodb:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@notify.mongodb:27017/
 
 volumes:
-  guitar-shop.notify.mongodb:
+  notify.mongodb:

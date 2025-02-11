@@ -1,8 +1,8 @@
 services:
-  guitar-shop.file-storage.mongo:
+  file-storage.mongo:
     image: mongo:4.4
     restart: always
-    container_name: guitar-shop.file-storage.mongo
+    container_name: file-storage.mongo
 
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
@@ -13,7 +13,7 @@ services:
       - ${MONGODB_PORT}:27017
 
     volumes:
-      - guitar-shop.mongo.file-storage:/data/db
+      - mongo.file-storage:/data/db
 
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/${MONGODB_DATABASE} --quiet
@@ -21,10 +21,10 @@ services:
       timeout: 10s
       retries: 5
 
-  guitar-shop.file-storage.mongo.ui:
+  file-storage.mongo.ui:
     image: mongo-express:1.0-20
     restart: always
-    container_name: guitar-shop.file-storage.mongo.ui
+    container_name: file-storage.mongo.ui
 
     ports:
       - 8082:8081
@@ -34,7 +34,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGODB_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGODB_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@guitar-shop.file-storage.mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@file-storage.mongo:27017/
 
 volumes:
-  guitar-shop.mongo.file-storage:
+  mongo.file-storage:
