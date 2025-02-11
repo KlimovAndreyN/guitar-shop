@@ -28,7 +28,6 @@ async function bootstrap() {
     .setDescription('The Account API description')
     .setVersion('1.0')
     .addBearerAuth(BearerAuthOption, BearerAuth.AccessToken)
-    .addBearerAuth(BearerAuthOption, BearerAuth.RefreshToken)
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, documentBuilder);
 

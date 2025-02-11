@@ -107,7 +107,6 @@ export class AuthenticationService {
     }
 
     this.logger.log('AuthenticationService.logout');
-    // доделать позже проверить, что это refreh token... удалить его ...refreshTokenService.deleteRefreshSession...
   }
 
 

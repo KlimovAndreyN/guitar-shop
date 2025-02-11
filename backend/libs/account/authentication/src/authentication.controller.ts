@@ -19,10 +19,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
-import { UserTokenRdo } from './rdo/user-token.rdo';
 import { TokenPayloadRdo } from './rdo/token-payload.rdo';
 import { AuthenticationApiResponse, AvatarOption, parseFilePipeBuilder } from './authentication.constant';
 
@@ -70,26 +68,12 @@ export class AuthenticationController {
 
   @ApiOperation(ApiOperationOption.User.Logout)
   @ApiResponse(AuthenticationApiResponse.LogoutSuccess)
-  @ApiBearerAuth(BearerAuth.RefreshToken)
+  @ApiBearerAuth(BearerAuth.AccessToken)
   @UseInterceptors(InjectBearerAuthInterceptor)
   @HttpCode(AuthenticationApiResponse.LogoutSuccess.status)
   @Delete(RouteAlias.Logout)
   public async logout(@Req() { bearerAuth }: RequestWithBearerAuth): Promise<void> {
     await this.authService.logout(bearerAuth);
-  }
-
-  @ApiOperation(ApiOperationOption.User.RefreshTokens)
-  @ApiResponse(AuthenticationApiResponse.RefreshTokens)
-  @ApiResponse(AuthenticationApiResponse.BadRequest)
-  @ApiResponse(AuthenticationApiResponse.Unauthorized)
-  @ApiBearerAuth(BearerAuth.RefreshToken)
-  @HttpCode(AuthenticationApiResponse.RefreshTokens.status)
-  @UseGuards(JwtRefreshGuard)
-  @Post(RouteAlias.Refresh)
-  public async refreshToken(@Req() { user }: RequestWithBlogUserEntity): Promise<UserTokenRdo> {
-    const userToken = await this.authService.createUserToken(user);
-
-    return fillDto(UserTokenRdo, userToken);
   }
 
   @ApiOperation(ApiOperationOption.User.Check)

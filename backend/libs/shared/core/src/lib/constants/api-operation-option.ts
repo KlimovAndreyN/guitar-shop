@@ -3,7 +3,6 @@ export const ApiOperationOption = {
     Register: { summary: 'Регистрация нового пользователя' },
     Login: { summary: 'Авторизация пользователя' },
     Logout: { summary: 'Выход пользователя' },
-    RefreshTokens: { summary: 'Обновление токенов' },
     Check: { summary: 'Провека токена авторизации' },
     ChangePassword: { summary: 'Смена пароля пользователя' },
     Show: { summary: 'Получение информации о пользователе' },
