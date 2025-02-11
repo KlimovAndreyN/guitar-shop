@@ -1,1 +1,4 @@
-+
+include:
+  - /backend/apps/file-storage/docker-compose.dev.yml
+
+  #- ./backend/apps/account/docker-compose.dev.yml
