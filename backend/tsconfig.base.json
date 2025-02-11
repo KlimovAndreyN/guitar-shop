@@ -22,8 +22,8 @@
       "@backend/account/authentication": [
         "libs/account/authentication/src/index.ts"
       ],
-      "@backend/account/blog-user": [
-        "libs/account/blog-user/src/index.ts"
+      "@backend/account/shop-user": [
+        "libs/account/shop-user/src/index.ts"
       ],
       "@backend/account/config": [
         "libs/account/config/src/index.ts"

@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
 import { getJwtOptions } from '@backend/account/config';
-import { BlogUserModule } from '@backend/account/blog-user';
+import { ShopUserModule } from '@backend/account/shop-user';
 import { NotifyModule } from '@backend/account/notify';
 
 import { AuthenticationController } from './authentication.controller';
@@ -18,7 +18,7 @@ const JwtModuleOption = {
 
 @Module({
   imports: [
-    BlogUserModule,
+    ShopUserModule,
     JwtModule.registerAsync(JwtModuleOption),
     NotifyModule
   ],

@@ -12,7 +12,7 @@ import {
 import { fillDto } from '@backend/shared/helpers';
 import { MongoIdValidationPipe } from '@backend/shared/pipes';
 import { InjectBearerAuthInterceptor } from '@backend/shared/interceptors';
-import { RequestWithBlogUserEntity } from '@backend/account/blog-user';
+import { RequestWithShopUserEntity } from '@backend/account/shop-user';
 
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -60,7 +60,7 @@ export class AuthenticationController {
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalAuthGuard)
   @Post(RouteAlias.Login)
-  public async login(@Req() { user }: RequestWithBlogUserEntity): Promise<LoggedUserRdo> {
+  public async login(@Req() { user }: RequestWithShopUserEntity): Promise<LoggedUserRdo> {
     const userToken = await this.authService.createUserToken(user);
 
     return fillDto(LoggedUserRdo, { ...user.toPOJO(), ...userToken });

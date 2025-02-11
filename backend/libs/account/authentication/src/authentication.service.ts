@@ -8,7 +8,7 @@ import { join } from 'path/posix';
 
 import { RouteAlias, Token, User } from '@backend/shared/core';
 import { createJWTPayload, parseAxiosError, uploadFile } from '@backend/shared/helpers';
-import { BlogUserRepository, BlogUserEntity } from '@backend/account/blog-user';
+import { ShopUserRepository, ShopUserEntity } from '@backend/account/shop-user';
 import { applicationConfig } from '@backend/account/config';
 import { NotifyService } from '@backend/account/notify';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
@@ -22,7 +22,7 @@ export class AuthenticationService {
   private readonly logger = new Logger(AuthenticationService.name);
 
   constructor(
-    private readonly blogUserRepository: BlogUserRepository,
+    private readonly shopUserRepository: ShopUserRepository,
     private readonly jwtService: JwtService,
     private readonly notifyService: NotifyService,
     @Inject(applicationConfig.KEY)
@@ -34,19 +34,19 @@ export class AuthenticationService {
     dto: CreateUserDto,
     requestId: string,
     avatarFile?: Express.Multer.File
-  ): Promise<BlogUserEntity> {
+  ): Promise<ShopUserEntity> {
     if (authorizationHeader) {
       throw new ForbiddenException(AuthenticationUserMessage.RequireLogout);
     }
 
     const { email, name, password } = dto;
-    const existUser = await this.blogUserRepository.findByEmail(email);
+    const existUser = await this.shopUserRepository.findByEmail(email);
 
     if (existUser) {
       throw new ConflictException(AuthenticationUserMessage.Exists);
     }
 
-    const blogUser = {
+    const shopUser = {
       email,
       name,
       avatarPath: '',
@@ -63,7 +63,7 @@ export class AuthenticationService {
         );
         const { subDirectory, hashName } = fileRdo
 
-        blogUser.avatarPath = join(subDirectory, hashName);
+        shopUser.avatarPath = join(subDirectory, hashName);
       } catch (error) {
         this.logger.error(`RegisterUser.FileUploadError: ${parseAxiosError(error)}`);
 
@@ -71,10 +71,10 @@ export class AuthenticationService {
       }
     }
 
-    const userEntity = new BlogUserEntity(blogUser);
+    const userEntity = new ShopUserEntity(shopUser);
 
     await userEntity.setPassword(password);
-    await this.blogUserRepository.save(userEntity);
+    await this.shopUserRepository.save(userEntity);
 
     await this.notifyService.registerSubscriber({ email, name }, requestId);
 
@@ -85,7 +85,7 @@ export class AuthenticationService {
     const userEntity = await this.verifyUser({ email, password: oldPassword });
 
     await userEntity.setPassword(newPassword);
-    await this.blogUserRepository.update(userEntity);
+    await this.shopUserRepository.update(userEntity);
   }
 
   public async createUserToken(user: User): Promise<Token> {
@@ -110,8 +110,8 @@ export class AuthenticationService {
   }
 
 
-  public async getUser(id: string): Promise<BlogUserEntity> {
-    const user = await this.blogUserRepository.findById(id);
+  public async getUser(id: string): Promise<ShopUserEntity> {
+    const user = await this.shopUserRepository.findById(id);
 
     if (!user) {
       throw new NotFoundException(AuthenticationUserMessage.NotFound);
@@ -121,7 +121,7 @@ export class AuthenticationService {
   }
 
   public async getUserByEmail(email: string) {
-    const existUser = await this.blogUserRepository.findByEmail(email);
+    const existUser = await this.shopUserRepository.findByEmail(email);
 
     if (!existUser) {
       throw new NotFoundException(`User with email ${email} not found`);
@@ -130,7 +130,7 @@ export class AuthenticationService {
     return existUser;
   }
 
-  public async verifyUser(dto: LoginUserDto): Promise<BlogUserEntity> {
+  public async verifyUser(dto: LoginUserDto): Promise<ShopUserEntity> {
     const { email, password } = dto;
     const existUser = await this.getUserByEmail(email);
 

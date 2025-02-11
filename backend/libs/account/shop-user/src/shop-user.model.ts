@@ -3,13 +3,13 @@ import { Document } from 'mongoose';
 
 import { AuthUser } from '@backend/shared/core';
 
-import { ACCOUNTS_COLLECTION } from './blog-user.constant';
+import { ACCOUNTS_COLLECTION } from './shop-user.constant';
 
 @Schema({
   collection: ACCOUNTS_COLLECTION,
   timestamps: true
 })
-export class BlogUserModel extends Document implements AuthUser {
+export class ShopUserModel extends Document implements AuthUser {
   @Prop({ required: true, unique: true })
   public email: string;
 
@@ -25,4 +25,4 @@ export class BlogUserModel extends Document implements AuthUser {
   public createdAt: Date;
 }
 
-export const BlogUserSchema = SchemaFactory.createForClass(BlogUserModel);
+export const ShopUserSchema = SchemaFactory.createForClass(ShopUserModel);

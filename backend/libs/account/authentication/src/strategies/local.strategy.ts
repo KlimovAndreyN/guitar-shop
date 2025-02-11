@@ -5,7 +5,7 @@ import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 
 import { getValidationErrorString } from '@backend/shared/helpers';
-import { BlogUserEntity } from '@backend/account/blog-user';
+import { ShopUserEntity } from '@backend/account/shop-user';
 
 import { AuthenticationService } from '../authentication.service';
 import { LoginUserDto } from '../dto/login-user.dto';
@@ -18,7 +18,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super({ usernameField: USERNAME_FIELD_NAME });
   }
 
-  public async validate(email: string, password: string): Promise<BlogUserEntity> {
+  public async validate(email: string, password: string): Promise<ShopUserEntity> {
     const dto = { email, password };
     const error = validateSync(plainToClass(LoginUserDto, dto));
 

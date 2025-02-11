@@ -8,7 +8,7 @@ import { ConfigAlias } from '../../../shared/core/src/lib/constants/config-alias
 import { AuthUser } from '../../../shared/core/src/lib/types/auth-user.interface';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { getMongoConnectionString } from '../../../shared/helpers/src/lib/common';
-import { SALT_ROUNDS, ACCOUNTS_COLLECTION } from '../../../account/blog-user/src/blog-user.constant';
+import { SALT_ROUNDS, ACCOUNTS_COLLECTION } from '../../../account/shop-user/src/shop-user.constant';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { MOCK_USERS } from '../../../../mocks/users';
 
