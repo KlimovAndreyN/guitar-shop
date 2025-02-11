@@ -3,4 +3,5 @@
   проверить все переименовал в nx.json
   все ли удалил: NewsLetter, news-letter, NEWS_LETTER ?
   все ли удалил: refresh-token, JwtRefreshStrategy, refreshTokenPayload, refreshTokenSecret, refreshTokenExpiresIn
+  rabbitRoute: addSubscriber -> regiterNewUser?
 --
