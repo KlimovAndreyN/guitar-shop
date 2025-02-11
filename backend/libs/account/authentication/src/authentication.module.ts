@@ -5,13 +5,11 @@ import { ConfigService } from '@nestjs/config';
 import { getJwtOptions } from '@backend/account/config';
 import { BlogUserModule } from '@backend/account/blog-user';
 import { NotifyModule } from '@backend/account/notify';
-import { RefreshTokenModule } from '@backend/account/refresh-token';
 
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 const JwtModuleOption = {
   inject: [ConfigService],
@@ -22,15 +20,13 @@ const JwtModuleOption = {
   imports: [
     BlogUserModule,
     JwtModule.registerAsync(JwtModuleOption),
-    NotifyModule,
-    RefreshTokenModule
+    NotifyModule
   ],
   controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
     JwtAccessStrategy,
-    LocalStrategy,
-    JwtRefreshStrategy
+    LocalStrategy
   ]
 })
 export class AuthenticationModule { }

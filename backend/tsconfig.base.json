@@ -31,9 +31,6 @@
       "@backend/account/notify": [
         "libs/account/notify/src/index.ts"
       ],
-      "@backend/account/refresh-token": [
-        "libs/account/refresh-token/src/index.ts"
-      ],
       "@backend/api/config": [
         "libs/api/config/src/index.ts"
       ],

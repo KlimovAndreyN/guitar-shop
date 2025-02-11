@@ -6,15 +6,11 @@ import { ConfigAlias } from '@backend/shared/core';
 export interface JWTConfig {
   accessTokenSecret: string;
   accessTokenExpiresIn: string;
-  refreshTokenSecret: string;
-  refreshTokenExpiresIn: string;
 }
 
 const validationSchema = Joi.object({
   accessTokenSecret: Joi.string().required().label(ConfigAlias.JwtAccessTokenSecretEnv),
-  accessTokenExpiresIn: Joi.string().required().label(ConfigAlias.JwtAccessTokenExpiresInEnv),
-  refreshTokenSecret: Joi.string().required().label(ConfigAlias.JwtRefreshTokenSecretEnv),
-  refreshTokenExpiresIn: Joi.string().required().label(ConfigAlias.JwtRefreshTokenExpiresInEnv)
+  accessTokenExpiresIn: Joi.string().required().label(ConfigAlias.JwtAccessTokenExpiresInEnv)
 });
 
 function validateConfig(config: JWTConfig): void {
@@ -28,9 +24,7 @@ function validateConfig(config: JWTConfig): void {
 function getConfig(): JWTConfig {
   const config: JWTConfig = {
     accessTokenSecret: process.env[ConfigAlias.JwtAccessTokenSecretEnv],
-    accessTokenExpiresIn: process.env[ConfigAlias.JwtAccessTokenExpiresInEnv],
-    refreshTokenSecret: process.env[ConfigAlias.JwtRefreshTokenSecretEnv],
-    refreshTokenExpiresIn: process.env[ConfigAlias.JwtRefreshTokenExpiresInEnv]
+    accessTokenExpiresIn: process.env[ConfigAlias.JwtAccessTokenExpiresInEnv]
   };
 
   validateConfig(config);

@@ -85,14 +85,10 @@ export enum ConfigAlias {
   JwtEnv = 'JWT',
   JwtAccessTokenSecretEnv = `${JwtEnv}_ACCESS_TOKEN_SECRET`,
   JwtAccessTokenExpiresInEnv = `${JwtEnv}_ACCESS_TOKEN_EXPIRES_IN`,
-  JwtRefreshTokenSecretEnv = `${JwtEnv}_REFRESH_TOKEN_SECRET`,
-  JwtRefreshTokenExpiresInEnv = `${JwtEnv}_REFRESH_TOKEN_EXPIRES_IN`,
 
   AppJwt = `${Application}.jwt`,
   AppJwtAccessTokenSecret = `${AppJwt}.accessTokenSecret`,
   AppJwtAccessTokenExpiresIn = `${AppJwt}.accessTokenExpiresIn`,
-  AppJwtRefreshTokenSecret = `${AppJwt}.refreshTokenSecret`,
-  AppJwtRefreshTokenExpiresIn = `${AppJwt}.refreshTokenExpiresIn`,
   // микросервисы
   ServiceUrlEnv = 'SERVICE_URL',
   ServiceUrl = 'ServiceUrl',
