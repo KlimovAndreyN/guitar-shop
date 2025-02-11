@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { PostWithUserIdRdo, XHeader } from '@backend/shared/core';
+import { XHeader } from '@backend/shared/core';
 import { MailService } from '@backend/notify/mail';
 
 import { EmailSubscriberEntity } from './email-subscriber.entity';
@@ -32,17 +32,5 @@ export class EmailSubscriberService {
     Logger.log(`AddSubscriber: new subscriber ${email} saved`, EmailSubscriberService.name);
 
     await this.mailService.sendNotifyNewSubscriber(subscriber);
-  }
-
-  public async sendAll(posts: PostWithUserIdRdo[]): Promise<void> {
-    const subscribers = await this.emailSubscriberRepository.findAll();
-
-    Logger.log(`SendAll: subscribers count: ${subscribers.length}`, EmailSubscriberService.name);
-
-    if (!subscribers.length) {
-      return
-    }
-
-    await this.mailService.sendNotifyNewsLetter(subscribers, posts);
   }
 }

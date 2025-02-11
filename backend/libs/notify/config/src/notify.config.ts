@@ -10,7 +10,7 @@ import { getPort } from '@backend/shared/helpers';
 export interface NotifyConfig {
   environment: string;
   port: number;
-  apiBlogPostUrl: string;
+  apiMainUrl: string;
   mongoDb: {
     host: string;
     port: number;
@@ -26,7 +26,6 @@ export interface NotifyConfig {
     password: string;
     exchange: string;
     queueSubscriber: string;
-    queueNewsLetter: string;
   },
   mailSmtp: {
     host: string;
@@ -40,7 +39,7 @@ export interface NotifyConfig {
 const validationSchema = Joi.object({
   environment: Joi.string().valid(...ENVIRONMENTS).required().label(ConfigAlias.NodeEnv),
   port: Joi.number().port().default(DEFAULT_PORT),
-  apiBlogPostUrl: Joi.string().required().label(ConfigAlias.ApiBlogPostUrlEnv),
+  apiMainUrl: Joi.string().required().label(ConfigAlias.ApiMainUrlEnv),
   mongoDb: Joi.object({
     host: Joi.string().valid().hostname().required().label(ConfigAlias.MongoDbHostEnv),
     port: Joi.number().port().default(DEFAULT_MONGODB_PORT),
@@ -55,8 +54,7 @@ const validationSchema = Joi.object({
     user: Joi.string().required().label(ConfigAlias.RabbitUserEnv),
     password: Joi.string().required().label(ConfigAlias.RabbitPasswordEnv),
     exchange: Joi.string().required().label(ConfigAlias.RabbitExchangeEnv),
-    queueSubscriber: Joi.string().required().label(ConfigAlias.RabbitQueueSubscriberEnv),
-    queueNewsLetter: Joi.string().required().label(ConfigAlias.RabbitQueueNewsLetterEnv)
+    queueSubscriber: Joi.string().required().label(ConfigAlias.RabbitQueueSubscriberEnv)
   }),
   mailSmtp: Joi.object({
     host: Joi.string().valid().hostname().required().label(ConfigAlias.MailSmtpHostEnv),
@@ -79,7 +77,7 @@ function getConfig(): NotifyConfig {
   const config: NotifyConfig = {
     environment: process.env[ConfigAlias.NodeEnv] as Environment,
     port: getPort(ConfigAlias.PortEnv, DEFAULT_PORT),
-    apiBlogPostUrl: process.env[ConfigAlias.ApiBlogPostUrlEnv],
+    apiMainUrl: process.env[ConfigAlias.ApiMainUrlEnv],
     mongoDb: {
       host: process.env[ConfigAlias.MongoDbHostEnv],
       port: getPort(ConfigAlias.MongoDbPortEnv, DEFAULT_MONGODB_PORT),
@@ -94,8 +92,7 @@ function getConfig(): NotifyConfig {
       user: process.env[ConfigAlias.RabbitUserEnv],
       password: process.env[ConfigAlias.RabbitPasswordEnv],
       exchange: process.env[ConfigAlias.RabbitExchangeEnv],
-      queueSubscriber: process.env[ConfigAlias.RabbitQueueSubscriberEnv],
-      queueNewsLetter: process.env[ConfigAlias.RabbitQueueNewsLetterEnv]
+      queueSubscriber: process.env[ConfigAlias.RabbitQueueSubscriberEnv]
     },
     mailSmtp: {
       host: process.env[ConfigAlias.MailSmtpHostEnv],

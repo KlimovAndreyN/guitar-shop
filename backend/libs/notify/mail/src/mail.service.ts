@@ -2,11 +2,10 @@ import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 
-import { PostWithUserIdRdo, Subscriber } from '@backend/shared/core';
+import { Subscriber } from '@backend/shared/core';
 import { notifyConfig } from '@backend/notify/config';
 
-import { ADD_SUBCRIBER_TEMPLATE, ADD_SUBSCRIBER_SUBJECT, NEWS_LETTER_SUBJECT, NEWS_LETTER_TEMPLATE } from './mail.constant';
-import { join } from 'path/posix';
+import { ADD_SUBCRIBER_TEMPLATE, ADD_SUBSCRIBER_SUBJECT } from './mail.constant';
 
 @Injectable()
 export class MailService {
@@ -29,23 +28,5 @@ export class MailService {
     };
 
     await this.mailerService.sendMail(sendMailOption);
-  }
-
-  public async sendNotifyNewsLetter(subscribers: Subscriber[], posts: PostWithUserIdRdo[]): Promise<void> {
-    const { apiBlogPostUrl, mailSmtp: { from } } = this.notifyConfig;
-    const urls = posts.map(({ id }) => ({ title: id, url: join(apiBlogPostUrl, id) }));
-
-    for (const subscriber of subscribers) {
-      const { name, email } = subscriber;
-      const sendMailOption: ISendMailOptions = {
-        from,
-        to: email,
-        subject: NEWS_LETTER_SUBJECT,
-        template: NEWS_LETTER_TEMPLATE,
-        context: { name, urls }
-      };
-
-      await this.mailerService.sendMail(sendMailOption);
-    }
   }
 }

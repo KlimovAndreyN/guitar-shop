@@ -1,5 +1,5 @@
 Заметки:
   проверить все ли пакеты задействованы из project/package.json
   проверить все переименовал в nx.json
-
+  все ли удалил: NewsLetter, news-letter, NEWS_LETTER ?
 --

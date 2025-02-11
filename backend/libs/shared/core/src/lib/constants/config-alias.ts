@@ -60,7 +60,6 @@ export enum ConfigAlias {
   RabbitPasswordEnv = `${RabbitEnv}_${PasswordEnv}`,
   RabbitExchangeEnv = `${RabbitEnv}_EXCHANGE`,
   RabbitQueueSubscriberEnv = `${RabbitEnv}_QUEUE_SUBSCRIBER`,
-  RabbitQueueNewsLetterEnv = `${RabbitEnv}_QUEUE_NEWS_LETTER`,
 
   AppRabbit = `${Application}.rabbit`,
   AppRabbitHost = `${AppRabbit}.${Host}`,
@@ -102,5 +101,5 @@ export enum ConfigAlias {
   BlogPostServiceUrlEnv = `BLOG_POST_${ServiceUrlEnv}`,
   FileStorageServiceUrlEnv = `FILE_STORAGE_${ServiceUrlEnv}`,
   //...
-  ApiBlogPostUrlEnv = `API_BLOG_POST_URL`
+  ApiMainUrlEnv = `API_MAIN_URL`
 }
