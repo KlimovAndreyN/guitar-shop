@@ -3,7 +3,6 @@ export enum RouteAlias {
   Login = 'login',
   Logout = 'logout',
   Check = 'check',
-  ChangePassword = 'change-password',
   //
   Posts = 'posts',
   Search = 'search',

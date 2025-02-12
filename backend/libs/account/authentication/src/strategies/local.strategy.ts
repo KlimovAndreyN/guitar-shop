@@ -10,7 +10,7 @@ import { ShopUserEntity } from '@backend/account/shop-user';
 import { AuthenticationService } from '../authentication.service';
 import { LoginUserDto } from '../dto/login-user.dto';
 
-const USERNAME_FIELD_NAME = 'email';
+const USERNAME_FIELD_NAME = 'login';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -18,15 +18,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super({ usernameField: USERNAME_FIELD_NAME });
   }
 
-  public async validate(email: string, password: string): Promise<ShopUserEntity> {
-    const dto = { email, password };
+  public async validate(login: string, password: string): Promise<ShopUserEntity> {
+    const dto = { login, password };
     const error = validateSync(plainToClass(LoginUserDto, dto));
 
     if (error.length) {
       throw new BadRequestException(getValidationErrorString(error));
     }
 
-    const userEntity = await this.authService.verifyUser({ email, password });
+    const userEntity = await this.authService.verifyUser({ login, password });
 
     return userEntity;
   }

@@ -27,24 +27,13 @@ export const ApiPropertyOption = {
       description: 'The user new password',
       example: 'password'
     },
-    AvatarPath: {
-      description: 'The user avatar path',
-      example: '/img/avatar.jpg'
-    },
-    AvatarFile: {
-      required: false,
-      description: 'The avatar file',
-      type: 'string',
-      format: 'binary'
-    },
-    registrationDate: {
-      description: 'The user registration date',
-      type: 'string',
-      example: '2025-01-20'
-    },
     AccessToken: {
       description: 'The user access JWT token',
       example: 'asdasdsdfetyhetyhythgfnghnlkcsdkfajowfjlsdkmcv'
+    },
+    Login: {
+      description: 'The login user (email)',
+      example: 'admin'
     }
   },
   Post: {

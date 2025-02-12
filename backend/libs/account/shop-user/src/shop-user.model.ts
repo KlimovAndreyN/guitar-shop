@@ -16,9 +16,6 @@ export class ShopUserModel extends Document implements AuthUser {
   @Prop({ required: true })
   public name: string;
 
-  @Prop()
-  public avatarPath: string;
-
   @Prop({ required: true })
   public passwordHash: string;
 

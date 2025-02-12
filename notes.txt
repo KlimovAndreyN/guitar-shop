@@ -5,4 +5,6 @@
   все ли удалил: refresh-token, JwtRefreshStrategy, refreshTokenPayload, refreshTokenSecret, refreshTokenExpiresIn
   rabbitRoute: addSubscriber -> regiterNewUser?
   удалить seed, как будет cli
+  avatarFile, avatarPath
+  добавить ограничение на логин и пароль 1 символ или не пустая строка!
 --

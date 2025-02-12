@@ -1,28 +1,22 @@
-import {
-  Body, Controller, Delete, Get, HttpCode, Param,
-  Post, Req, UploadedFile, UseGuards, UseInterceptors
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
-  ApiParamOption, BearerAuth, RequestWithBearerAuth, RequestWithRequestIdAndBearerAuth,
-  RequestWithTokenPayload, RouteAlias, USER_ID_PARAM, UserRdo, ApiOperationOption
+  BearerAuth, RequestWithBearerAuth, RequestWithRequestIdAndBearerAuth,
+  RequestWithTokenPayload, RouteAlias, UserRdo, ApiOperationOption
 } from '@backend/shared/core';
 import { fillDto } from '@backend/shared/helpers';
-import { MongoIdValidationPipe } from '@backend/shared/pipes';
 import { InjectBearerAuthInterceptor } from '@backend/shared/interceptors';
 import { RequestWithShopUserEntity } from '@backend/account/shop-user';
 
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { TokenPayloadRdo } from './rdo/token-payload.rdo';
-import { AuthenticationApiResponse, AvatarOption, parseFilePipeBuilder } from './authentication.constant';
+import { AuthenticationApiResponse } from './authentication.constant';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -37,17 +31,14 @@ export class AuthenticationController {
   @ApiResponse(AuthenticationApiResponse.BadRequest)
   @ApiResponse(AuthenticationApiResponse.NotAllow)
   @ApiBearerAuth(BearerAuth.AccessToken) // для тестирования - анонимный пользователь может регистрироваться
-  @ApiConsumes('multipart/form-data')
   @UseInterceptors(InjectBearerAuthInterceptor)
-  @UseInterceptors(FileInterceptor(AvatarOption.KEY))
   @Post(RouteAlias.Register)
   public async register(
     @Body() dto: CreateUserDto,
-    @Req() { requestId, bearerAuth }: RequestWithRequestIdAndBearerAuth,
-    @UploadedFile(parseFilePipeBuilder) avatarFile?: Express.Multer.File
+    @Req() { requestId, bearerAuth }: RequestWithRequestIdAndBearerAuth
   ): Promise<UserRdo> {
     // headers: Authorization - т.к. только анонимный пользователь может регистрироваться
-    const newUser = await this.authService.registerUser(bearerAuth, dto, requestId, avatarFile);
+    const newUser = await this.authService.registerUser(bearerAuth, dto, requestId);
 
     return fillDto(UserRdo, newUser.toPOJO());
   }
@@ -86,29 +77,5 @@ export class AuthenticationController {
   @Post(RouteAlias.Check)
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload): Promise<TokenPayloadRdo> {
     return fillDto(TokenPayloadRdo, payload);
-  }
-
-  @ApiOperation(ApiOperationOption.User.ChangePassword)
-  @ApiResponse(AuthenticationApiResponse.ChangePasswordSuccess)
-  @ApiResponse(AuthenticationApiResponse.BadRequest)
-  @ApiResponse(AuthenticationApiResponse.Unauthorized)
-  @ApiBearerAuth(BearerAuth.AccessToken)
-  @HttpCode(AuthenticationApiResponse.ChangePasswordSuccess.status)
-  @UseGuards(JwtAuthGuard)
-  @Post(RouteAlias.ChangePassword)
-  public async changePassword(@Body() dto: ChangePasswordDto, @Req() { user: { email } }: RequestWithTokenPayload): Promise<void> {
-    await this.authService.changeUserPassword(email, dto.oldPassword, dto.newPassword);
-  }
-
-  @ApiOperation(ApiOperationOption.User.Show)
-  @ApiResponse(AuthenticationApiResponse.UserFound)
-  @ApiResponse(AuthenticationApiResponse.UserNotFound)
-  @ApiResponse(AuthenticationApiResponse.BadRequest)
-  @ApiParam(ApiParamOption.UserId)
-  @Get(USER_ID_PARAM)
-  public async show(@Param(ApiParamOption.UserId.name, MongoIdValidationPipe) userId: string): Promise<UserRdo> {
-    const existUser = await this.authService.getUser(userId);
-
-    return fillDto(UserRdo, existUser.toPOJO());
   }
 }

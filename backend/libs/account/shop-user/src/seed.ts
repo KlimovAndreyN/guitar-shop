@@ -16,7 +16,6 @@ const UserSchema = new Mongoose.Schema(
   {
     email: { type: String, unique: true },
     name: { type: String },
-    avatarPath: { type: String },
     passwordHash: { type: String },
     createdAt: { type: Date }
   },
@@ -42,9 +41,9 @@ async function bootstrap() {
   const salt = await genSalt(SALT_ROUNDS);
 
   for (const mockUser of MOCK_USERS) {
-    const { id: _id, email, name, password, avatarPath } = mockUser;
+    const { id: _id, email, name, password } = mockUser;
     const passwordHash = await hash(password, salt);
-    await new UserEntity({ _id, email, name, avatarPath, passwordHash }).save();
+    await new UserEntity({ _id, email, name, passwordHash }).save();
   }
 
   await mongoose.disconnect?.();

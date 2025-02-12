@@ -1,17 +1,15 @@
 import {
   ConflictException, ForbiddenException, HttpException, HttpStatus, Inject,
-  Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException
+  Injectable, Logger, NotFoundException, UnauthorizedException
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { join } from 'path/posix';
 
-import { RouteAlias, Token, User } from '@backend/shared/core';
-import { createJWTPayload, parseAxiosError, uploadFile } from '@backend/shared/helpers';
+import { Token, User } from '@backend/shared/core';
+import { createJWTPayload } from '@backend/shared/helpers';
 import { ShopUserRepository, ShopUserEntity } from '@backend/account/shop-user';
 import { applicationConfig } from '@backend/account/config';
 import { NotifyService } from '@backend/account/notify';
-import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthenticationUserMessage } from './authentication.constant';
@@ -32,8 +30,7 @@ export class AuthenticationService {
   public async registerUser(
     authorizationHeader: string,
     dto: CreateUserDto,
-    requestId: string,
-    avatarFile?: Express.Multer.File
+    requestId: string
   ): Promise<ShopUserEntity> {
     if (authorizationHeader) {
       throw new ForbiddenException(AuthenticationUserMessage.RequireLogout);
@@ -49,27 +46,8 @@ export class AuthenticationService {
     const shopUser = {
       email,
       name,
-      avatarPath: '',
       passwordHash: ''
     };
-
-    if (avatarFile) {
-      try {
-        const fileRdo = await uploadFile<UploadedFileRdo>(
-          join(this.applicationOptions.fileStorageServiceUrl, RouteAlias.Upload),
-          avatarFile,
-          FILE_KEY,
-          requestId
-        );
-        const { subDirectory, hashName } = fileRdo
-
-        shopUser.avatarPath = join(subDirectory, hashName);
-      } catch (error) {
-        this.logger.error(`RegisterUser.FileUploadError: ${parseAxiosError(error)}`);
-
-        throw new InternalServerErrorException('File upload error!');
-      }
-    }
 
     const userEntity = new ShopUserEntity(shopUser);
 
@@ -79,13 +57,6 @@ export class AuthenticationService {
     await this.notifyService.registerSubscriber({ email, name }, requestId);
 
     return userEntity;
-  }
-
-  public async changeUserPassword(email: string, oldPassword: string, newPassword: string): Promise<void> {
-    const userEntity = await this.verifyUser({ email, password: oldPassword });
-
-    await userEntity.setPassword(newPassword);
-    await this.shopUserRepository.update(userEntity);
   }
 
   public async createUserToken(user: User): Promise<Token> {
@@ -109,17 +80,6 @@ export class AuthenticationService {
     this.logger.log('AuthenticationService.logout');
   }
 
-
-  public async getUser(id: string): Promise<ShopUserEntity> {
-    const user = await this.shopUserRepository.findById(id);
-
-    if (!user) {
-      throw new NotFoundException(AuthenticationUserMessage.NotFound);
-    }
-
-    return user;
-  }
-
   public async getUserByEmail(email: string) {
     const existUser = await this.shopUserRepository.findByEmail(email);
 
@@ -131,8 +91,8 @@ export class AuthenticationService {
   }
 
   public async verifyUser(dto: LoginUserDto): Promise<ShopUserEntity> {
-    const { email, password } = dto;
-    const existUser = await this.getUserByEmail(email);
+    const { login, password } = dto;
+    const existUser = await this.getUserByEmail(login);
 
     const isCorrectPassword = await existUser.comparePassword(password);
 
