@@ -2,3 +2,4 @@ name: guitar-shop
 include:
   - ./backend/apps/file-storage/docker-compose.dev.yml
   - ./backend/apps/account/docker-compose.dev.yml
+  - ./backend/apps/catalog/docker-compose.dev.yml
