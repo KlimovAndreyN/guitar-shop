@@ -37,29 +37,11 @@
       "@backend/blog/blog-post": [
         "libs/blog/blog-post/src/index.ts"
       ],
-      "@backend/blog/blog-post-comment": [
-        "libs/blog/blog-post-comment/src/index.ts"
-      ],
-      "@backend/blog/blog-post-like": [
-        "libs/blog/blog-post-like/src/index.ts"
-      ],
-      "@backend/blog/blog-subscription": [
-        "libs/blog/blog-subscription/src/index.ts"
-      ],
-      "@backend/blog/blog-tag": [
-        "libs/blog/blog-tag/src/index.ts"
-      ],
       "@backend/blog/config": [
         "libs/blog/config/src/index.ts"
       ],
       "@backend/blog/models": [
         "libs/blog/models/src/index.ts"
-      ],
-      "@backend/blog/news-letter": [
-        "libs/blog/news-letter/src/index.ts"
-      ],
-      "@backend/blog/notify": [
-        "libs/blog/notify/src/index.ts"
       ],
       "@backend/file-storage/config": [
         "libs/file-storage/config/src/index.ts"
