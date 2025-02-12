@@ -4,7 +4,7 @@ import { StringsCount } from './strings-count.type';
 export interface Product {
   id?: string;
   title: string;
-  description?: string;
+  description: string;
   addedDate?: Date;
   imagePath: string;
   guitarType: GuitarType;

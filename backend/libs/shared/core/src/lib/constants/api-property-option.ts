@@ -1,4 +1,3 @@
-import { ProductRdo } from '../rdo/product.rdo';
 import { GuitarType } from '../types/guitar-type.enum';
 import { STRINGS_COUNT_VALUES } from '../types/strings-count.type';
 
@@ -77,8 +76,7 @@ export const ApiPropertyOption = {
     },
     Entities: {
       description: 'The products',
-      isArray: true,
-      type: ProductRdo
+      isArray: true
     }
   }
 } as const;

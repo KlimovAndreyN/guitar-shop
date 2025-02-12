@@ -6,13 +6,13 @@ import { ApiPropertyOption, transformDate } from '@backend/shared/core';
 import { BaseProductDto } from './base-product.dto';
 import { Transform } from 'class-transformer';
 
-export class CreatePostDto extends BaseProductDto {
+export class CreateProductDto extends BaseProductDto {
   @ApiProperty({
     ...ApiPropertyOption.Product.AddedDate,
     required: false
   })
   @IsOptional()
-  @IsDateString({ strict: true })
+  @IsDateString({ strict: true }) //! валидация пройдет? dd.mm.yyyyy
   @Transform(transformDate)
-  public publishDate?: string;
+  public addedDate?: string;
 }

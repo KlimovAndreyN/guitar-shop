@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
-import { PaginationResult, Post, PostState, PostType, SortDirection, SortType } from '@backend/shared/core';
+import { GuitarType, PaginationResult, Product, StringsCount } from '@backend/shared/core';
 
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';
@@ -11,7 +11,7 @@ import { ProductQuery } from './query/product.query';
 import { ProductMessage } from './product.constant';
 
 @Injectable()
-export class ProductRepository extends BasePostgresRepository<ProductEntity, Post> {
+export class ProductRepository extends BasePostgresRepository<ProductEntity, Product> {
   constructor(
     entityFactory: ProductFactory,
     readonly client: PrismaClientService
@@ -19,29 +19,35 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pos
     super(entityFactory, client);
   }
 
+  //!
+  /*
   private getTypeAndState({ type, state }): { type: PostType, state: PostState } {
     return { type: type as PostType, state: state as PostState };
   }
+  */
 
-  private getPostCount(where: Prisma.PostWhereInput): Promise<number> {
-    return this.client.post.count({ where });
+  private getPostCount(where: Prisma.ProductWhereInput): Promise<number> {
+    return this.client.product.count({ where });
   }
 
   private async findPosts(
-    where: Prisma.PostWhereInput,
-    orderBy: Prisma.PostOrderByWithRelationInput = undefined,
+    where: Prisma.ProductWhereInput,
+    orderBy: Prisma.ProductOrderByWithRelationInput = undefined,
     skip: number = undefined,
     take: number = undefined
   ): Promise<ProductEntity[]> {
-    const records = await this.client.post.findMany({ where, orderBy, skip, take });
+    const records = await this.client.product.findMany({ where, orderBy, skip, take });
     const entities = records.map(
       (record) => {
-        const post: Post = {
+        const product: Product = {
           ...record,
-          ...this.getTypeAndState(record)
+          //!
+          //...this.getTypeAndState(record)
+          guitarType: record.guitarType as GuitarType,
+          stringsCount: record.stringsCount as StringsCount
         };
 
-        return this.createEntityFromDocument(post);
+        return this.createEntityFromDocument(product);
       }
     );
 
@@ -53,58 +59,59 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pos
   }
 
   public async findById(id: string): Promise<ProductEntity> {
-    const record = await this.client.post.findFirst({ where: { id } });
+    const record = await this.client.product.findFirst({ where: { id } });
 
     if (!record) {
       throw new NotFoundException(ProductMessage.NotFound);
     }
 
-    const post: Post = {
+    const product: Product = {
       ...record,
-      ...this.getTypeAndState(record)
+      //!
+      //...this.getTypeAndState(record)
+      guitarType: record.guitarType as GuitarType,
+      stringsCount: record.stringsCount as StringsCount
     };
 
-    return this.createEntityFromDocument(post);
+    return this.createEntityFromDocument(product);
   }
 
   public async save(entity: ProductEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
-    const record = await this.client.post.create({
+    const record = await this.client.product.create({
       data: { ...pojoEntity }
     });
 
     entity.id = record.id;
-    entity.publishDate = record.publishDate;
+    entity.addedDate = record.addedDate;
   }
 
   public async update(entity: ProductEntity): Promise<void> {
     const { id } = entity;
     const pojoEntity = entity.toPOJO();
-    const publishDate = new Date(pojoEntity.publishDate);
+    const addedDate = new Date(pojoEntity.addedDate);
 
-    await this.client.post.update({
+    await this.client.product.update({
       where: { id },
       data: {
         ...pojoEntity,
-        publishDate
+        addedDate
       }
     });
   }
 
   public async deleteById(id: string): Promise<void> {
-    await this.client.post.delete({ where: { id } })
+    await this.client.product.delete({ where: { id } })
   }
 
   public async find(query: ProductQuery, showDraft: boolean, take: number): Promise<PaginationResult<ProductEntity>> {
     const currentPage = query.page;
     const skip = (currentPage - 1) * take;
-    const where: Prisma.PostWhereInput = {};
-    const orderBy: Prisma.PostOrderByWithRelationInput = {};
+    const where: Prisma.ProductWhereInput = {};
+    const orderBy: Prisma.ProductOrderByWithRelationInput = {};
 
-    if (query.userIds) {
-      where.userId = { in: query.userIds };
-    }
-
+    //!
+    /*
     if (query.type) {
       where.type = query.type;
     }
@@ -129,6 +136,7 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pos
         orderBy.likesCount = SortDirection.Desc;
         break;
     }
+    */
 
     const [entities, postCount] = await Promise.all(
       [
@@ -144,47 +152,5 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pos
       itemsPerPage: take,
       totalItems: postCount
     }
-  }
-
-  public async updateCommentsCount(id: string, step: number): Promise<void> {
-    const { commentsCount } = await this.client.post.findFirst({ select: { commentsCount: true }, where: { id } });
-
-    await this.client.post.update({
-      where: { id },
-      data: { commentsCount: commentsCount + step }
-    });
-  }
-
-  public async updateLikesCount(id: string, step: number): Promise<void> {
-    const { likesCount } = await this.client.post.findFirst({ select: { likesCount: true }, where: { id } });
-
-    await this.client.post.update({
-      where: { id },
-      data: { likesCount: likesCount + step }
-    });
-  }
-
-  public async getUserPostsCount(userId: string): Promise<number> {
-    const postsCount = await this.client.post.count({ where: { userId } });
-
-    return postsCount;
-  }
-
-  public async existsRepost(postId: string, userId: string): Promise<boolean> {
-    const count = await this.client.post.count({ where: { repostedPostId: postId, userId } });
-
-    return count > 0;
-  }
-
-  public async findPostsByCreateAt(startDate: Date, limit: number): Promise<ProductEntity[]> {
-    const where: Prisma.PostWhereInput = {};
-
-    if (startDate) {
-      where.createdAt = { gt: startDate };
-    }
-
-    const entities = await this.findPosts(where, undefined, undefined, limit);
-
-    return entities;
   }
 }

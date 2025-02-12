@@ -1,11 +1,8 @@
-import {
-  BadRequestException, ForbiddenException, Inject, Injectable, Logger,
-  InternalServerErrorException, NotFoundException, UnauthorizedException
-} from '@nestjs/common';
+import { Inject, Injectable, Logger, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { join } from 'path/posix';
 
-import { PaginationResult, PostState, RouteAlias } from '@backend/shared/core';
+import { PaginationResult, RouteAlias } from '@backend/shared/core';
 import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
 import { catalogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
@@ -13,12 +10,11 @@ import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';
 import { ProductRepository } from './product.repository';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQuery } from './query/product.query';
 import { SearchProductQuery } from './query/search-product.query';
-import { ProductMessage, Default, PostField } from './product.constant';
-import { validatePostData } from './product.validate.post.data';
+import { ProductMessage, Default } from './product.constant';
 
 @Injectable()
 export class ProductService {
@@ -29,6 +25,8 @@ export class ProductService {
     private readonly blogPostRepository: ProductRepository
   ) { }
 
+  //! StringsCountByGuitarType !
+  /*
   private validatePostData(dto: CreatePostDto | UpdatePostDto, imageFile: Express.Multer.File): void {
     dto.imageFile = (imageFile) ? '/some/path' : undefined;
 
@@ -38,12 +36,9 @@ export class ProductService {
       throw new BadRequestException(message);
     }
   }
+  */
 
   private async uploadImageFile(imageFile: Express.Multer.File, requestId: string): Promise<string> {
-    if (!imageFile) {
-      return undefined;
-    }
-
     try {
       const fileRdo = await uploadFile<UploadedFileRdo>(
         join(this.catalogOptions.fileStorageServiceUrl, RouteAlias.Upload),
@@ -60,40 +55,10 @@ export class ProductService {
     }
   }
 
-  private isPublishedPost(post: ProductEntity): boolean {
-    return post.state === PostState.Published;
-  }
-
   private checkAuthorization(userId: string): void {
     if (!userId) {
       throw new UnauthorizedException(ProductMessage.Unauthorized);
     }
-  }
-
-  private canChangePost(post: ProductEntity, userId: string): void {
-    if (post.userId !== userId) {
-      throw new ForbiddenException(ProductMessage.NotAllow);
-    }
-  }
-
-  private throwIfPostNotPublished(post: ProductEntity): void {
-    if (!this.isPublishedPost(post)) {
-      throw new NotFoundException(ProductMessage.NotFound);
-    }
-  }
-
-  public canViewPost(post: ProductEntity, userId: string): void {
-    if (post.userId !== userId) {
-      this.throwIfPostNotPublished(post);
-    }
-  }
-
-  public canCommentPost(post: ProductEntity): void {
-    this.throwIfPostNotPublished(post);
-  }
-
-  public canLikePost(post: ProductEntity): void {
-    this.throwIfPostNotPublished(post);
   }
 
   public async findById(postId: string): Promise<ProductEntity> {
@@ -120,30 +85,30 @@ export class ProductService {
       type,
       userIds: (userId) ? [userId] : undefined
     };
-    const result = await this.blogPostRepository.find(query, showDraft, Default.POST_COUNT);
+    const result = await this.blogPostRepository.find(query, showDraft, Default.PRODUCT_COUNT);
 
     return result;
   }
 
   public async getPost(postId: string, userId: string): Promise<ProductEntity> {
+    this.checkAuthorization(userId);
+
     const post = await this.blogPostRepository.findById(postId);
-    // проверяем кто просмтаривает... автор или нет? опубликованные доступны всем, черновики только автору
-    this.canViewPost(post, userId);
 
     return post;
   }
 
   public async createPost(
-    dto: CreatePostDto,
+    dto: CreateProductDto,
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    this.validatePostData(dto, imageFile);
+    //!this.validatePostData(dto, imageFile);
 
     const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const newPost = ProductFactory.createFromDtoOrEntity(dto, imagePath, userId);
+    const newPost = ProductFactory.createFromDto(dto, imagePath);
 
     await this.blogPostRepository.save(newPost);
 
@@ -152,18 +117,18 @@ export class ProductService {
 
   public async updatePost(
     postId: string,
-    dto: UpdatePostDto,
+    dto: UpdateProductDto,
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    this.validatePostData(dto, imageFile);
+    //this.validatePostData(dto, imageFile);
 
     const existsPost = await this.blogPostRepository.findById(postId);
 
-    this.canChangePost(existsPost, userId);
-
+    //! а нужно ли?
+    /*
     let hasChanges = false;
 
     // обнуляем поля, чтобы был null в БД
@@ -189,8 +154,9 @@ export class ProductService {
     }
 
     if (hasChanges) {
-      await this.blogPostRepository.update(existsPost);
-    }
+    */
+    await this.blogPostRepository.update(existsPost);
+    /*    }
 
     // поля с null в undefined, чтобы их небыло в rdo
     // можно вынести отдельно
@@ -199,6 +165,7 @@ export class ProductService {
         existsPost[key] = undefined;
       }
     });
+    */
 
     if (existsPost.imagePath === null) {
       existsPost.imagePath = undefined;
@@ -209,10 +176,7 @@ export class ProductService {
 
   public async deletePost(postId: string, userId: string): Promise<void> {
     this.checkAuthorization(userId);
-
-    const existsPost = await this.blogPostRepository.findById(postId);
-
-    this.canChangePost(existsPost, userId);
+    await this.blogPostRepository.findById(postId);
     await this.blogPostRepository.deleteById(postId);
   }
 }

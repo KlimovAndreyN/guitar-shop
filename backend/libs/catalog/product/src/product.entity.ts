@@ -1,64 +1,52 @@
-import { Entity, PostType, PostState, Post, StorableEntity } from '@backend/shared/core';
+import { Entity, StorableEntity, Product, GuitarType, StringsCount } from '@backend/shared/core';
 
-export class ProductEntity extends Entity implements StorableEntity<Post> {
-  public type: PostType;
-  public publishDate: Date;
-  public state: PostState;
-  public userId: string;
+export class ProductEntity extends Entity implements StorableEntity<Product> {
   public title: string;
-  public url: string;
-  public previewText: string;
-  public text: string;
-  public quoteText: string;
-  public quoteAuthor: string;
+  public description: string;
+  public addedDate?: Date;
   public imagePath: string;
-  public linkDescription: string;
+  public guitarType: GuitarType;
+  public article: string;
+  public stringsCount: StringsCount;
+  public price: number;
   public createdAt: Date;
   public updatedAt: Date;
 
-  constructor(post?: Post) {
+  constructor(product?: Product) {
     super();
 
-    this.populate(post);
+    this.populate(product);
   }
 
-  public populate(post?: Post): void {
-    if (!post) {
+  public populate(product?: Product): void {
+    if (!product) {
       return;
     }
 
-    this.id = post.id ?? undefined;
-    this.type = post.type;
-    this.publishDate = post.publishDate ?? undefined;
-    this.state = post.state ?? undefined;
-    this.userId = post.userId ?? undefined;
-    this.title = post.title ?? undefined;
-    this.url = post.url ?? undefined;
-    this.previewText = post.previewText ?? undefined;
-    this.text = post.text ?? undefined;
-    this.quoteText = post.quoteText ?? undefined;
-    this.quoteAuthor = post.quoteAuthor ?? undefined;
-    this.imagePath = post.imagePath ?? undefined;
-    this.linkDescription = post.linkDescription ?? undefined;
-    this.createdAt = post.createdAt ?? undefined;
-    this.updatedAt = post.updatedAt ?? undefined;
+    this.id = product.id ?? undefined;
+    this.title = product.title;
+    this.description = product.description ?? undefined;
+    this.addedDate = product.addedDate ?? undefined;
+    this.imagePath = product.imagePath ?? undefined;
+    this.guitarType = product.guitarType ?? undefined;
+    this.article = product.article ?? undefined;
+    this.stringsCount = product.stringsCount ?? undefined;
+    this.price = product.price ?? undefined;
+    this.createdAt = product.createdAt ?? undefined;
+    this.updatedAt = product.updatedAt ?? undefined;
   }
 
-  public toPOJO(): Post {
+  public toPOJO(): Product {
     return {
       id: this.id,
-      type: this.type,
-      publishDate: this.publishDate,
-      state: this.state,
-      userId: this.userId,
       title: this.title,
-      url: this.url,
-      previewText: this.previewText,
-      text: this.text,
-      quoteText: this.quoteText,
-      quoteAuthor: this.quoteAuthor,
+      description: this.description,
+      addedDate: this.addedDate,
       imagePath: this.imagePath,
-      linkDescription: this.linkDescription,
+      guitarType: this.guitarType,
+      article: this.article,
+      stringsCount: this.stringsCount,
+      price: this.price,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

@@ -6,9 +6,9 @@ import { ApiPropertyOption, transformDate } from '@backend/shared/core';
 
 import { BaseProductDto } from './base-product.dto';
 
-export class UpdatePostDto extends BaseProductDto {
+export class UpdateProductDto extends BaseProductDto {
   @ApiProperty(ApiPropertyOption.Product.AddedDate)
-  @IsDateString({ strict: true })
+  @IsDateString({ strict: true }) //! валидация пройдет? dd.mm.yyyyy
   @Transform(transformDate)
-  public publishDate: string;
+  public addedDate: string;
 }
