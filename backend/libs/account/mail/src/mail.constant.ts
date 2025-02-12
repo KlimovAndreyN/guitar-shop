@@ -1,3 +1,3 @@
-export const ADD_SUBSCRIBER_SUBJECT = 'Подписка на рассылку оформлена';
+export const REGISTER_USER_SUBJECT = 'Guitar Shop: Регистрация';
 
-export const ADD_SUBCRIBER_TEMPLATE = './add-subscriber';
+export const REGISTER_USER_TEMPLATE = './register-user';

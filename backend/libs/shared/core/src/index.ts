@@ -53,9 +53,7 @@ export { RequestWithRequestIdAndBearerAuth } from './lib/types/request-with-requ
 export { RequestWithRequestIdAndUserId } from './lib/types/request-with-request-id-and-user-id.type';
 export { SortDirection } from './lib/types/sort-direction.enum';
 export { SortType } from './lib/types/sort-type.enum';
-export { Subscriber } from './lib/types/subscriber.interface';
 export { Tag } from './lib/types/tag.interface';
-export { Subscription } from './lib/types/subscription.interface';
 export { User } from './lib/types/user.interface';
 export { XHeader } from './lib/types/x-header.enum';
 
