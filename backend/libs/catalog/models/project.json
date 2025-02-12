@@ -1,9 +1,9 @@
 {
-  "name": "blog-models",
+  "name": "catalog-models",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/blog/models/src",
+  "sourceRoot": "libs/catalog/models/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project blog-models --web",
+  "// targets": "to see all targets run: nx show project catalog-models --web",
   "targets": {}
 }

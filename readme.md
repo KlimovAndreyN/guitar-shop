@@ -10,7 +10,7 @@ cd ~/guitar-shop
 # Скопировать .env-example -> .env:
 cp ./backend/apps/file-storage/.env-example ./backend/apps/file-storage/.env
 cp ./backend/apps/account/.env-example ./backend/apps/account/.env
-cp ./backend/apps/blog/.env-example ./backend/apps/blog/.env
+cp ./backend/apps/catalog/.env-example ./backend/apps/catalog/.env
 
 cp ./backend/apps/api/.env-example ./backend/apps/api/.env
 
@@ -24,19 +24,19 @@ cd ./backend
 npm install
 
 # сформировать PrismaClient
-npx nx run blog:db:generate
+npx nx run catalog:db:generate
 
 # инициализировать БД postgres - blog
-npx nx run blog:db:migrate
+npx nx run catalog:db:migrate
 
 # наполнение тестовыми данными
 npx nx run account:db:seed
-npx nx run blog:db:seed
+npx nx run catalog:db:seed
 
 # запуск сервисов
 npx nx run file-storage:serve
 npx nx run account:serve
-npx nx run blog:serve
+npx nx run catalog:serve
 
 npx nx run api:serve
 ```

@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 
-import { PostType } from '../types/post-type.enum';
 import { transformDate, transformTags } from '../utils/transform';
 import { ApiPropertyOption } from '../constants/api-property-option';
 
@@ -9,10 +8,6 @@ export class PostRdo {
   @ApiProperty(ApiPropertyOption.Post.Id)
   @Expose()
   public id: string;
-
-  @ApiProperty(ApiPropertyOption.Post.Type)
-  @Expose()
-  public type: PostType;
 
   @ApiProperty(ApiPropertyOption.Post.Tags)
   @Expose()

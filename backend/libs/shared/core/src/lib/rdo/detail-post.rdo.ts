@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 
 import { transformDate, transformTags } from '../utils/transform';
-import { PostType } from '../types/post-type.enum';
-import { PostState } from '../types/post-state.enum';
 import { ApiPropertyOption } from '../constants/api-property-option';
 
 export class DetailPostRdo {
@@ -11,21 +9,25 @@ export class DetailPostRdo {
   @Expose()
   public id: string;
 
-  @ApiProperty(ApiPropertyOption.Post.Type)
-  @Expose()
-  public type: PostType;
+  //!
+  //@ApiProperty(ApiPropertyOption.Post.Type)
+  //@Expose()
+  //public type: PostType;
 
   @ApiProperty(ApiPropertyOption.Post.Tags)
   @Expose()
   @Transform(transformTags)
   public tags: string[];
 
-  @ApiProperty({
-    ...ApiPropertyOption.Post.State,
-    required: true
-  })
-  @Expose()
-  public state: PostState;
+  //!
+  /*
+    @ApiProperty({
+      ...ApiPropertyOption.Post.State,
+      required: true
+    })
+    @Expose()
+    public state: PostState;
+  */
 
   @ApiProperty(ApiPropertyOption.Post.PublishDate)
   @Transform(transformDate)

@@ -1,6 +1,3 @@
-import { PostState } from '../types/post-state.enum';
-import { PostType } from '../types/post-type.enum';
-
 export const ApiPropertyOption = {
   User: {
     Id: {
@@ -43,13 +40,13 @@ export const ApiPropertyOption = {
     },
     Type: {
       description: 'The post type',
-      enum: PostType,
-      example: PostType.Video
+      //! enum: PostType,
+      //! example: PostType.Video
     },
     State: {
       description: 'The post state',
-      enum: PostState,
-      example: PostState.Published
+      //! enum: PostState,
+      //! example: PostState.Published
     },
     PublishDate: {
       description: 'The post publish date',

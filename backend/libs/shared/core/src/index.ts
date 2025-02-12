@@ -39,13 +39,13 @@ export { UserRdo } from './lib/rdo/user.rdo';
 
 export { AuthUser } from './lib/types/auth-user.interface';
 export * from './lib/types/environment.type';
-export { PostState } from './lib/types/post-state.enum';
-export { PostType } from './lib/types/post-type.enum';
-export { Post } from './lib/types/post.interface';
+export { GuitarType } from './lib/types/guitar-type.enum';
+export { Product } from './lib/types/product.interface';
 export { RequestWithRequestIdAndBearerAuth } from './lib/types/request-with-request-id-and-bearer-auth.type';
 export { RequestWithRequestIdAndUserId } from './lib/types/request-with-request-id-and-user-id.type';
 export { SortDirection } from './lib/types/sort-direction.enum';
 export { SortType } from './lib/types/sort-type.enum';
+export * from './lib/types/strings-count.type';
 export { User } from './lib/types/user.interface';
 export { XHeader } from './lib/types/x-header.enum';
 
