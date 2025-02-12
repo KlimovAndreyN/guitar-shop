@@ -8,7 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { PrefixOption } from '@backend/shared/core';
-import { blogConfig, BlogConfig } from '@backend/blog/config';
+import { blogConfig, BlogConfig } from '@backend/catalog/config';
 
 import { AppModule } from './app/app.module';
 import { InjectRequestIdInterceptor, InjectUserIdInterceptor } from '@backend/shared/interceptors';

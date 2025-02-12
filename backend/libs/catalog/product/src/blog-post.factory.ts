@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { EntityFactory, Post } from '@backend/shared/core';
-import { BlogTagEntity } from '@backend/blog/blog-tag';
+import { BlogTagEntity } from '@backend/catalog/blog-tag';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { CreatePostDto } from './dto/create-post.dto';

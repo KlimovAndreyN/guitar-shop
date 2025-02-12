@@ -18,7 +18,7 @@ import { GuidValidationPipe } from '@backend/shared/pipes';
 import {
   BaseBlogPostQuery, BlogPostApiResponse, CreatePostDto, ImageOption,
   parseFilePipeBuilder, SearchBlogPostQuery, TitleQuery, UpdatePostDto
-} from '@backend/blog/blog-post';
+} from '@backend/catalog/blog-post';
 
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { BlogService } from './blog.service';

@@ -1,7 +1,7 @@
 {
-  "name": "blog",
+  "name": "catalog",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/blog/src",
+  "sourceRoot": "apps/catalog/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -28,15 +28,15 @@
         "build"
       ],
       "options": {
-        "buildTarget": "blog:build",
+        "buildTarget": "catalog:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "blog:build:development"
+          "buildTarget": "catalog:build:development"
         },
         "production": {
-          "buildTarget": "blog:build:production"
+          "buildTarget": "catalog:build:production"
         }
       }
     },
@@ -44,40 +44,40 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npx prisma validate --schema ./schema.prisma",
-        "cwd": "libs/blog/models/prisma",
-        "envFile": "./apps/blog/.env"
+        "cwd": "libs/catalog/models/prisma",
+        "envFile": "./apps/catalog/.env"
       }
     },
     "db:migrate": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx prisma migrate dev --schema ./schema.prisma --skip-generate --skip-seed",
-        "cwd": "libs/blog/models/prisma",
-        "envFile": "./apps/blog/.env"
+        "cwd": "libs/catalog/models/prisma",
+        "envFile": "./apps/catalog/.env"
       }
     },
     "db:reset": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
-        "cwd": "libs/blog/models/prisma",
-        "envFile": "./apps/blog/.env"
+        "cwd": "libs/catalog/models/prisma",
+        "envFile": "./apps/catalog/.env"
       }
     },
     "db:generate": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx prisma generate --schema ./schema.prisma",
-        "cwd": "libs/blog/models/prisma",
-        "envFile": "./apps/blog/.env"
+        "cwd": "libs/catalog/models/prisma",
+        "envFile": "./apps/catalog/.env"
       }
     },
     "db:seed": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx ts-node seed.ts",
-        "cwd": "libs/blog/models/prisma",
-        "envFile": "./apps/blog/.env"
+        "cwd": "libs/catalog/models/prisma",
+        "envFile": "./apps/catalog/.env"
       }
     }
   }

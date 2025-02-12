@@ -9,7 +9,7 @@ import {
 } from '@backend/shared/core';
 import { dtoToFormData, fillDto, makeHeaders, makeUrl, multerFileToFormData } from '@backend/shared/helpers';
 import { apiConfig } from '@backend/api/config';
-import { CreatePostDto, ImageOption, UpdatePostDto } from '@backend/blog/blog-post';
+import { CreatePostDto, ImageOption, UpdatePostDto } from '@backend/catalog/blog-post';
 
 import { UserService } from './user.service';
 

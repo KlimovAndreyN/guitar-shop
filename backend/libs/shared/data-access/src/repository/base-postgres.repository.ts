@@ -1,4 +1,4 @@
-import { PrismaClientService } from '@backend/blog/models';
+import { PrismaClientService } from '@backend/catalog/models';
 import { Entity, StorableEntity, EntityFactory } from '@backend/shared/core';
 
 import { Repository } from './repository.interface';

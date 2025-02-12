@@ -7,10 +7,10 @@ import { join } from 'path/posix';
 
 import { PaginationResult, PostState, RouteAlias } from '@backend/shared/core';
 import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
-import { BlogTagService } from '@backend/blog/blog-tag';
-import { blogConfig } from '@backend/blog/config';
+import { BlogTagService } from '@backend/catalog/blog-tag';
+import { blogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
-import { BlogSubscriptionService } from '@backend/blog/blog-subscription';
+import { BlogSubscriptionService } from '@backend/catalog/blog-subscription';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';

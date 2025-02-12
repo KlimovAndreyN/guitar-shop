@@ -14,9 +14,9 @@ import {
 import { fillDto, makeHeaders } from '@backend/shared/helpers';
 import { GuidValidationPipe, MongoIdValidationPipe } from '@backend/shared/pipes';
 import { AxiosExceptionFilter } from '@backend/shared/exception-filters';
-import { BlogPostCommentApiResponse, CreatePostCommentDto } from '@backend/blog/blog-post-comment';
-import { BlogPostLikeApiResponse } from '@backend/blog/blog-post-like';
-import { BlogSubscriptionApiResponse } from '@backend/blog/blog-subscription';
+import { BlogPostCommentApiResponse, CreatePostCommentDto } from '@backend/catalog/blog-post-comment';
+import { BlogPostLikeApiResponse } from '@backend/catalog/blog-post-like';
+import { BlogSubscriptionApiResponse } from '@backend/catalog/blog-subscription';
 
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { BlogService } from './blog.service';

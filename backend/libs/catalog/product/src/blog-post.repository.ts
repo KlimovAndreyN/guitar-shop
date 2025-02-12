@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-import { PrismaClientService } from '@backend/blog/models';
+import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
 import { PaginationResult, Post, PostState, PostType, SortDirection, SortType, Tag } from '@backend/shared/core';
-import { BlogTagService } from '@backend/blog/blog-tag';
+import { BlogTagService } from '@backend/catalog/blog-tag';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';

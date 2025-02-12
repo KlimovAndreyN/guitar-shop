@@ -1,5 +1,5 @@
 import { Entity, PostType, PostState, Post, StorableEntity, Tag } from '@backend/shared/core';
-import { BlogTagEntity } from '@backend/blog/blog-tag';
+import { BlogTagEntity } from '@backend/catalog/blog-tag';
 
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public type: PostType;

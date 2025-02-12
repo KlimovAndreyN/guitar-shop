@@ -6,8 +6,8 @@ import { join } from 'path/posix';
 import { DetailUserRdo, RouteAlias, UserRdo } from '@backend/shared/core';
 import { makeHeaders } from '@backend/shared/helpers';
 import { apiConfig } from '@backend/api/config';
-import { UserPostsCountRdo } from '@backend/blog/blog-post';
-import { UserSubscriptionsCountRdo } from '@backend/blog/blog-subscription';
+import { UserPostsCountRdo } from '@backend/catalog/blog-post';
+import { UserSubscriptionsCountRdo } from '@backend/catalog/blog-subscription';
 
 @Injectable()
 export class UserService {

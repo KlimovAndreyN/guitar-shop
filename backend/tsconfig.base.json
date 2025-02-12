@@ -34,14 +34,14 @@
       "@backend/api/config": [
         "libs/api/config/src/index.ts"
       ],
-      "@backend/blog/blog-post": [
-        "libs/blog/blog-post/src/index.ts"
+      "@backend/catalog/product": [
+        "libs/catalog/product/src/index.ts"
       ],
-      "@backend/blog/config": [
-        "libs/blog/config/src/index.ts"
+      "@backend/catalog/config": [
+        "libs/catalog/config/src/index.ts"
       ],
-      "@backend/blog/models": [
-        "libs/blog/models/src/index.ts"
+      "@backend/catalog/models": [
+        "libs/catalog/models/src/index.ts"
       ],
       "@backend/file-storage/config": [
         "libs/file-storage/config/src/index.ts"

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
-import { PrismaClientModule } from '@backend/blog/models';
-import { BlogTagModule } from '@backend/blog/blog-tag';
-import { BlogSubscriptionModule } from '@backend/blog/blog-subscription';
+import { PrismaClientModule } from '@backend/catalog/models';
+import { BlogTagModule } from '@backend/catalog/blog-tag';
+import { BlogSubscriptionModule } from '@backend/catalog/blog-subscription';
 
 import { BlogPostController } from './blog-post.controller';
 import { BlogPostFactory } from './blog-post.factory';
