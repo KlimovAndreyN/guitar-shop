@@ -29,13 +29,8 @@ export { Token } from './lib/interfaces/token.interface';
 
 export { PageQuery } from './lib/query/page.query';
 
-export { CommentWithUserAndPaginationRdo } from './lib/rdo/comment-with-user-and-pagination.rdo';
-export { CommentWithUserIdAndPaginationRdo } from './lib/rdo/comment-with-user-id-and-pagination.rdo';
-export { CommentWithUserIdRdo } from './lib/rdo/comment-with-user-id.rdo';
-export { CommentWithUserRdo } from './lib/rdo/comment-with-user.rdo';
 export { DetailPostWithUserRdo } from './lib/rdo/detail-post-with-user.rdo';
 export { DetailPostWithUserIdRdo } from './lib/rdo/detail-post-with-user-id.rdo';
-export { DetailUserRdo } from './lib/rdo/detail-user.rdo';
 export { PostWithUserAndPaginationRdo } from './lib/rdo/post-with-user-and-pagination.rdo';
 export { PostWithUserIdAndPaginationRdo } from './lib/rdo/post-with-user-id-and-pagination.rdo';
 export { PostWithUserIdRdo } from './lib/rdo/post-with-user-id.rdo';
@@ -43,9 +38,7 @@ export { PostWithUserRdo } from './lib/rdo/post-with-user.rdo';
 export { UserRdo } from './lib/rdo/user.rdo';
 
 export { AuthUser } from './lib/types/auth-user.interface';
-export { Comment } from './lib/types/comment.interface';
 export * from './lib/types/environment.type';
-export { Like } from './lib/types/like.interface';
 export { PostState } from './lib/types/post-state.enum';
 export { PostType } from './lib/types/post-type.enum';
 export { Post } from './lib/types/post.interface';
@@ -53,7 +46,6 @@ export { RequestWithRequestIdAndBearerAuth } from './lib/types/request-with-requ
 export { RequestWithRequestIdAndUserId } from './lib/types/request-with-request-id-and-user-id.type';
 export { SortDirection } from './lib/types/sort-direction.enum';
 export { SortType } from './lib/types/sort-type.enum';
-export { Tag } from './lib/types/tag.interface';
 export { User } from './lib/types/user.interface';
 export { XHeader } from './lib/types/x-header.enum';
 
