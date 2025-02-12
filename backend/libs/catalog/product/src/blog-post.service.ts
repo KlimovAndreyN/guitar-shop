@@ -7,7 +7,7 @@ import { join } from 'path/posix';
 
 import { PaginationResult, PostState, RouteAlias } from '@backend/shared/core';
 import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
-import { blogConfig } from '@backend/catalog/config';
+import { catalogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
 import { BlogPostEntity } from './blog-post.entity';
@@ -22,8 +22,8 @@ import { validatePostData } from './blog-post.validate.post.data';
 
 @Injectable()
 export class BlogPostService {
-  @Inject(blogConfig.KEY)
-  private readonly blogOptions: ConfigType<typeof blogConfig>;
+  @Inject(catalogConfig.KEY)
+  private readonly catalogOptions: ConfigType<typeof catalogConfig>;
 
   constructor(
     private readonly blogPostRepository: BlogPostRepository
@@ -46,7 +46,7 @@ export class BlogPostService {
 
     try {
       const fileRdo = await uploadFile<UploadedFileRdo>(
-        join(this.blogOptions.fileStorageServiceUrl, RouteAlias.Upload),
+        join(this.catalogOptions.fileStorageServiceUrl, RouteAlias.Upload),
         imageFile,
         FILE_KEY,
         requestId

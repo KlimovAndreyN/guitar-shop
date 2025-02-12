@@ -10,8 +10,8 @@ cd ~/guitar-shop
 # Скопировать .env-example -> .env:
 cp ./backend/apps/file-storage/.env-example ./backend/apps/file-storage/.env
 cp ./backend/apps/account/.env-example ./backend/apps/account/.env
-
 cp ./backend/apps/blog/.env-example ./backend/apps/blog/.env
+
 cp ./backend/apps/api/.env-example ./backend/apps/api/.env
 
 # запустить внешние сервисы
@@ -36,8 +36,8 @@ npx nx run blog:db:seed
 # запуск сервисов
 npx nx run file-storage:serve
 npx nx run account:serve
-
 npx nx run blog:serve
+
 npx nx run api:serve
 ```
 

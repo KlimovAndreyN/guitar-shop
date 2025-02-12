@@ -8,15 +8,15 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { PrefixOption } from '@backend/shared/core';
-import { blogConfig, BlogConfig } from '@backend/catalog/config';
+import { catalogConfig, CatalogConfig } from '@backend/catalog/config';
 
 import { AppModule } from './app/app.module';
 import { InjectRequestIdInterceptor, InjectUserIdInterceptor } from '@backend/shared/interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const blogOption = app.get<BlogConfig>(blogConfig.KEY);
-  const { port } = blogOption;
+  const сatalogOption = app.get<CatalogConfig>(catalogConfig.KEY);
+  const { port } = сatalogOption;
 
   app.setGlobalPrefix(PrefixOption.Global);
 

@@ -1,4 +1,3 @@
-export { BlogConfigModule } from './blog-config.module';
+export { CatalogConfigModule } from './catalog-config.module';
 
-export { BlogConfig, blogConfig } from './blog.config';
-export { getMongooseOptions } from './blog.mongoose-options';
+export { CatalogConfig, catalogConfig } from './catalog.config';

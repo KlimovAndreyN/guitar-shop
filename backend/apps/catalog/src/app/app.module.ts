@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { BlogConfigModule, getMongooseOptions } from '@backend/catalog/config';
+import { CatalogConfigModule } from '@backend/catalog/config';
 import { BlogPostModule } from '@backend/catalog/product'
 
 @Module({
   imports: [
-    MongooseModule.forRootAsync(getMongooseOptions()),
-    BlogConfigModule,
+    CatalogConfigModule,
     BlogPostModule
   ],
   controllers: [],

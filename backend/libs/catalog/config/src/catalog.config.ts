@@ -1,10 +1,10 @@
 import { registerAs } from '@nestjs/config';
 import Joi from 'joi';
 
-import { ConfigAlias, DEFAULT_MONGODB_PORT, DEFAULT_PORT, DEFAULT_POSTGRES_PORT, Environment, ENVIRONMENTS } from '@backend/shared/core';
+import { ConfigAlias, DEFAULT_PORT, DEFAULT_POSTGRES_PORT, Environment, ENVIRONMENTS } from '@backend/shared/core';
 import { getPort } from '@backend/shared/helpers';
 
-export interface BlogConfig {
+export interface CatalogConfig {
   environment: string;
   port: number;
   fileStorageServiceUrl: string;
@@ -15,14 +15,6 @@ export interface BlogConfig {
     password: string;
     database: string;
     databaseUrl: string;
-  }
-  mongoDb: {
-    host: string;
-    port: number;
-    user: string;
-    password: string;
-    database: string;
-    authBase: string;
   }
 }
 
@@ -37,18 +29,10 @@ const validationSchema = Joi.object({
     password: Joi.string().required().label(ConfigAlias.PostgresPasswordEnv),
     database: Joi.string().required().label(ConfigAlias.PostgresDatabaseEnv),
     databaseUrl: Joi.string().required().label(ConfigAlias.PostgresDatabaseUrlEnv)
-  }),
-  mongoDb: Joi.object({
-    host: Joi.string().valid().hostname().required().label(ConfigAlias.MongoDbHostEnv),
-    port: Joi.number().port(),
-    user: Joi.string().required().label(ConfigAlias.MongoDbUserEnv),
-    password: Joi.string().required().label(ConfigAlias.MongoDbPasswordEnv),
-    database: Joi.string().required().label(ConfigAlias.MongoDbDatabaseEnv),
-    authBase: Joi.string().required().label(ConfigAlias.MongoDbAuthBaseEnv)
   })
 });
 
-function validateConfig(config: BlogConfig): void {
+function validateConfig(config: CatalogConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
   if (error) {
@@ -56,8 +40,8 @@ function validateConfig(config: BlogConfig): void {
   }
 }
 
-function getConfig(): BlogConfig {
-  const config: BlogConfig = {
+function getConfig(): CatalogConfig {
+  const config: CatalogConfig = {
     environment: process.env[ConfigAlias.NodeEnv] as Environment,
     port: getPort(ConfigAlias.PortEnv, DEFAULT_PORT),
     fileStorageServiceUrl: process.env[ConfigAlias.FileStorageServiceUrlEnv],
@@ -68,14 +52,6 @@ function getConfig(): BlogConfig {
       password: process.env[ConfigAlias.PostgresPasswordEnv],
       database: process.env[ConfigAlias.PostgresDatabaseEnv],
       databaseUrl: process.env[ConfigAlias.PostgresDatabaseUrlEnv]
-    },
-    mongoDb: {
-      host: process.env[ConfigAlias.MongoDbHostEnv],
-      port: getPort(ConfigAlias.MongoDbPortEnv, DEFAULT_MONGODB_PORT),
-      user: process.env[ConfigAlias.MongoDbUserEnv],
-      password: process.env[ConfigAlias.MongoDbPasswordEnv],
-      database: process.env[ConfigAlias.MongoDbDatabaseEnv],
-      authBase: process.env[ConfigAlias.MongoDbAuthBaseEnv]
     }
   };
 
@@ -84,4 +60,4 @@ function getConfig(): BlogConfig {
   return config;
 }
 
-export const blogConfig = registerAs(ConfigAlias.Application, getConfig);
+export const catalogConfig = registerAs(ConfigAlias.Application, getConfig);
