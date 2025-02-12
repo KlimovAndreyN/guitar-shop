@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BearerAuth, RequestWithBearerAuth, RequestWithTokenPayload, RouteAlias, UserRdo, ApiOperationOption } from '@backend/shared/core';
@@ -52,16 +52,6 @@ export class AuthenticationController {
     const userToken = await this.authService.createUserToken(user);
 
     return fillDto(LoggedUserRdo, { ...user.toPOJO(), ...userToken });
-  }
-
-  @ApiOperation(ApiOperationOption.User.Logout)
-  @ApiResponse(AuthenticationApiResponse.LogoutSuccess)
-  @ApiBearerAuth(BearerAuth.AccessToken)
-  @UseInterceptors(InjectBearerAuthInterceptor)
-  @HttpCode(AuthenticationApiResponse.LogoutSuccess.status)
-  @Delete(RouteAlias.Logout)
-  public async logout(@Req() { bearerAuth }: RequestWithBearerAuth): Promise<void> {
-    await this.authService.logout(bearerAuth);
   }
 
   @ApiOperation(ApiOperationOption.User.Check)

@@ -1,15 +1,14 @@
 export const ApiOperationOption = {
   User: {
-    Register: { summary: 'Регистрация нового пользователя' },
-    Login: { summary: 'Авторизация пользователя' },
-    Logout: { summary: 'Выход пользователя' },
-    Check: { summary: 'Провека токена авторизации' }
+    Register: { summary: 'Создание нового пользователя' },
+    Login: { summary: 'Вход в закрытую часть приложения' },
+    Check: { summary: 'Проверка состояния пользователя' }
   },
-  Post: {
-    Index: { summary: 'Получение списка публикаций' },
-    Detail: { summary: 'Просмотр детальной информации о публикации' },
-    Create: { summary: 'Добавление новой публикации' },
-    Update: { summary: 'Редактирование публицации' },
-    Delete: { summary: 'Удаление публикации' },
+  Product: {
+    Index: { summary: 'Получение списка товаров' },
+    Detail: { summary: 'Получение детальной информации по товару' },
+    Create: { summary: 'Создание нового товара' },
+    Update: { summary: 'Редактирование карточки товара' },
+    Delete: { summary: 'Удаление товара' }
   }
 } as const;

@@ -29,12 +29,9 @@ export { Token } from './lib/interfaces/token.interface';
 
 export { PageQuery } from './lib/query/page.query';
 
-export { DetailPostWithUserRdo } from './lib/rdo/detail-post-with-user.rdo';
-export { DetailPostWithUserIdRdo } from './lib/rdo/detail-post-with-user-id.rdo';
-export { PostWithUserAndPaginationRdo } from './lib/rdo/post-with-user-and-pagination.rdo';
-export { PostWithUserIdAndPaginationRdo } from './lib/rdo/post-with-user-id-and-pagination.rdo';
-export { PostWithUserIdRdo } from './lib/rdo/post-with-user-id.rdo';
-export { PostWithUserRdo } from './lib/rdo/post-with-user.rdo';
+export { DetailProductRdo } from './lib/rdo/detail-product.rdo';
+export { ProductAndPaginationRdo } from './lib/rdo/product-and-pagination.rdo';
+export { ProductRdo } from './lib/rdo/product.rdo';
 export { UserRdo } from './lib/rdo/user.rdo';
 
 export { AuthUser } from './lib/types/auth-user.interface';
