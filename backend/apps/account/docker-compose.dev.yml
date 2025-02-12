@@ -1,4 +1,13 @@
 services:
+  account.fakesmtp:
+    image: gessnerfl/fake-smtp-server:2.2.0
+    container_name: notify.fakesmtp
+    hostname: notify.fakesmtp
+
+    ports:
+      -  ${MAIL_SMTP_PORT}:8025
+      - 1085:8080
+
   account.mongo:
     image: mongo:4.4
     restart: always
@@ -27,7 +36,7 @@ services:
     container_name: account.mongo.ui
 
     ports:
-      - 8084:8081
+      - 8083:8081
 
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGODB_USER}

@@ -1,20 +1,34 @@
 import { registerAs } from '@nestjs/config';
 import Joi from 'joi';
 
-import { ConfigAlias, DEFAULT_PORT, Environment, ENVIRONMENTS } from '@backend/shared/core';
+import { ConfigAlias, DEFAULT_PORT, DEFAULT_SMTP_PORT, Environment, ENVIRONMENTS } from '@backend/shared/core';
 import { getPort } from '@backend/shared/helpers';
 
 export interface ApplicationConfig {
   environment: string;
   port: number;
-  fileStorageServiceUrl: string;
+  apiMainUrl: string;
+  mailSmtp: {
+    host: string;
+    port: number;
+    user: string;
+    password: string;
+    from: string;
+  }
 }
 
 const validationSchema =
   Joi.object({
     environment: Joi.string().valid(...ENVIRONMENTS).required().label(ConfigAlias.NodeEnv),
     port: Joi.number().port().default(DEFAULT_PORT),
-    fileStorageServiceUrl: Joi.string().required().label(ConfigAlias.FileStorageServiceUrlEnv)
+    apiMainUrl: Joi.string().required().label(ConfigAlias.ApiMainUrlEnv),
+    mailSmtp: Joi.object({
+      host: Joi.string().valid().hostname().required().label(ConfigAlias.MailSmtpHostEnv),
+      port: Joi.number().port().default(DEFAULT_SMTP_PORT),
+      user: Joi.string().required().label(ConfigAlias.MailSmtpUserEnv),
+      password: Joi.string().required().label(ConfigAlias.MailSmtpPasswordEnv),
+      from: Joi.string().required().label(ConfigAlias.MailSmtpFromEnv)
+    })
   });
 
 function validateConfig(config: ApplicationConfig): void {
@@ -29,7 +43,14 @@ function getConfig(): ApplicationConfig {
   const config: ApplicationConfig = {
     environment: process.env[ConfigAlias.NodeEnv] as Environment,
     port: getPort(ConfigAlias.PortEnv, DEFAULT_PORT),
-    fileStorageServiceUrl: process.env[ConfigAlias.FileStorageServiceUrlEnv]
+    apiMainUrl: process.env[ConfigAlias.ApiMainUrlEnv],
+    mailSmtp: {
+      host: process.env[ConfigAlias.MailSmtpHostEnv],
+      port: getPort(ConfigAlias.MailSmtpPortEnv, DEFAULT_SMTP_PORT),
+      user: process.env[ConfigAlias.MailSmtpUserEnv],
+      password: process.env[ConfigAlias.MailSmtpPasswordEnv],
+      from: process.env[ConfigAlias.MailSmtpFromEnv]
+    }
   };
 
   validateConfig(config);

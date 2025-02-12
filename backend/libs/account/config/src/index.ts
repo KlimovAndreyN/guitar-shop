@@ -7,5 +7,3 @@ export { getMongooseOptions } from './configurations/mongodb/get-mongoose-option
 
 export { jwtConfig } from './configurations/jwt.config';
 export { getJwtOptions } from './configurations/jwt/get-jwt-options';
-
-export { rabbitConfig } from './configurations/rabbit.config';

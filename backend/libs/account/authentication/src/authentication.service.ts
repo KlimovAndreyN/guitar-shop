@@ -9,7 +9,7 @@ import { Token, User } from '@backend/shared/core';
 import { createJWTPayload } from '@backend/shared/helpers';
 import { ShopUserRepository, ShopUserEntity } from '@backend/account/shop-user';
 import { applicationConfig } from '@backend/account/config';
-import { NotifyService } from '@backend/account/notify';
+import { MailService } from '@backend/account/mail';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthenticationUserMessage } from './authentication.constant';
@@ -22,15 +22,14 @@ export class AuthenticationService {
   constructor(
     private readonly shopUserRepository: ShopUserRepository,
     private readonly jwtService: JwtService,
-    private readonly notifyService: NotifyService,
+    private readonly mailService: MailService,
     @Inject(applicationConfig.KEY)
     private readonly applicationOptions: ConfigType<typeof applicationConfig>
   ) { }
 
   public async registerUser(
     authorizationHeader: string,
-    dto: CreateUserDto,
-    requestId: string
+    dto: CreateUserDto
   ): Promise<ShopUserEntity> {
     if (authorizationHeader) {
       throw new ForbiddenException(AuthenticationUserMessage.RequireLogout);
@@ -54,7 +53,7 @@ export class AuthenticationService {
     await userEntity.setPassword(password);
     await this.shopUserRepository.save(userEntity);
 
-    await this.notifyService.registerSubscriber({ email, name }, requestId);
+    await this.mailService.sendNotifyNewSubscriber({ email, name }); //!
 
     return userEntity;
   }

@@ -28,8 +28,8 @@
       "@backend/account/config": [
         "libs/account/config/src/index.ts"
       ],
-      "@backend/account/notify": [
-        "libs/account/notify/src/index.ts"
+      "@backend/account/mail": [
+        "libs/account/mail/src/index.ts"
       ],
       "@backend/api/config": [
         "libs/api/config/src/index.ts"
@@ -66,15 +66,6 @@
       ],
       "@backend/file-storage/file-uploader": [
         "libs/file-storage/file-uploader/src/index.ts"
-      ],
-      "@backend/notify/config": [
-        "libs/notify/config/src/index.ts"
-      ],
-      "@backend/notify/email-subsriber": [
-        "libs/notify/email-subsriber/src/index.ts"
-      ],
-      "@backend/notify/mail": [
-        "libs/notify/mail/src/index.ts"
       ],
       "@backend/shared/core": [
         "libs/shared/core/src/index.ts"

@@ -1,10 +1,7 @@
 import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import {
-  BearerAuth, RequestWithBearerAuth, RequestWithRequestIdAndBearerAuth,
-  RequestWithTokenPayload, RouteAlias, UserRdo, ApiOperationOption
-} from '@backend/shared/core';
+import { BearerAuth, RequestWithBearerAuth, RequestWithTokenPayload, RouteAlias, UserRdo, ApiOperationOption } from '@backend/shared/core';
 import { fillDto } from '@backend/shared/helpers';
 import { InjectBearerAuthInterceptor } from '@backend/shared/interceptors';
 import { RequestWithShopUserEntity } from '@backend/account/shop-user';
@@ -35,10 +32,10 @@ export class AuthenticationController {
   @Post(RouteAlias.Register)
   public async register(
     @Body() dto: CreateUserDto,
-    @Req() { requestId, bearerAuth }: RequestWithRequestIdAndBearerAuth
+    @Req() { bearerAuth }: RequestWithBearerAuth
   ): Promise<UserRdo> {
     // headers: Authorization - т.к. только анонимный пользователь может регистрироваться
-    const newUser = await this.authService.registerUser(bearerAuth, dto, requestId);
+    const newUser = await this.authService.registerUser(bearerAuth, dto);
 
     return fillDto(UserRdo, newUser.toPOJO());
   }

@@ -1,5 +1,5 @@
 # Create a new user
-POST http://localhost:4300/api/auth/register HTTP/1.1
+POST http://localhost:4200/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 ###
 
 # Login user by email and password
-POST http://localhost:4300/api/auth/login HTTP/1.1
+POST http://localhost:4200/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,7 +22,7 @@ Content-Type: application/json
 ###
 
 # Check user token
-POST http://localhost:4300/api/auth/check HTTP/1.1
+POST http://localhost:4200/api/auth/check HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2FjMTIzOGVhNjk0MzBmMjk5OGYyZTUiLCJlbWFpbCI6InVzZXJAbG9jYWwubG9jYWwiLCJuYW1lIjoiS2VrcyIsImlhdCI6MTczOTMzMDEyNSwiZXhwIjoxNzQwMTk0MTI1fQ._Db9xHUV7RozBHBZfWelcZhZf5QfjPeqQeDpjT1UwOs
 
 ###
