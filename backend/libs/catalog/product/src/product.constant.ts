@@ -1,108 +1,69 @@
 import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
-import { ApiPropertyOption, DetailPostWithUserIdRdo, PostState, PostType, PostWithUserIdAndPaginationRdo, SortType } from '@backend/shared/core';
-
-import { UserPostsCountRdo } from './rdo/user-posts-count.rdo';
+import { DetailProductRdo, GuitarType, ProductWithPaginationRdo, SortType } from '@backend/shared/core';
 
 export const Default = {
-  NEW_POST_STATE: PostState.Published,
-  POST_COUNT: 25,
-  SORT_TYPE: SortType.PublishDate
+  PRODUCT_COUNT: 7,
+  SORT_TYPE: SortType.AddedDate
 } as const;
 
 export const ImageOption = {
   KEY: 'imageFile',
-  MAX_SIZE: 1204 * 1024,
+  MAX_SIZE: 2 * 1204 * 1024,
   MIME_TYPES: ['image/jpg', 'image/jpeg', 'image/png']
 } as const;
 
-export const PostValidation = {
-  Tags: {
-    MaxCount: 8,
-    TagMinLength: 3,
-    TagMaxLength: 10,
-    TagRegexp: /^[a-zA-Zа-юА-Ю]{1}[a-zA-Zа-юА-Ю0-9-]{2,10}$/
-  },
+export const ProductValidation = {
   Title: {
+    MinLength: 10,
+    MaxLength: 100
+  },
+  Description: {
     MinLength: 20,
-    MaxLength: 50
-  },
-  PreviewText: {
-    MinLength: 50,
-    MaxLength: 255
-  },
-  Text: {
-    MinLength: 100,
     MaxLength: 1024
-  },
-  QuoteText: {
-    MinLength: 20,
-    MaxLength: 300
-  },
-  QuoteAuthor: {
-    MinLength: 3,
-    MaxLength: 50
-  },
-  LinkDescription: {
-    MaxLength: 300
   },
   ImageFile: {
     Type: { fileType: ImageOption.MIME_TYPES.join('|') },
     MaxSize: { maxSize: ImageOption.MAX_SIZE },
     Build: {
-      fileIsRequired: ApiPropertyOption.Post.ImageFile.required,
+      fileIsRequired: true,
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
     }
+  },
+  Article: {
+    MinLength: 5,
+    MaxLength: 40
+  },
+  Price: {
+    MinLength: 100,
+    MaxLength: 1000000
   }
 } as const;
 
 export const parseFilePipeBuilder =
   new ParseFilePipeBuilder()
-    .addFileTypeValidator(PostValidation.ImageFile.Type)
-    .addMaxSizeValidator(PostValidation.ImageFile.MaxSize)
-    .build(PostValidation.ImageFile.Build);
+    .addFileTypeValidator(ProductValidation.ImageFile.Type)
+    .addMaxSizeValidator(ProductValidation.ImageFile.MaxSize)
+    .build(ProductValidation.ImageFile.Build);
 
-export const PostQueryApiProperty = {
+export const ProductQueryApiProperty = {
   SortType: {
     description: 'The sorting type',
     enum: SortType,
-    example: SortType.PublishDate,
+    example: SortType.AddedDate,
     required: false
-  },
-  Tag: {
-    description: 'The post tag',
-    example: 'tag1',
-    required: false
-  },
-  Title: {
-    description: 'The title for search posts',
-    example: 'title1 title2'
   }
 } as const;
 
-export enum PostField {
-  Title = 'title',
-  Url = 'url',
-  PreviewText = 'previewText',
-  Text = 'text',
-  QuoteText = 'quoteText',
-  QuoteAuthor = 'quoteAuthor',
-  ImageFile = 'imageFile',
-  LinkDescription = 'linkDescription'
-};
-
-export const PostFieldsByType = {
-  [PostType.Video]: [PostField.Title, PostField.Url],
-  [PostType.Text]: [PostField.Title, PostField.PreviewText, PostField.Text],
-  [PostType.Link]: [PostField.Url, PostField.LinkDescription],
-  [PostType.Quote]: [PostField.QuoteText, PostField.QuoteAuthor],
-  [PostType.Photo]: [PostField.ImageFile]
+//! сойдет? или объявить массивы StringsCount, а их подставить тут...
+export const StringsCountByGuitarType = {
+  [GuitarType.Acoustic]: [6, 7, 12],
+  [GuitarType.Electro]: [4, 6, 7],
+  [GuitarType.Ukulele]: [4]
 } as const;
 
 export const ProductMessage = {
-  NotFound: 'Post not found.',
-  NotAllow: 'Post is not yours.',
-  RepostExist: 'You already reposted this post.',
+  NotFound: 'Product not found.',
   Unauthorized: 'Unauthorized.'
 } as const;
 
@@ -111,54 +72,36 @@ export const ProductApiResponse = {
     status: HttpStatus.UNAUTHORIZED,
     description: ProductMessage.Unauthorized
   },
-  NotAllow: {
-    status: HttpStatus.FORBIDDEN,
-    description: ProductMessage.NotAllow
-  },
   BadRequest: {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request.'
   },
-  PostCreated: {
-    type: DetailPostWithUserIdRdo,
+  ProductCreated: {
+    type: DetailProductRdo,
     status: HttpStatus.CREATED,
-    description: 'The new post has been successfully created.'
+    description: 'The new product has been successfully created.'
   },
-  PostUpdated: {
-    type: DetailPostWithUserIdRdo,
+  ProductUpdated: {
+    type: DetailProductRdo,
     status: HttpStatus.OK,
-    description: 'The post has been successfully updated.'
+    description: 'The product has been successfully updated.'
   },
-  PostReposted: {
-    type: DetailPostWithUserIdRdo,
-    status: HttpStatus.CREATED,
-    description: 'The post has been successfully reposted.'
-  },
-  AlreadyReposted: {
-    status: HttpStatus.CONFLICT,
-    description: ProductMessage.RepostExist
-  },
-  PostDeleted: {
+  ProductDeleted: {
     status: HttpStatus.NO_CONTENT,
-    description: 'The post has been successfully deleted.'
+    description: 'The product has been successfully deleted.'
   },
-  PostFound: {
-    type: DetailPostWithUserIdRdo,
+  ProductFound: {
+    type: DetailProductRdo,
     status: HttpStatus.OK,
-    description: 'Post found.'
+    description: 'Product found.'
   },
-  PostsFound: {
-    type: PostWithUserIdAndPaginationRdo,
+  ProductsFound: {
+    type: ProductWithPaginationRdo,
     status: HttpStatus.OK,
-    description: 'Posts found.'
+    description: 'Products found.'
   },
-  PostNotFound: {
+  ProductNotFound: {
     status: HttpStatus.NOT_FOUND,
     description: ProductMessage.NotFound
-  },
-  UserPostsCount: {
-    type: UserPostsCountRdo,
-    status: HttpStatus.OK,
-    description: 'User posts count.'
   }
 } as const;

@@ -1,13 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsString } from 'class-validator';
+import { IsDateString, IsOptional } from 'class-validator';
 
-import { ApiPropertyOption, PostType } from '@backend/shared/core';
+import { ApiPropertyOption, transformDate } from '@backend/shared/core';
 
-import { BasePostDto } from './base-post.dto';
+import { BaseProductDto } from './base-product.dto';
+import { Transform } from 'class-transformer';
 
-export class CreatePostDto extends BasePostDto {
-  @ApiProperty(ApiPropertyOption.Post.Type)
-  @IsString()
-  @IsEnum(PostType)
-  public type: PostType;
+export class CreatePostDto extends BaseProductDto {
+  @ApiProperty({
+    ...ApiPropertyOption.Product.AddedDate,
+    required: false
+  })
+  @IsOptional()
+  @IsDateString({ strict: true })
+  @Transform(transformDate)
+  public publishDate?: string;
 }

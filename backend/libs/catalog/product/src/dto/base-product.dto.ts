@@ -1,70 +1,45 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsOptional, IsString, IsUrl, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsIn, IsInt, IsNumber, IsString, MaxLength, MinLength } from 'class-validator';
 
-import { ApiPropertyOption } from '@backend/shared/core';
+import { ApiPropertyOption, GuitarType, STRINGS_COUNT_VALUES, StringsCount } from '@backend/shared/core';
 
-import { PostValidation } from '../product.constant';
+import { ProductValidation } from '../product.constant';
 
-export class BasePostDto {
-  @ApiProperty(ApiPropertyOption.Post.Tags)
-  @IsOptional()
-  @IsArray()
-  @ArrayMaxSize(PostValidation.Tags.MaxCount)
-  @IsString({ each: true })
-  @Matches(PostValidation.Tags.TagRegexp, { each: true })
-  @MinLength(PostValidation.Tags.TagMinLength, { each: true })
-  @MaxLength(PostValidation.Tags.TagMaxLength, { each: true })
-  public tags?: string[];
-
-  @ApiProperty(ApiPropertyOption.Post.Title)
-  @IsOptional()
+export class BaseProductDto {
+  @ApiProperty(ApiPropertyOption.Product.Title)
   @IsString()
-  @MinLength(PostValidation.Title.MinLength)
-  @MaxLength(PostValidation.Title.MaxLength)
-  public title?: string;
+  @MinLength(ProductValidation.Title.MinLength)
+  @MaxLength(ProductValidation.Title.MaxLength)
+  public title: string;
 
-  @ApiProperty(ApiPropertyOption.Post.Url)
-  @IsOptional()
+  @ApiProperty(ApiPropertyOption.Product.Description)
   @IsString()
-  @IsUrl()  // по умолчанию require_tld - true и не пропускает localhost, а require_tld - false пропускает любые строки
-  public url?: string;
+  @MinLength(ProductValidation.Description.MinLength)
+  @MaxLength(ProductValidation.Description.MaxLength)
+  public description: string;
 
-  @ApiProperty({ ...ApiPropertyOption.Post.PreviewText, example: '' })
-  @IsOptional()
+  @ApiProperty(ApiPropertyOption.Product.ImageFile)
   @IsString()
-  @MinLength(PostValidation.PreviewText.MinLength)
-  @MaxLength(PostValidation.PreviewText.MaxLength)
-  public previewText?: string;
+  public imageFile: string;
 
-  @ApiProperty({ ...ApiPropertyOption.Post.Text, example: '' })
-  @IsOptional()
+  @ApiProperty(ApiPropertyOption.Product.GuitarType)
   @IsString()
-  @MinLength(PostValidation.Text.MinLength)
-  @MaxLength(PostValidation.Text.MaxLength)
-  public text?: string;
+  @IsEnum(GuitarType)
+  public guitarType: GuitarType;
 
-  @ApiProperty({ ...ApiPropertyOption.Post.QuoteText, example: '' })
-  @IsOptional()
+  @ApiProperty(ApiPropertyOption.Product.Article)
   @IsString()
-  @MinLength(PostValidation.QuoteText.MinLength)
-  @MaxLength(PostValidation.QuoteText.MaxLength)
-  public quoteText?: string;
+  @MinLength(ProductValidation.Article.MinLength)
+  @MaxLength(ProductValidation.Article.MaxLength)
+  public article: string;
 
-  @ApiProperty({ ...ApiPropertyOption.Post.QuoteAuthor, example: '' })
-  @IsOptional()
-  @IsString()
-  @MinLength(PostValidation.QuoteAuthor.MinLength)
-  @MaxLength(PostValidation.QuoteAuthor.MaxLength)
-  public quoteAuthor?: string;
+  @ApiProperty(ApiPropertyOption.Product.StringsCount)
+  @IsInt()
+  @IsIn(STRINGS_COUNT_VALUES)
+  public stringsCount: StringsCount;
 
-  @ApiProperty(ApiPropertyOption.Post.ImageFile)
-  @IsOptional()
-  @IsString()
-  public imageFile?: string;
-
-  @ApiProperty({ ...ApiPropertyOption.Post.LinkDescription, example: '' })
-  @IsOptional()
-  @IsString()
-  @MaxLength(PostValidation.LinkDescription.MaxLength)
-  public linkDescription?: string;
+  @ApiProperty(ApiPropertyOption.Product.StringsCount)
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsIn(STRINGS_COUNT_VALUES)
+  public price: number;
 }

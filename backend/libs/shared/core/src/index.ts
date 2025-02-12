@@ -30,7 +30,7 @@ export { Token } from './lib/interfaces/token.interface';
 export { PageQuery } from './lib/query/page.query';
 
 export { DetailProductRdo } from './lib/rdo/detail-product.rdo';
-export { ProductAndPaginationRdo } from './lib/rdo/product-and-pagination.rdo';
+export { ProductWithPaginationRdo } from './lib/rdo/product-with-pagination.rdo';
 export { ProductRdo } from './lib/rdo/product.rdo';
 export { UserRdo } from './lib/rdo/user.rdo';
 
