@@ -3,9 +3,9 @@ import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 import { ApiPropertyOption } from '@backend/shared/core';
 
-import { BaseBlogPostQuery } from './base-product.query';
+import { BaseProductQuery } from './base-product.query';
 
-export class SearchBlogPostQuery extends BaseBlogPostQuery {
+export class SearchProductQuery extends BaseProductQuery {
   @ApiProperty({ ...ApiPropertyOption.User.Id, required: false })
   @IsString()
   @IsOptional()

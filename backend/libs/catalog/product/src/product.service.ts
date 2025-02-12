@@ -10,23 +10,23 @@ import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
 import { catalogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
-import { BlogPostEntity } from './product.entity';
-import { BlogPostFactory } from './product.factory';
-import { BlogPostRepository } from './product.repository';
+import { ProductEntity } from './product.entity';
+import { ProductFactory } from './product.factory';
+import { ProductRepository } from './product.repository';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { BlogPostQuery } from './query/product.query';
-import { SearchBlogPostQuery } from './query/search-product.query';
-import { BlogPostMessage, Default, PostField } from './product.constant';
+import { ProductQuery } from './query/product.query';
+import { SearchProductQuery } from './query/search-product.query';
+import { ProductMessage, Default, PostField } from './product.constant';
 import { validatePostData } from './product.validate.post.data';
 
 @Injectable()
-export class BlogPostService {
+export class ProductService {
   @Inject(catalogConfig.KEY)
   private readonly catalogOptions: ConfigType<typeof catalogConfig>;
 
   constructor(
-    private readonly blogPostRepository: BlogPostRepository
+    private readonly blogPostRepository: ProductRepository
   ) { }
 
   private validatePostData(dto: CreatePostDto | UpdatePostDto, imageFile: Express.Multer.File): void {
@@ -54,66 +54,66 @@ export class BlogPostService {
 
       return join(fileRdo.subDirectory, fileRdo.hashName);
     } catch (error) {
-      Logger.error(`UploadImageFile: ${parseAxiosError(error)}`, BlogPostService.name);
+      Logger.error(`UploadImageFile: ${parseAxiosError(error)}`, ProductService.name);
 
       throw new InternalServerErrorException('File upload error!');
     }
   }
 
-  private isPublishedPost(post: BlogPostEntity): boolean {
+  private isPublishedPost(post: ProductEntity): boolean {
     return post.state === PostState.Published;
   }
 
   private checkAuthorization(userId: string): void {
     if (!userId) {
-      throw new UnauthorizedException(BlogPostMessage.Unauthorized);
+      throw new UnauthorizedException(ProductMessage.Unauthorized);
     }
   }
 
-  private canChangePost(post: BlogPostEntity, userId: string): void {
+  private canChangePost(post: ProductEntity, userId: string): void {
     if (post.userId !== userId) {
-      throw new ForbiddenException(BlogPostMessage.NotAllow);
+      throw new ForbiddenException(ProductMessage.NotAllow);
     }
   }
 
-  private throwIfPostNotPublished(post: BlogPostEntity): void {
+  private throwIfPostNotPublished(post: ProductEntity): void {
     if (!this.isPublishedPost(post)) {
-      throw new NotFoundException(BlogPostMessage.NotFound);
+      throw new NotFoundException(ProductMessage.NotFound);
     }
   }
 
-  public canViewPost(post: BlogPostEntity, userId: string): void {
+  public canViewPost(post: ProductEntity, userId: string): void {
     if (post.userId !== userId) {
       this.throwIfPostNotPublished(post);
     }
   }
 
-  public canCommentPost(post: BlogPostEntity): void {
+  public canCommentPost(post: ProductEntity): void {
     this.throwIfPostNotPublished(post);
   }
 
-  public canLikePost(post: BlogPostEntity): void {
+  public canLikePost(post: ProductEntity): void {
     this.throwIfPostNotPublished(post);
   }
 
-  public async findById(postId: string): Promise<BlogPostEntity> {
+  public async findById(postId: string): Promise<ProductEntity> {
     const foundPost = await this.blogPostRepository.findById(postId);
 
     return foundPost;
   }
 
   public async getAllPosts(
-    searchQuery: SearchBlogPostQuery,
+    searchQuery: SearchProductQuery,
     currentUserId: string,
     checkAuthorization: boolean,
     showDraft: boolean
-  ): Promise<PaginationResult<BlogPostEntity>> {
+  ): Promise<PaginationResult<ProductEntity>> {
     if (checkAuthorization) {
       this.checkAuthorization(currentUserId);
     }
 
     const { page, sortType, tag, type, userId } = searchQuery;
-    const query: BlogPostQuery = {
+    const query: ProductQuery = {
       page,
       sortType,
       tag,
@@ -125,7 +125,7 @@ export class BlogPostService {
     return result;
   }
 
-  public async getPost(postId: string, userId: string): Promise<BlogPostEntity> {
+  public async getPost(postId: string, userId: string): Promise<ProductEntity> {
     const post = await this.blogPostRepository.findById(postId);
     // проверяем кто просмтаривает... автор или нет? опубликованные доступны всем, черновики только автору
     this.canViewPost(post, userId);
@@ -138,12 +138,12 @@ export class BlogPostService {
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
-  ): Promise<BlogPostEntity> {
+  ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
     this.validatePostData(dto, imageFile);
 
     const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const newPost = BlogPostFactory.createFromDtoOrEntity(dto, imagePath, userId);
+    const newPost = ProductFactory.createFromDtoOrEntity(dto, imagePath, userId);
 
     await this.blogPostRepository.save(newPost);
 
@@ -156,7 +156,7 @@ export class BlogPostService {
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
-  ): Promise<BlogPostEntity> {
+  ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
     this.validatePostData(dto, imageFile);
 

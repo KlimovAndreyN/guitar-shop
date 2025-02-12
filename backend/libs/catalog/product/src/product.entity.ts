@@ -1,6 +1,6 @@
 import { Entity, PostType, PostState, Post, StorableEntity } from '@backend/shared/core';
 
-export class BlogPostEntity extends Entity implements StorableEntity<Post> {
+export class ProductEntity extends Entity implements StorableEntity<Post> {
   public type: PostType;
   public publishDate: Date;
   public state: PostState;

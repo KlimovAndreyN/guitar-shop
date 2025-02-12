@@ -99,21 +99,21 @@ export const PostFieldsByType = {
   [PostType.Photo]: [PostField.ImageFile]
 } as const;
 
-export const BlogPostMessage = {
+export const ProductMessage = {
   NotFound: 'Post not found.',
   NotAllow: 'Post is not yours.',
   RepostExist: 'You already reposted this post.',
   Unauthorized: 'Unauthorized.'
 } as const;
 
-export const BlogPostApiResponse = {
+export const ProductApiResponse = {
   Unauthorized: {
     status: HttpStatus.UNAUTHORIZED,
-    description: BlogPostMessage.Unauthorized
+    description: ProductMessage.Unauthorized
   },
   NotAllow: {
     status: HttpStatus.FORBIDDEN,
-    description: BlogPostMessage.NotAllow
+    description: ProductMessage.NotAllow
   },
   BadRequest: {
     status: HttpStatus.BAD_REQUEST,
@@ -136,7 +136,7 @@ export const BlogPostApiResponse = {
   },
   AlreadyReposted: {
     status: HttpStatus.CONFLICT,
-    description: BlogPostMessage.RepostExist
+    description: ProductMessage.RepostExist
   },
   PostDeleted: {
     status: HttpStatus.NO_CONTENT,
@@ -154,7 +154,7 @@ export const BlogPostApiResponse = {
   },
   PostNotFound: {
     status: HttpStatus.NOT_FOUND,
-    description: BlogPostMessage.NotFound
+    description: ProductMessage.NotFound
   },
   UserPostsCount: {
     type: UserPostsCountRdo,

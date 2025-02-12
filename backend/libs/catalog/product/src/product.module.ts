@@ -2,21 +2,21 @@ import { Module } from '@nestjs/common';
 
 import { PrismaClientModule } from '@backend/catalog/models';
 
-import { BlogPostController } from './product.controller';
-import { BlogPostFactory } from './product.factory';
-import { BlogPostRepository } from './product.repository';
-import { BlogPostService } from './product.service';
+import { ProductController } from './product.controller';
+import { ProductFactory } from './product.factory';
+import { ProductRepository } from './product.repository';
+import { ProductService } from './product.service';
 
 @Module({
   imports: [
     PrismaClientModule
   ],
-  controllers: [BlogPostController],
+  controllers: [ProductController],
   providers: [
-    BlogPostService,
-    BlogPostRepository,
-    BlogPostFactory
+    ProductService,
+    ProductRepository,
+    ProductFactory
   ],
-  exports: [BlogPostService]
+  exports: [ProductService]
 })
-export class BlogPostModule { }
+export class ProductModule { }

@@ -1,5 +1,5 @@
-import { BaseBlogPostQuery } from './base-product.query';
+import { BaseProductQuery } from './base-product.query';
 
-export class BlogPostQuery extends BaseBlogPostQuery {
+export class ProductQuery extends BaseProductQuery {
   public userIds?: string[];
 }

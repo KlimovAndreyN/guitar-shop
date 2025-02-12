@@ -5,15 +5,15 @@ import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
 import { PaginationResult, Post, PostState, PostType, SortDirection, SortType } from '@backend/shared/core';
 
-import { BlogPostEntity } from './product.entity';
-import { BlogPostFactory } from './product.factory';
-import { BlogPostQuery } from './query/product.query';
-import { BlogPostMessage } from './product.constant';
+import { ProductEntity } from './product.entity';
+import { ProductFactory } from './product.factory';
+import { ProductQuery } from './query/product.query';
+import { ProductMessage } from './product.constant';
 
 @Injectable()
-export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
+export class ProductRepository extends BasePostgresRepository<ProductEntity, Post> {
   constructor(
-    entityFactory: BlogPostFactory,
+    entityFactory: ProductFactory,
     readonly client: PrismaClientService
   ) {
     super(entityFactory, client);
@@ -32,7 +32,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     orderBy: Prisma.PostOrderByWithRelationInput = undefined,
     skip: number = undefined,
     take: number = undefined
-  ): Promise<BlogPostEntity[]> {
+  ): Promise<ProductEntity[]> {
     const records = await this.client.post.findMany({ where, orderBy, skip, take });
     const entities = records.map(
       (record) => {
@@ -52,11 +52,11 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return Math.ceil(totalCount / limit);
   }
 
-  public async findById(id: string): Promise<BlogPostEntity> {
+  public async findById(id: string): Promise<ProductEntity> {
     const record = await this.client.post.findFirst({ where: { id } });
 
     if (!record) {
-      throw new NotFoundException(BlogPostMessage.NotFound);
+      throw new NotFoundException(ProductMessage.NotFound);
     }
 
     const post: Post = {
@@ -67,7 +67,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return this.createEntityFromDocument(post);
   }
 
-  public async save(entity: BlogPostEntity): Promise<void> {
+  public async save(entity: ProductEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
     const record = await this.client.post.create({
       data: { ...pojoEntity }
@@ -77,7 +77,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     entity.publishDate = record.publishDate;
   }
 
-  public async update(entity: BlogPostEntity): Promise<void> {
+  public async update(entity: ProductEntity): Promise<void> {
     const { id } = entity;
     const pojoEntity = entity.toPOJO();
     const publishDate = new Date(pojoEntity.publishDate);
@@ -95,7 +95,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     await this.client.post.delete({ where: { id } })
   }
 
-  public async find(query: BlogPostQuery, showDraft: boolean, take: number): Promise<PaginationResult<BlogPostEntity>> {
+  public async find(query: ProductQuery, showDraft: boolean, take: number): Promise<PaginationResult<ProductEntity>> {
     const currentPage = query.page;
     const skip = (currentPage - 1) * take;
     const where: Prisma.PostWhereInput = {};
@@ -176,7 +176,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return count > 0;
   }
 
-  public async findPostsByCreateAt(startDate: Date, limit: number): Promise<BlogPostEntity[]> {
+  public async findPostsByCreateAt(startDate: Date, limit: number): Promise<ProductEntity[]> {
     const where: Prisma.PostWhereInput = {};
 
     if (startDate) {

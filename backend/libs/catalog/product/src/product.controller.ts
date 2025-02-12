@@ -12,22 +12,22 @@ import {
 } from '@backend/shared/core';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 
-import { BlogPostService } from './product.service';
+import { ProductService } from './product.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { SearchBlogPostQuery } from './query/search-product.query';
-import { BlogPostApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
+import { SearchProductQuery } from './query/search-product.query';
+import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
 @ApiTags('product')
 @ApiHeader(ApiHeaderOption.UserId) // глобально вроде не добавить? и примеры почемуто не работают...
 @Controller(RouteAlias.Posts)
-export class BlogPostController {
+export class ProductController {
   constructor(
-    private readonly blogPostService: BlogPostService
+    private readonly blogPostService: ProductService
   ) { }
 
   private async getPostsWithPagination(
-    query: SearchBlogPostQuery,
+    query: SearchProductQuery,
     checkAuthorization = false,
     userId?: string,
     showDraft = false
@@ -42,18 +42,18 @@ export class BlogPostController {
   }
 
   @ApiOperation(ApiOperationOption.Post.Index)
-  @ApiResponse(BlogPostApiResponse.PostsFound)
-  @ApiResponse(BlogPostApiResponse.BadRequest)
+  @ApiResponse(ProductApiResponse.PostsFound)
+  @ApiResponse(ProductApiResponse.BadRequest)
   @Get('')
-  public async index(@Query() query: SearchBlogPostQuery): Promise<PostWithUserIdAndPaginationRdo> {
+  public async index(@Query() query: SearchProductQuery): Promise<PostWithUserIdAndPaginationRdo> {
     const posts = await this.getPostsWithPagination(query);
 
     return posts;
   }
 
   @ApiOperation(ApiOperationOption.Post.Create)
-  @ApiResponse(BlogPostApiResponse.PostFound)
-  @ApiResponse(BlogPostApiResponse.PostNotFound)
+  @ApiResponse(ProductApiResponse.PostFound)
+  @ApiResponse(ProductApiResponse.PostNotFound)
   @ApiParam(ApiParamOption.PostId)
   @Get(POST_ID_PARAM)
   public async show(
@@ -66,9 +66,9 @@ export class BlogPostController {
   }
 
   @ApiOperation(ApiOperationOption.Post.Create)
-  @ApiResponse(BlogPostApiResponse.PostCreated)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @ApiResponse(BlogPostApiResponse.BadRequest)
+  @ApiResponse(ProductApiResponse.PostCreated)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.BadRequest)
   @ApiConsumes('multipart/form-data')
   @ApiHeader(ApiHeaderOption.RequestId)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
@@ -84,10 +84,10 @@ export class BlogPostController {
   }
 
   @ApiOperation(ApiOperationOption.Post.Update)
-  @ApiResponse(BlogPostApiResponse.PostUpdated)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @ApiResponse(BlogPostApiResponse.PostNotFound)
-  @ApiResponse(BlogPostApiResponse.NotAllow)
+  @ApiResponse(ProductApiResponse.PostUpdated)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.PostNotFound)
+  @ApiResponse(ProductApiResponse.NotAllow)
   @ApiParam(ApiParamOption.PostId)
   @ApiConsumes('multipart/form-data')
   @ApiHeader(ApiHeaderOption.RequestId)
@@ -105,12 +105,12 @@ export class BlogPostController {
   }
 
   @ApiOperation(ApiOperationOption.Post.Delete)
-  @ApiResponse(BlogPostApiResponse.PostDeleted)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @ApiResponse(BlogPostApiResponse.PostNotFound)
-  @ApiResponse(BlogPostApiResponse.NotAllow)
+  @ApiResponse(ProductApiResponse.PostDeleted)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.PostNotFound)
+  @ApiResponse(ProductApiResponse.NotAllow)
   @ApiParam(ApiParamOption.PostId)
-  @HttpCode(BlogPostApiResponse.PostDeleted.status)
+  @HttpCode(ProductApiResponse.PostDeleted.status)
   @Delete(POST_ID_PARAM)
   public async delete(
     @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,

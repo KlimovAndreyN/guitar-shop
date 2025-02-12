@@ -5,7 +5,7 @@ import { ApiPropertyOption, PageQuery, PostType, SortType } from '@backend/share
 
 import { Default, PostValidation, PostQueryApiProperty } from '../product.constant';
 
-export class BaseBlogPostQuery extends PageQuery {
+export class BaseProductQuery extends PageQuery {
   @ApiProperty(PostQueryApiProperty.SortType)
   @IsEnum(SortType)
   @IsOptional()

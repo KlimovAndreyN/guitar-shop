@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 
 import { EntityFactory, Post } from '@backend/shared/core';
 
-import { BlogPostEntity } from './product.entity';
+import { ProductEntity } from './product.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Default } from './product.constant';
 
 @Injectable()
-export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
-  public create(entityPlainData: Post): BlogPostEntity {
-    return new BlogPostEntity(entityPlainData);
+export class ProductFactory implements EntityFactory<ProductEntity> {
+  public create(entityPlainData: Post): ProductEntity {
+    return new ProductEntity(entityPlainData);
   }
 
-  public static createFromDtoOrEntity(data: CreatePostDto | BlogPostEntity, imagePath: string, userId: string): BlogPostEntity {
+  public static createFromDtoOrEntity(data: CreatePostDto | ProductEntity, imagePath: string, userId: string): ProductEntity {
     const post: Post = {
       type: data.type,
       state: Default.NEW_POST_STATE,
@@ -27,6 +27,6 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       linkDescription: data.linkDescription
     };
 
-    return new BlogPostEntity(post);
+    return new ProductEntity(post);
   }
 }
