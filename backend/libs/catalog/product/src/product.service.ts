@@ -22,15 +22,15 @@ export class ProductService {
   private readonly catalogOptions: ConfigType<typeof catalogConfig>;
 
   constructor(
-    private readonly blogPostRepository: ProductRepository
+    private readonly productRepository: ProductRepository
   ) { }
 
   //! StringsCountByGuitarType !
   /*
-  private validatePostData(dto: CreatePostDto | UpdatePostDto, imageFile: Express.Multer.File): void {
+  private validateProductData(dto: CreateProductDto | UpdateProductDto, imageFile: Express.Multer.File): void {
     dto.imageFile = (imageFile) ? '/some/path' : undefined;
 
-    const message = validatePostData(dto);
+    const message = validateProductData(dto);
 
     if (message) {
       throw new BadRequestException(message);
@@ -61,13 +61,13 @@ export class ProductService {
     }
   }
 
-  public async findById(postId: string): Promise<ProductEntity> {
-    const foundPost = await this.blogPostRepository.findById(postId);
+  public async findById(productId: string): Promise<ProductEntity> {
+    const foundProduct = await this.productRepository.findById(productId);
 
-    return foundPost;
+    return foundProduct;
   }
 
-  public async getAllPosts(
+  public async getAllProducts(
     searchQuery: SearchProductQuery,
     currentUserId: string,
     checkAuthorization: boolean,
@@ -85,47 +85,47 @@ export class ProductService {
       type,
       userIds: (userId) ? [userId] : undefined
     };
-    const result = await this.blogPostRepository.find(query, showDraft, Default.PRODUCT_COUNT);
+    const result = await this.productRepository.find(query, showDraft, Default.PRODUCT_COUNT);
 
     return result;
   }
 
-  public async getPost(postId: string, userId: string): Promise<ProductEntity> {
+  public async getProduct(productId: string, userId: string): Promise<ProductEntity> {
     this.checkAuthorization(userId);
 
-    const post = await this.blogPostRepository.findById(postId);
+    const product = await this.productRepository.findById(productId);
 
-    return post;
+    return product;
   }
 
-  public async createPost(
+  public async createProduct(
     dto: CreateProductDto,
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //!this.validatePostData(dto, imageFile);
+    //!this.validateProductData(dto, imageFile);
 
     const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const newPost = ProductFactory.createFromDto(dto, imagePath);
+    const newProduct = ProductFactory.createFromDto(dto, imagePath);
 
-    await this.blogPostRepository.save(newPost);
+    await this.productRepository.save(newProduct);
 
-    return newPost;
+    return newProduct;
   }
 
-  public async updatePost(
-    postId: string,
+  public async updateProduct(
+    productId: string,
     dto: UpdateProductDto,
     imageFile: Express.Multer.File,
     userId: string,
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //this.validatePostData(dto, imageFile);
+    //this.validateProductData(dto, imageFile);
 
-    const existsPost = await this.blogPostRepository.findById(postId);
+    const existsProduct = await this.productRepository.findById(productId);
 
     //! а нужно ли?
     /*
@@ -155,7 +155,7 @@ export class ProductService {
 
     if (hasChanges) {
     */
-    await this.blogPostRepository.update(existsPost);
+    await this.productRepository.update(existsProduct);
     /*    }
 
     // поля с null в undefined, чтобы их небыло в rdo
@@ -167,16 +167,16 @@ export class ProductService {
     });
     */
 
-    if (existsPost.imagePath === null) {
-      existsPost.imagePath = undefined;
+    if (existsProduct.imagePath === null) {
+      existsProduct.imagePath = undefined;
     }
 
-    return existsPost;
+    return existsProduct;
   }
 
-  public async deletePost(postId: string, userId: string): Promise<void> {
+  public async deleteProduct(productId: string, userId: string): Promise<void> {
     this.checkAuthorization(userId);
-    await this.blogPostRepository.findById(postId);
-    await this.blogPostRepository.deleteById(postId);
+    await this.productRepository.findById(productId);
+    await this.productRepository.deleteById(productId);
   }
 }

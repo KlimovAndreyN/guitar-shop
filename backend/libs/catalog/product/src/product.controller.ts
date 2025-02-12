@@ -20,10 +20,10 @@ import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product
 
 @ApiTags('product')
 @ApiHeader(ApiHeaderOption.UserId) // глобально вроде не добавить? и примеры почемуто не работают...
-@Controller(RouteAlias.Posts)
+@Controller(RouteAlias.Products)
 export class ProductController {
   constructor(
-    private readonly blogPostService: ProductService
+    private readonly productService: ProductService
   ) { }
 
   private async getPostsWithPagination(
@@ -32,7 +32,7 @@ export class ProductController {
     userId?: string,
     showDraft = false
   ): Promise<PostWithUserIdAndPaginationRdo> {
-    const postsWithPagination = await this.blogPostService.getAllPosts(query, userId, checkAuthorization, showDraft);
+    const postsWithPagination = await this.productService.getAllPosts(query, userId, checkAuthorization, showDraft);
     const result = {
       ...postsWithPagination,
       entities: postsWithPagination.entities.map((post) => post.toPOJO())
@@ -60,7 +60,7 @@ export class ProductController {
     @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
     @Req() { userId }: RequestWithUserId
   ): Promise<DetailPostWithUserIdRdo> {
-    const existPost = await this.blogPostService.getPost(postId, userId);
+    const existProduct = await this.productService.getPost(postId, userId);
 
     return fillDto(DetailPostWithUserIdRdo, existPost.toPOJO());
   }
@@ -78,9 +78,9 @@ export class ProductController {
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
   ): Promise<DetailPostWithUserIdRdo> {
-    const newPost = await this.blogPostService.createPost(dto, imageFile, userId, requestId);
+    const newProduct = await this.productService.createPost(dto, imageFile, userId, requestId);
 
-    return fillDto(DetailPostWithUserIdRdo, newPost.toPOJO());
+    return fillDto(DetailPostWithUserIdRdo, newProduct.toPOJO());
   }
 
   @ApiOperation(ApiOperationOption.Post.Update)
@@ -99,7 +99,7 @@ export class ProductController {
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
   ): Promise<DetailPostWithUserIdRdo> {
-    const updatedPost = await this.blogPostService.updatePost(postId, dto, imageFile, userId, requestId);
+    const updatedPost = await this.productService.updatePost(postId, dto, imageFile, userId, requestId);
 
     return fillDto(DetailPostWithUserIdRdo, updatedPost.toPOJO());
   }
@@ -116,6 +116,6 @@ export class ProductController {
     @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
     @Req() { userId }: RequestWithUserId
   ): Promise<void> {
-    await this.blogPostService.deletePost(postId, userId);
+    await this.productService.deletePost(postId, userId);
   }
 }

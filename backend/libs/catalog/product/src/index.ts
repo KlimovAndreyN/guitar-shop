@@ -7,6 +7,5 @@ export { ProductApiResponse, parseFilePipeBuilder, ImageOption } from './product
 export { BaseProductQuery } from './query/base-product.query';
 export { SearchProductQuery } from './query/search-product.query';
 
-export { CreatePostDto } from './dto/create-post.dto';
-export { UpdatePostDto } from './dto/update-post.dto';
-export { UserPostsCountRdo } from './rdo/user-posts-count.rdo';
+export { CreateProductDto } from './dto/create-product.dto';
+export { UpdateProductDto } from './dto/update-product.dto';
