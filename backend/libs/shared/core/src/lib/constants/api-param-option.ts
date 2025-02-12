@@ -1,10 +1,10 @@
 import { ApiPropertyOption } from './api-property-option';
 
 export const ApiParamOption = {
-  PostId: {
-    name: 'postId',
-    schema: ApiPropertyOption.Post.Id
+  ProductId: {
+    name: 'productId',
+    schema: ApiPropertyOption.Product.Id
   }
 } as const;
 
-export const POST_ID_PARAM = `:${ApiParamOption.PostId.name}`;
+export const PRODUCT_ID_PARAM = `:${ApiParamOption.ProductId.name}`;

@@ -6,10 +6,7 @@ import { PaginationRdo } from './pagination.rdo';
 import { ApiPropertyOption } from '../constants/api-property-option';
 
 export class ProductAndPaginationRdo extends PaginationRdo {
-  @ApiProperty({
-    ...ApiPropertyOption.Post.Entities,
-    type: ProductRdo
-  })
+  @ApiProperty(ApiPropertyOption.Product.Entities)
   @Type(() => ProductRdo)
   @Expose()
   public entities: ProductRdo[];

@@ -1,5 +1,5 @@
 export enum GuitarType {
-  electro = 'electro',
-  acoustic = 'acoustic',
-  ukulele = 'ukulele'
+  Electro = 'electro',
+  Acoustic = 'acoustic',
+  Ukulele = 'ukulele'
 }

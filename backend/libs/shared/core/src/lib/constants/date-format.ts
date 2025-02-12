@@ -1,3 +1,3 @@
 export const DateFormat = {
-  ONLY_DATE: 'YYYY-MM-DD'
+  ONLY_DATE: 'DD.MM.YYYY'
 } as const;

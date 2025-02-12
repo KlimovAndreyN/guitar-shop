@@ -1,61 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 
-import { transformDate, transformTags } from '../utils/transform';
+import { transformDate } from '../utils/transform';
 import { ApiPropertyOption } from '../constants/api-property-option';
 
 export class ProductRdo {
-  @ApiProperty(ApiPropertyOption.Post.Id)
+  @ApiProperty(ApiPropertyOption.Product.Id)
   @Expose()
   public id: string;
 
-  @ApiProperty(ApiPropertyOption.Post.Tags)
-  @Expose()
-  @Transform(transformTags)
-  public tags: string[];
-
-  @ApiProperty(ApiPropertyOption.Post.PublishDate)
-  @Transform(transformDate)
-  @Expose()
-  public publishDate: string;
-
-  @ApiProperty(ApiPropertyOption.Post.Title)
+  @ApiProperty(ApiPropertyOption.Product.Title)
   @Expose()
   public title: string;
 
-  @ApiProperty(ApiPropertyOption.Post.Url)
+  @ApiProperty(ApiPropertyOption.Product.AddedDate)
+  @Transform(transformDate)
   @Expose()
-  public url: string;
+  public addedDate: string;
 
-  @ApiProperty(ApiPropertyOption.Post.PreviewText)
-  @Expose()
-  public previewText: string;
-
-  @ApiProperty(ApiPropertyOption.Post.Text)
-  @Expose()
-  public text: string;
-
-  @ApiProperty(ApiPropertyOption.Post.QuoteText)
-  @Expose()
-  public quoteText: string;
-
-  @ApiProperty(ApiPropertyOption.Post.QuoteAuthor)
-  @Expose()
-  public quoteAuthor: string;
-
-  @ApiProperty(ApiPropertyOption.Post.ImagePath)
+  @ApiProperty(ApiPropertyOption.Product.ImagePath)
   @Expose()
   public imagePath: string;
 
-  @ApiProperty(ApiPropertyOption.Post.LinkDescription)
+  @ApiProperty(ApiPropertyOption.Product.Price)
   @Expose()
-  public linkDescription: string;
-
-  @ApiProperty(ApiPropertyOption.Post.LikesCount)
-  @Expose()
-  public likesCount: number;
-
-  @ApiProperty(ApiPropertyOption.Post.CommentsCount)
-  @Expose()
-  public commentsCount: number;
+  price: number;
 }

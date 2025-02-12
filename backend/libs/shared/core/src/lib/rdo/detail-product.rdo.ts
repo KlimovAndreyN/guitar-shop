@@ -1,91 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Transform } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
-import { transformDate, transformTags } from '../utils/transform';
+import { ProductRdo } from './product.rdo';
+import { GuitarType } from '../types/guitar-type.enum';
+import { StringsCount } from '../types/strings-count.type';
 import { ApiPropertyOption } from '../constants/api-property-option';
 
-export class DetailProductRdo {
-  @ApiProperty(ApiPropertyOption.Post.Id)
+export class DetailProductRdo extends ProductRdo {
+  @ApiProperty(ApiPropertyOption.Product.Description)
   @Expose()
-  public id: string;
+  public description: string;
 
-  //!
-  //@ApiProperty(ApiPropertyOption.Post.Type)
-  //@Expose()
-  //public type: PostType;
-
-  @ApiProperty(ApiPropertyOption.Post.Tags)
+  @ApiProperty(ApiPropertyOption.Product.GuitarType)
   @Expose()
-  @Transform(transformTags)
-  public tags: string[];
+  guitarType: GuitarType;
 
-  //!
-  /*
-    @ApiProperty({
-      ...ApiPropertyOption.Post.State,
-      required: true
-    })
-    @Expose()
-    public state: PostState;
-  */
-
-  @ApiProperty(ApiPropertyOption.Post.PublishDate)
-  @Transform(transformDate)
+  @ApiProperty(ApiPropertyOption.Product.Article)
   @Expose()
-  public publishDate: string;
+  article: string;
 
-  @ApiProperty(ApiPropertyOption.Post.Title)
+  @ApiProperty(ApiPropertyOption.Product.StringsCount)
   @Expose()
-  public title: string;
-
-  @ApiProperty(ApiPropertyOption.Post.Url)
-  @Expose()
-  public url: string;
-
-  @ApiProperty(ApiPropertyOption.Post.PreviewText)
-  @Expose()
-  public previewText: string;
-
-  @ApiProperty(ApiPropertyOption.Post.Text)
-  @Expose()
-  public text: string;
-
-  @ApiProperty(ApiPropertyOption.Post.QuoteText)
-  @Expose()
-  public quoteText: string;
-
-  @ApiProperty(ApiPropertyOption.Post.QuoteAuthor)
-  @Expose()
-  public quoteAuthor: string;
-
-  @ApiProperty(ApiPropertyOption.Post.ImagePath)
-  @Expose()
-  public imagePath: string;
-
-  @ApiProperty(ApiPropertyOption.Post.LinkDescription)
-  @Expose()
-  public linkDescription: string;
-
-  @ApiProperty(ApiPropertyOption.Post.LikesCount)
-  @Expose()
-  public likesCount: number;
-
-  @ApiProperty(ApiPropertyOption.Post.CommentsCount)
-  @Expose()
-  public commentsCount: number;
-
-  @ApiProperty(ApiPropertyOption.Post.IsRepost)
-  @Expose()
-  @Transform(({ obj }) => (!!obj.repostedPost?.id))
-  public isRepost: boolean;
-
-  @ApiProperty(ApiPropertyOption.Post.RepostedPostId)
-  @Expose()
-  @Transform(({ obj }) => (obj.repostedPost?.id))
-  public repostedPostId: string;
-
-  @ApiProperty(ApiPropertyOption.Post.RepostedPostUserId)
-  @Expose()
-  @Transform(({ obj }) => (obj.repostedPost?.userId))
-  public repostedPostUserId: string;
+  stringsCount: StringsCount;
 }

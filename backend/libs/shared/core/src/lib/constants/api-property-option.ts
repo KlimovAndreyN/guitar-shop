@@ -1,3 +1,7 @@
+import { ProductRdo } from '../rdo/product.rdo';
+import { GuitarType } from '../types/guitar-type.enum';
+import { STRINGS_COUNT_VALUES } from '../types/strings-count.type';
+
 export const ApiPropertyOption = {
   User: {
     Id: {
@@ -25,112 +29,56 @@ export const ApiPropertyOption = {
       example: 'admin'
     }
   },
-  Post: {
+  Product: {
     Id: {
-      description: 'The unique post ID',
+      description: 'The unique product ID',
       example: '2f31b19b-97eb-4305-877a-0b9be7faca8f'
     },
-    Type: {
-      description: 'The post type',
-      //! enum: PostType,
-      //! example: PostType.Video
-    },
-    State: {
-      description: 'The post state',
-      //! enum: PostState,
-      //! example: PostState.Published
-    },
-    PublishDate: {
-      description: 'The post publish date',
-      example: '2024-07-09'
-    },
-    // для формирования "for types:..." можно применить PostFieldsByType, но данные поля по типам, а тут нужно типы по полям
     Title: {
-      description: 'The post title for types: video and text',
-      required: false,
-      example: 'title title title title'
+      description: 'The product title',
+      example: 'title title'
     },
-    Url: {
-      description: 'The post url for types: video and link',
-      required: false,
-      example: 'http://local.ru/12345'
+    Description: {
+      description: 'The product description',
+      example: 'description description'
     },
-    PreviewText: {
-      description: 'The post preview text for type: text',
-      required: false,
-      example: 'preview text preview text preview text preview text'
-    },
-    Text: {
-      description: 'The post text for type: text',
-      required: false,
-      example: 'text text text text text text text text text text text text text text text text text text text text text'
-    },
-    QuoteText: {
-      description: 'The post quote text for type: quote',
-      required: false,
-      example: 'quote text quote text'
-    },
-    QuoteAuthor: {
-      description: 'The post quote author for type: quote',
-      required: false,
-      example: 'quote author'
+    AddedDate: {
+      description: 'The product added date',
+      example: '12.02.2025' //! приметнить формат и проверить
     },
     ImagePath: {
-      description: 'The post image path for type: photo',
-      required: false,
+      description: 'The product image path',
       example: '/img/12345.jpg'
     },
     ImageFile: {
-      description: 'The post image file for type: photo',
-      required: false,
+      description: 'The product image file',
       type: 'string',
       format: 'binary'
     },
-    LinkDescription: {
-      description: 'The post link description for type: link',
-      required: false,
-      example: 'link description'
+    GuitarType: {
+      description: 'The guitar type',
+      enum: GuitarType,
+      example: GuitarType.Electro
     },
-    //
-    LikesCount: {
-      description: 'The post likes count',
-      example: 5
+    Article: {
+      description: 'The product article',
+      example: 'article'
     },
-    CommentsCount: {
-      description: 'The post comments count',
-      example: 5
+    StringsCount: {
+      description: 'The product strings count',
+      //! сработает?
+      enum: STRINGS_COUNT_VALUES,
+      example: STRINGS_COUNT_VALUES[0]
     },
-    IsRepost: {
-      description: 'The post is repost attribute',
-      example: 'true'
-    },
-    RepostedPostId: {
-      description: 'The reposted post id',
-      required: false,
-      example: '2f31b19b-97eb-4305-877a-0b9be7faca8f'
-    },
-    RepostedPostUserId: {
-      description: 'The reposted post user id',
-      required: false,
-      example: '658170cbb954e9f5b905ccf4'
-    },
-    Tags: {
-      description: 'The post tags - warning! not correct send string[] on swagger!',
-      example: ['tag1'],// ['tag1', 'tag2'], из swagger-а не коректно передает пример, у значений убирает [] и ""
-      name: 'tags[]', // не корректная передача string[] через form-data
-      required: false
-    },
-    PostsCount: {
-      description: 'The user posts count',
-      example: 5
-    },
-    SubscriptionsCount: {
-      description: 'The user subscriptions count',
-      example: 5
+    //! сделать округление до копеек?
+    Price: {
+      description: 'The product price',
+      example: 10000
     },
     Entities: {
-      description: 'The posts',
-      isArray: true
+      description: 'The products',
+      isArray: true,
+      type: ProductRdo
     }
   }
 } as const;

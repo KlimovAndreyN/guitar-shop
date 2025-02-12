@@ -79,7 +79,7 @@ export enum ConfigAlias {
   ServiceUrl = 'ServiceUrl',
 
   AccountServiceUrlEnv = `ACCOUNT_${ServiceUrlEnv}`,
-  BlogPostServiceUrlEnv = `BLOG_POST_${ServiceUrlEnv}`,
+  CatalogServiceUrlEnv = `CATALOG_${ServiceUrlEnv}`,
   FileStorageServiceUrlEnv = `FILE_STORAGE_${ServiceUrlEnv}`,
   //...
   ApiMainUrlEnv = `API_MAIN_URL`
