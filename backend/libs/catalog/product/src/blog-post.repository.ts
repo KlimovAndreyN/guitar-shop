@@ -3,8 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
-import { PaginationResult, Post, PostState, PostType, SortDirection, SortType, Tag } from '@backend/shared/core';
-import { BlogTagService } from '@backend/catalog/blog-tag';
+import { PaginationResult, Post, PostState, PostType, SortDirection, SortType } from '@backend/shared/core';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
@@ -16,22 +15,13 @@ import { getSearchTitleSql } from './blog-post.sql';
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
   constructor(
     entityFactory: BlogPostFactory,
-    readonly client: PrismaClientService,
-    private readonly blogTagService: BlogTagService
+    readonly client: PrismaClientService
   ) {
     super(entityFactory, client);
   }
 
   private getTypeAndState({ type, state }): { type: PostType, state: PostState } {
     return { type: type as PostType, state: state as PostState };
-  }
-
-  private getTagIds(tags: Tag[]): { id: string }[] {
-    if (!tags) {
-      return [];
-    }
-
-    return tags.map(({ id }) => ({ id }));
   }
 
   private getPostCount(where: Prisma.PostWhereInput): Promise<number> {
@@ -44,7 +34,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     skip: number = undefined,
     take: number = undefined
   ): Promise<BlogPostEntity[]> {
-    const records = await this.client.post.findMany({ where, orderBy, skip, take, include: { tags: true } });
+    const records = await this.client.post.findMany({ where, orderBy, skip, take });
     const entities = records.map(
       (record) => {
         const post: Post = {
@@ -63,27 +53,16 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return Math.ceil(totalCount / limit);
   }
 
-  public async findById(id: string, giveDetailInfo = false): Promise<BlogPostEntity> {
-    const include = (giveDetailInfo)
-      ? { tags: true, repostedPost: true }
-      : undefined;
-    const record = await this.client.post.findFirst({ where: { id }, include });
+  public async findById(id: string): Promise<BlogPostEntity> {
+    const record = await this.client.post.findFirst({ where: { id } });
 
     if (!record) {
       throw new NotFoundException(BlogPostMessage.NotFound);
     }
 
-    const repostedPost: Post = (record.repostedPost)
-      ? {
-        ...record.repostedPost,
-        ...this.getTypeAndState(record.repostedPost)
-      }
-      : undefined;
-
     const post: Post = {
       ...record,
-      ...this.getTypeAndState(record),
-      repostedPost
+      ...this.getTypeAndState(record)
     };
 
     return this.createEntityFromDocument(post);
@@ -91,37 +70,24 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
-    const repostedPost = (pojoEntity.repostedPost)
-      ? { connect: { id: pojoEntity.repostedPost.id } }
-      : undefined;
-    const tags = { connect: this.getTagIds(pojoEntity.tags) };
     const record = await this.client.post.create({
-      data: {
-        ...pojoEntity,
-        repostedPost,
-        tags
-      }
+      data: { ...pojoEntity }
     });
 
     entity.id = record.id;
     entity.publishDate = record.publishDate;
-    entity.likesCount = record.likesCount;
-    entity.commentsCount = record.commentsCount;
   }
 
   public async update(entity: BlogPostEntity): Promise<void> {
     const { id } = entity;
     const pojoEntity = entity.toPOJO();
-    const tags = { set: this.getTagIds(pojoEntity.tags) }
     const publishDate = new Date(pojoEntity.publishDate);
 
     await this.client.post.update({
       where: { id },
       data: {
         ...pojoEntity,
-        publishDate,
-        repostedPost: undefined, // при обновлении не меняем данные о репосте
-        tags
+        publishDate
       }
     });
   }
@@ -148,14 +114,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       where.state = PostState.Draft;
     } else {
       where.state = PostState.Published;
-    }
-
-    if (query.tag) {
-      const { id: tagId } = await this.blogTagService.getByTitle(query.tag);
-
-      where.tags = {
-        some: { id: tagId }
-      };
     }
 
     switch (query.sortType) {

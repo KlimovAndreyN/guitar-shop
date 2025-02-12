@@ -4,22 +4,19 @@ import {
 } from '@nestjs/common';
 import { ApiConsumes, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { join } from 'path/posix';
 
 import { fillDto } from '@backend/shared/helpers';
 import {
   ApiParamOption, RequestWithRequestIdAndUserId, RequestWithUserId, RouteAlias,
-  USER_ID_PARAM, POST_ID_PARAM, ApiHeaderOption, DetailPostWithUserIdRdo, PageQuery,
+  POST_ID_PARAM, ApiHeaderOption, DetailPostWithUserIdRdo,
   PostWithUserIdAndPaginationRdo, PostWithUserIdRdo, ApiOperationOption
 } from '@backend/shared/core';
-import { GuidValidationPipe, MongoIdValidationPipe } from '@backend/shared/pipes';
+import { GuidValidationPipe } from '@backend/shared/pipes';
 
 import { BlogPostService } from './blog-post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { UserPostsCountRdo } from './rdo/user-posts-count.rdo';
 import { TitleQuery } from './query/title.query';
-import { BaseBlogPostQuery } from './query/base-blog-post.query';
 import { SearchBlogPostQuery } from './query/search-blog-post.query';
 import { BlogPostApiResponse, ImageOption, parseFilePipeBuilder } from './blog-post.constant';
 
@@ -64,51 +61,6 @@ export class BlogPostController {
     const postEntities = await this.blogPostService.findPostsByTitle(title);
 
     return postEntities.map((postEntity) => fillDto(PostWithUserIdRdo, postEntity.toPOJO()));
-  }
-
-  @ApiOperation(ApiOperationOption.Post.MyPosts)
-  @ApiResponse(BlogPostApiResponse.PostsFound)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @Get(RouteAlias.MyPosts)
-  public async getMyPosts(
-    @Query() { page }: PageQuery,
-    @Req() { userId }: RequestWithUserId
-  ): Promise<PostWithUserIdAndPaginationRdo> {
-    const query: SearchBlogPostQuery = { userId, page };
-    const posts = await this.getPostsWithPagination(query, true, userId);
-
-    return posts;
-  }
-
-  @ApiOperation(ApiOperationOption.Post.MyFeed)
-  @ApiResponse(BlogPostApiResponse.PostsFound)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @Get(RouteAlias.MyDtafts)
-  public async getMyDrafts(
-    @Query() { page }: PageQuery,
-    @Req() { userId }: RequestWithUserId
-  ): Promise<PostWithUserIdAndPaginationRdo> {
-    const query: SearchBlogPostQuery = { userId, page };
-    const posts = await this.getPostsWithPagination(query, true, userId, true);
-
-    return posts;
-  }
-
-  @ApiOperation(ApiOperationOption.Post.Detail)
-  @ApiResponse(BlogPostApiResponse.PostsFound)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @Get(RouteAlias.MyFeed)
-  public async getMyFeed(
-    @Query() query: BaseBlogPostQuery,
-    @Req() { userId }: RequestWithUserId
-  ): Promise<PostWithUserIdAndPaginationRdo> {
-    const postsWithPagination = await this.blogPostService.getFeed(query, userId);
-    const result = {
-      ...postsWithPagination,
-      entities: postsWithPagination.entities.map((post) => post.toPOJO())
-    }
-
-    return fillDto(PostWithUserIdAndPaginationRdo, result);
   }
 
   @ApiOperation(ApiOperationOption.Post.Create)
@@ -164,22 +116,6 @@ export class BlogPostController {
     return fillDto(DetailPostWithUserIdRdo, updatedPost.toPOJO());
   }
 
-  @ApiOperation(ApiOperationOption.Post.Repost)
-  @ApiResponse(BlogPostApiResponse.PostReposted)
-  @ApiResponse(BlogPostApiResponse.Unauthorized)
-  @ApiResponse(BlogPostApiResponse.PostNotFound)
-  @ApiResponse(BlogPostApiResponse.AlreadyReposted)
-  @ApiParam(ApiParamOption.PostId)
-  @Post(join(RouteAlias.Repost, POST_ID_PARAM))
-  public async repost(
-    @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
-    @Req() { userId }: RequestWithUserId
-  ): Promise<DetailPostWithUserIdRdo> {
-    const repostedPost = await this.blogPostService.repostPost(postId, userId);
-
-    return fillDto(DetailPostWithUserIdRdo, repostedPost.toPOJO());
-  }
-
   @ApiOperation(ApiOperationOption.Post.Delete)
   @ApiResponse(BlogPostApiResponse.PostDeleted)
   @ApiResponse(BlogPostApiResponse.Unauthorized)
@@ -193,16 +129,5 @@ export class BlogPostController {
     @Req() { userId }: RequestWithUserId
   ): Promise<void> {
     await this.blogPostService.deletePost(postId, userId);
-  }
-
-  @ApiOperation(ApiOperationOption.Post.Count)
-  @ApiResponse(BlogPostApiResponse.UserPostsCount)
-  @ApiResponse(BlogPostApiResponse.BadRequest)
-  @ApiParam(ApiParamOption.UserId)
-  @Get(join(RouteAlias.GetUserPostsCount, USER_ID_PARAM))
-  public async getUserPostsCount(@Param(ApiParamOption.UserId.name, MongoIdValidationPipe) userId: string): Promise<UserPostsCountRdo> {
-    const postsCount = await this.blogPostService.getUserPostsCount(userId);
-
-    return fillDto(UserPostsCountRdo, { userId, postsCount });
   }
 }

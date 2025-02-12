@@ -1,9 +1,7 @@
-import { Entity, PostType, PostState, Post, StorableEntity, Tag } from '@backend/shared/core';
-import { BlogTagEntity } from '@backend/catalog/blog-tag';
+import { Entity, PostType, PostState, Post, StorableEntity } from '@backend/shared/core';
 
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public type: PostType;
-  public tags: BlogTagEntity[];
   public publishDate: Date;
   public state: PostState;
   public userId: string;
@@ -17,9 +15,6 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public linkDescription: string;
   public createdAt: Date;
   public updatedAt: Date;
-  public likesCount: number;
-  public commentsCount: number;
-  public repostedPost: BlogPostEntity;
 
   constructor(post?: Post) {
     super();
@@ -34,7 +29,6 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
 
     this.id = post.id ?? undefined;
     this.type = post.type;
-    this.tags = [];
     this.publishDate = post.publishDate ?? undefined;
     this.state = post.state ?? undefined;
     this.userId = post.userId ?? undefined;
@@ -48,28 +42,9 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     this.linkDescription = post.linkDescription ?? undefined;
     this.createdAt = post.createdAt ?? undefined;
     this.updatedAt = post.updatedAt ?? undefined;
-    this.likesCount = post.likesCount ?? undefined;
-    this.commentsCount = post.commentsCount ?? undefined;
-    this.repostedPost = undefined;
-
-    if (post.tags) {
-      for (const tag of post.tags) {
-        const blogTagEntity = new BlogTagEntity(tag);
-
-        this.tags.push(blogTagEntity);
-      }
-    }
-
-    if (post.repostedPost) {
-      this.repostedPost = new BlogPostEntity(post.repostedPost);
-    }
   }
 
   public toPOJO(): Post {
-    const tags: Tag[] = (this.tags)
-      ? this.tags.map((tagEntity) => tagEntity.toPOJO())
-      : [];
-
     return {
       id: this.id,
       type: this.type,
@@ -85,11 +60,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       imagePath: this.imagePath,
       linkDescription: this.linkDescription,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      likesCount: this.likesCount,
-      commentsCount: this.commentsCount,
-      repostedPost: this.repostedPost?.toPOJO(),
-      tags
+      updatedAt: this.updatedAt
     }
   }
 }

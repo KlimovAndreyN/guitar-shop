@@ -1,16 +1,14 @@
 import {
-  BadRequestException, ConflictException, ForbiddenException, Inject, Injectable,
-  InternalServerErrorException, Logger, NotFoundException, UnauthorizedException
+  BadRequestException, ForbiddenException, Inject, Injectable, Logger,
+  InternalServerErrorException, NotFoundException, UnauthorizedException
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { join } from 'path/posix';
 
 import { PaginationResult, PostState, RouteAlias } from '@backend/shared/core';
 import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
-import { BlogTagService } from '@backend/catalog/blog-tag';
 import { blogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
-import { BlogSubscriptionService } from '@backend/catalog/blog-subscription';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
@@ -18,7 +16,6 @@ import { BlogPostRepository } from './blog-post.repository';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostQuery } from './query/blog-post.query';
-import { BaseBlogPostQuery } from './query/base-blog-post.query';
 import { SearchBlogPostQuery } from './query/search-blog-post.query';
 import { BlogPostMessage, Default, PostField } from './blog-post.constant';
 import { validatePostData } from './blog-post.validate.post.data';
@@ -29,8 +26,6 @@ export class BlogPostService {
   private readonly blogOptions: ConfigType<typeof blogConfig>;
 
   constructor(
-    private readonly blogTagService: BlogTagService,
-    private readonly blogSubscriptionService: BlogSubscriptionService,
     private readonly blogPostRepository: BlogPostRepository
   ) { }
 
@@ -130,25 +125,8 @@ export class BlogPostService {
     return result;
   }
 
-  public async getFeed(baseQuery: BaseBlogPostQuery, userId: string): Promise<PaginationResult<BlogPostEntity>> {
-    this.checkAuthorization(userId);
-
-    const userIds = await this.blogSubscriptionService.getUserSubscriptions(userId);
-    const { page, sortType, tag, type } = baseQuery;
-    const query: BlogPostQuery = {
-      page,
-      sortType,
-      tag,
-      type,
-      userIds: [...userIds, userId]
-    };
-    const result = await this.blogPostRepository.find(query, false, Default.POST_COUNT);
-
-    return result;
-  }
-
   public async getPost(postId: string, userId: string): Promise<BlogPostEntity> {
-    const post = await this.blogPostRepository.findById(postId, true);
+    const post = await this.blogPostRepository.findById(postId);
     // проверяем кто просмтаривает... автор или нет? опубликованные доступны всем, черновики только автору
     this.canViewPost(post, userId);
 
@@ -164,9 +142,8 @@ export class BlogPostService {
     this.checkAuthorization(userId);
     this.validatePostData(dto, imageFile);
 
-    const tags = await this.blogTagService.getByTitles(dto.tags);
     const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const newPost = BlogPostFactory.createFromDtoOrEntity(dto, imagePath, tags, userId);
+    const newPost = BlogPostFactory.createFromDtoOrEntity(dto, imagePath, userId);
 
     await this.blogPostRepository.save(newPost);
 
@@ -183,11 +160,10 @@ export class BlogPostService {
     this.checkAuthorization(userId);
     this.validatePostData(dto, imageFile);
 
-    const existsPost = await this.blogPostRepository.findById(postId, true);
+    const existsPost = await this.blogPostRepository.findById(postId);
 
     this.canChangePost(existsPost, userId);
 
-    let isSameTags = true;
     let hasChanges = false;
 
     // обнуляем поля, чтобы был null в БД
@@ -198,17 +174,7 @@ export class BlogPostService {
     existsPost.imagePath = null;
 
     for (const [key, value] of Object.entries(dto)) {
-      if (key === 'tags') {
-        if (value) {
-          const currentTagIds = existsPost.tags.map((tag) => tag.id);
-
-          isSameTags = (currentTagIds.length === value.length) && (currentTagIds.some((tagId) => value.includes(tagId)));
-
-          if (!isSameTags) {
-            existsPost.tags = await this.blogTagService.getByTitles(dto.tags);
-          }
-        }
-      } else if (key === PostField.ImageFile) {
+      if (key === PostField.ImageFile) {
         if (imageFile) {
           existsPost.imagePath = await this.uploadImageFile(imageFile, requestId);
           hasChanges = true;
@@ -222,7 +188,7 @@ export class BlogPostService {
       }
     }
 
-    if (!isSameTags || hasChanges) {
+    if (hasChanges) {
       await this.blogPostRepository.update(existsPost);
     }
 
@@ -241,26 +207,6 @@ export class BlogPostService {
     return existsPost;
   }
 
-  public async repostPost(postId: string, userId: string): Promise<BlogPostEntity> {
-    this.checkAuthorization(userId);
-
-    const existsPost = await this.blogPostRepository.findById(postId, true);
-
-    this.canViewPost(existsPost, userId);
-
-    const existsRepost = await this.blogPostRepository.existsRepost(postId, userId);
-
-    if (existsRepost) {
-      throw new ConflictException(BlogPostMessage.RepostExist);
-    }
-
-    const repostedPost = BlogPostFactory.createFromPostEntity(existsPost, userId);
-
-    await this.blogPostRepository.save(repostedPost);
-
-    return repostedPost;
-  }
-
   public async deletePost(postId: string, userId: string): Promise<void> {
     this.checkAuthorization(userId);
 
@@ -268,28 +214,6 @@ export class BlogPostService {
 
     this.canChangePost(existsPost, userId);
     await this.blogPostRepository.deleteById(postId);
-  }
-
-  public async incrementCommentsCount(postId: string): Promise<void> {
-    await this.blogPostRepository.updateCommentsCount(postId, 1);
-  }
-
-  public async decrementCommentsCount(postId: string): Promise<void> {
-    await this.blogPostRepository.updateCommentsCount(postId, -1);
-  }
-
-  public async incrementLikesCount(postId: string): Promise<void> {
-    await this.blogPostRepository.updateLikesCount(postId, 1);
-  }
-
-  public async decrementLikesCount(postId: string): Promise<void> {
-    await this.blogPostRepository.updateLikesCount(postId, -1);
-  }
-
-  public async getUserPostsCount(userId: string): Promise<number> {
-    const postsCount = await this.blogPostRepository.getUserPostsCount(userId);
-
-    return postsCount;
   }
 
   public async findPostsByTitle(searchTitle: string): Promise<BlogPostEntity[]> {

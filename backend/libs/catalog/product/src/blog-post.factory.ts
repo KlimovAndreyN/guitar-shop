@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
 import { EntityFactory, Post } from '@backend/shared/core';
-import { BlogTagEntity } from '@backend/catalog/blog-tag';
 
 import { BlogPostEntity } from './blog-post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -13,12 +12,7 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
     return new BlogPostEntity(entityPlainData);
   }
 
-  public static createFromDtoOrEntity(
-    data: CreatePostDto | BlogPostEntity,
-    imagePath: string,
-    tags: BlogTagEntity[],
-    userId: string
-  ): BlogPostEntity {
+  public static createFromDtoOrEntity(data: CreatePostDto | BlogPostEntity, imagePath: string, userId: string): BlogPostEntity {
     const post: Post = {
       type: data.type,
       state: Default.NEW_POST_STATE,
@@ -32,19 +26,7 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
       imagePath,
       linkDescription: data.linkDescription
     };
-    const entity = new BlogPostEntity(post);
 
-    entity.tags = tags;
-
-    return entity;
-  }
-
-  public static createFromPostEntity(postEntity: BlogPostEntity, userId: string): BlogPostEntity {
-    const { imagePath, tags } = postEntity;
-    const repostedPostEntity = BlogPostFactory.createFromDtoOrEntity(postEntity, imagePath, tags, userId);
-
-    repostedPostEntity.repostedPost = postEntity;
-
-    return repostedPostEntity;
+    return new BlogPostEntity(post);
   }
 }
