@@ -21,7 +21,7 @@ model Product {
   description  String
   addedDate    DateTime @default(now()) @map("added_date")
   imagePath    String   @map("image_path")
-  type         String
+  guitarType   String   @map("guitar_type")
   article      String
   stringsCount Int      @map("strings_сount")
   price        Float
@@ -29,7 +29,7 @@ model Product {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@index([addedDate])
-  @@index([type])
+  @@index([guitarType])
   @@index([stringsCount])
   @@index([price])
   @@index([createdAt])

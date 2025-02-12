@@ -5,7 +5,7 @@ CREATE TABLE "products" (
     "description" TEXT NOT NULL,
     "added_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_path" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
+    "guitar_type" TEXT NOT NULL,
     "article" TEXT NOT NULL,
     "strings_сount" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE "products" (
 CREATE INDEX "products_added_date_idx" ON "products"("added_date");
 
 -- CreateIndex
-CREATE INDEX "products_type_idx" ON "products"("type");
+CREATE INDEX "products_guitar_type_idx" ON "products"("guitar_type");
 
 -- CreateIndex
 CREATE INDEX "products_strings_сount_idx" ON "products"("strings_сount");
