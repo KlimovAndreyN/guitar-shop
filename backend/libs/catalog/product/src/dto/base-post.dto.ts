@@ -3,7 +3,7 @@ import { ArrayMaxSize, IsArray, IsOptional, IsString, IsUrl, Matches, MaxLength,
 
 import { ApiPropertyOption } from '@backend/shared/core';
 
-import { PostValidation } from '../blog-post.constant';
+import { PostValidation } from '../product.constant';
 
 export class BasePostDto {
   @ApiProperty(ApiPropertyOption.Post.Tags)

@@ -1,18 +1,13 @@
 import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
-import {
-  ApiPropertyOption, DetailPostWithUserIdRdo, PostState, PostType,
-  PostWithUserIdAndPaginationRdo, PostWithUserIdRdo, SortType
-} from '@backend/shared/core';
+import { ApiPropertyOption, DetailPostWithUserIdRdo, PostState, PostType, PostWithUserIdAndPaginationRdo, SortType } from '@backend/shared/core';
 
 import { UserPostsCountRdo } from './rdo/user-posts-count.rdo';
 
 export const Default = {
   NEW_POST_STATE: PostState.Published,
   POST_COUNT: 25,
-  SORT_TYPE: SortType.PublishDate,
-  SEACRH_TITLE_POST_COUNT: 20,
-  NEWS_LETTER_POST_COUNT: 10
+  SORT_TYPE: SortType.PublishDate
 } as const;
 
 export const ImageOption = {
@@ -154,12 +149,6 @@ export const BlogPostApiResponse = {
   },
   PostsFound: {
     type: PostWithUserIdAndPaginationRdo,
-    status: HttpStatus.OK,
-    description: 'Posts found.'
-  },
-  SearchPosts: {
-    type: PostWithUserIdRdo,
-    isArray: true,
     status: HttpStatus.OK,
     description: 'Posts found.'
   },

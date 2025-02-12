@@ -5,11 +5,10 @@ import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
 import { PaginationResult, Post, PostState, PostType, SortDirection, SortType } from '@backend/shared/core';
 
-import { BlogPostEntity } from './blog-post.entity';
-import { BlogPostFactory } from './blog-post.factory';
-import { BlogPostQuery } from './query/blog-post.query';
-import { BlogPostMessage } from './blog-post.constant';
-import { getSearchTitleSql } from './blog-post.sql';
+import { BlogPostEntity } from './product.entity';
+import { BlogPostFactory } from './product.factory';
+import { BlogPostQuery } from './query/product.query';
+import { BlogPostMessage } from './product.constant';
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
@@ -175,18 +174,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     const count = await this.client.post.count({ where: { repostedPostId: postId, userId } });
 
     return count > 0;
-  }
-
-  public async findPostsByTitle(searchTitle: string, limit: number): Promise<BlogPostEntity[]> {
-    const result = await this.client.$queryRaw<{ id: string, hit_sum: number }[]>(getSearchTitleSql(searchTitle, limit));
-    const postIds = result.map((item) => (item.id));
-    const where: Prisma.PostWhereInput = {};
-
-    where.id = { in: postIds };
-
-    const entities = await this.findPosts(where);
-
-    return entities;
   }
 
   public async findPostsByCreateAt(startDate: Date, limit: number): Promise<BlogPostEntity[]> {

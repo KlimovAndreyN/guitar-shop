@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 
 import { PrismaClientModule } from '@backend/catalog/models';
 
-import { BlogPostController } from './blog-post.controller';
-import { BlogPostFactory } from './blog-post.factory';
-import { BlogPostRepository } from './blog-post.repository';
-import { BlogPostService } from './blog-post.service';
+import { BlogPostController } from './product.controller';
+import { BlogPostFactory } from './product.factory';
+import { BlogPostRepository } from './product.repository';
+import { BlogPostService } from './product.service';
 
 @Module({
   imports: [

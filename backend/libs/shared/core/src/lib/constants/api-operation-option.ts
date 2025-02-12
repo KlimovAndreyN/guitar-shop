@@ -7,7 +7,6 @@ export const ApiOperationOption = {
   },
   Post: {
     Index: { summary: 'Получение списка публикаций' },
-    Search: { summary: 'Поиск публикаций по названию' },
     Detail: { summary: 'Просмотр детальной информации о публикации' },
     Create: { summary: 'Добавление новой публикации' },
     Update: { summary: 'Редактирование публицации' },

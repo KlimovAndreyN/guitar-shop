@@ -7,20 +7,18 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { fillDto } from '@backend/shared/helpers';
 import {
-  ApiParamOption, RequestWithRequestIdAndUserId, RequestWithUserId, RouteAlias,
-  POST_ID_PARAM, ApiHeaderOption, DetailPostWithUserIdRdo,
-  PostWithUserIdAndPaginationRdo, PostWithUserIdRdo, ApiOperationOption
+  ApiParamOption, RequestWithRequestIdAndUserId, RequestWithUserId, RouteAlias, ApiOperationOption,
+  POST_ID_PARAM, ApiHeaderOption, DetailPostWithUserIdRdo, PostWithUserIdAndPaginationRdo
 } from '@backend/shared/core';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 
-import { BlogPostService } from './blog-post.service';
+import { BlogPostService } from './product.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { TitleQuery } from './query/title.query';
-import { SearchBlogPostQuery } from './query/search-blog-post.query';
-import { BlogPostApiResponse, ImageOption, parseFilePipeBuilder } from './blog-post.constant';
+import { SearchBlogPostQuery } from './query/search-product.query';
+import { BlogPostApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
-@ApiTags('blog-post')
+@ApiTags('product')
 @ApiHeader(ApiHeaderOption.UserId) // глобально вроде не добавить? и примеры почемуто не работают...
 @Controller(RouteAlias.Posts)
 export class BlogPostController {
@@ -51,16 +49,6 @@ export class BlogPostController {
     const posts = await this.getPostsWithPagination(query);
 
     return posts;
-  }
-
-  @ApiOperation(ApiOperationOption.Post.Search)
-  @ApiResponse(BlogPostApiResponse.SearchPosts)
-  @ApiResponse(BlogPostApiResponse.BadRequest)
-  @Get(RouteAlias.Search)
-  public async find(@Query() { title }: TitleQuery): Promise<PostWithUserIdRdo[]> {
-    const postEntities = await this.blogPostService.findPostsByTitle(title);
-
-    return postEntities.map((postEntity) => fillDto(PostWithUserIdRdo, postEntity.toPOJO()));
   }
 
   @ApiOperation(ApiOperationOption.Post.Create)

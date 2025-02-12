@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 import { EntityFactory, Post } from '@backend/shared/core';
 
-import { BlogPostEntity } from './blog-post.entity';
+import { BlogPostEntity } from './product.entity';
 import { CreatePostDto } from './dto/create-post.dto';
-import { Default } from './blog-post.constant';
+import { Default } from './product.constant';
 
 @Injectable()
 export class BlogPostFactory implements EntityFactory<BlogPostEntity> {

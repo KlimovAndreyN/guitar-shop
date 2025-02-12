@@ -3,7 +3,7 @@ import { IsEnum, IsOptional, IsString, Matches, MaxLength, MinLength } from 'cla
 
 import { ApiPropertyOption, PageQuery, PostType, SortType } from '@backend/shared/core';
 
-import { Default, PostValidation, PostQueryApiProperty } from '../blog-post.constant';
+import { Default, PostValidation, PostQueryApiProperty } from '../product.constant';
 
 export class BaseBlogPostQuery extends PageQuery {
   @ApiProperty(PostQueryApiProperty.SortType)

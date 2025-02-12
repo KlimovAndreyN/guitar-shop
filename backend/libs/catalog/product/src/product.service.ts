@@ -10,15 +10,15 @@ import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
 import { catalogConfig } from '@backend/catalog/config';
 import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
-import { BlogPostEntity } from './blog-post.entity';
-import { BlogPostFactory } from './blog-post.factory';
-import { BlogPostRepository } from './blog-post.repository';
+import { BlogPostEntity } from './product.entity';
+import { BlogPostFactory } from './product.factory';
+import { BlogPostRepository } from './product.repository';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { BlogPostQuery } from './query/blog-post.query';
-import { SearchBlogPostQuery } from './query/search-blog-post.query';
-import { BlogPostMessage, Default, PostField } from './blog-post.constant';
-import { validatePostData } from './blog-post.validate.post.data';
+import { BlogPostQuery } from './query/product.query';
+import { SearchBlogPostQuery } from './query/search-product.query';
+import { BlogPostMessage, Default, PostField } from './product.constant';
+import { validatePostData } from './product.validate.post.data';
 
 @Injectable()
 export class BlogPostService {
@@ -214,17 +214,5 @@ export class BlogPostService {
 
     this.canChangePost(existsPost, userId);
     await this.blogPostRepository.deleteById(postId);
-  }
-
-  public async findPostsByTitle(searchTitle: string): Promise<BlogPostEntity[]> {
-    const posts = await this.blogPostRepository.findPostsByTitle(searchTitle, Default.SEACRH_TITLE_POST_COUNT);
-
-    return posts;
-  }
-
-  public async findPostsByCreateAt(startDate: Date): Promise<BlogPostEntity[]> {
-    const posts = await this.blogPostRepository.findPostsByCreateAt(startDate, Default.NEWS_LETTER_POST_COUNT);
-
-    return posts;
   }
 }

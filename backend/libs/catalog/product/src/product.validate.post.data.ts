@@ -1,6 +1,6 @@
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { PostField, PostFieldsByType } from './blog-post.constant';
+import { PostField, PostFieldsByType } from './product.constant';
 
 export function validatePostData(dto: CreatePostDto | UpdatePostDto): string {
   const { type } = dto;
