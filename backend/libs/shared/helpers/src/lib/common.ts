@@ -33,10 +33,6 @@ export function getMongoConnectionString({ host, port, user, password, database,
   return `mongodb://${user}:${password}@${host}:${port}/${database}?authSource=${authBase}`;
 }
 
-export function getRabbitMQConnectionString({ host, port, user, password }): string {
-  return `amqp://${user}:${password}@${host}:${port}`;
-}
-
 export function getValidationErrorString(errors: ValidationError[]): string {
   const errorList = errors.map((item: ValidationError) => (Object.values(item.constraints).join(', ')));
 

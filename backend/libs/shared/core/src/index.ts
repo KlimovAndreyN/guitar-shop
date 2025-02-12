@@ -49,7 +49,6 @@ export { Like } from './lib/types/like.interface';
 export { PostState } from './lib/types/post-state.enum';
 export { PostType } from './lib/types/post-type.enum';
 export { Post } from './lib/types/post.interface';
-export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { RequestWithRequestIdAndBearerAuth } from './lib/types/request-with-request-id-and-bearer-auth.type';
 export { RequestWithRequestIdAndUserId } from './lib/types/request-with-request-id-and-user-id.type';
 export { SortDirection } from './lib/types/sort-direction.enum';

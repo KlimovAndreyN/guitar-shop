@@ -53,21 +53,6 @@ export enum ConfigAlias {
   AppPostgresDatabase = `${AppPostgres}.${Database}`,
   AppPostgresDatabaseUrl = `${AppPostgres}.databaseUrl`,
 
-  RabbitEnv = 'RABBIT',
-  RabbitHostEnv = `${RabbitEnv}_${HostEnv}`,
-  RabbitPortEnv = `${RabbitEnv}_${PortEnv}`,
-  RabbitUserEnv = `${RabbitEnv}_${UserEnv}`,
-  RabbitPasswordEnv = `${RabbitEnv}_${PasswordEnv}`,
-  RabbitExchangeEnv = `${RabbitEnv}_EXCHANGE`,
-  RabbitQueueSubscriberEnv = `${RabbitEnv}_QUEUE_SUBSCRIBER`,
-
-  AppRabbit = `${Application}.rabbit`,
-  AppRabbitHost = `${AppRabbit}.${Host}`,
-  AppRabbitPort = `${AppRabbit}.${Port}`,
-  AppRabbitUser = `${AppRabbit}.${User}`,
-  AppRabbitPassword = `${AppRabbit}.${Password}`,
-  AppRabbitExchange = `${AppRabbit}.exchange`,
-
   MailSmtpEnv = 'MAIL_SMTP',
   MailSmtpHostEnv = `${MailSmtpEnv}_${HostEnv}`,
   MailSmtpPortEnv = `${MailSmtpEnv}_${PortEnv}`,
