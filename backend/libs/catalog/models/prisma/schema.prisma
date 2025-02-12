@@ -12,33 +12,26 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  //url      = "postgres://admin:test@localhost:5433/readme-blog" // на windows при команде "npx nx run blog:db:migrate" не вводит название migrate
+  //url      = "postgres://admin:test@localhost:5433/guitar-shop-catalog" // на windows при команде "npx nx run blog:db:migrate" не вводит название migrate
 }
 
-model Post {
-  id              String   @id @default(uuid())
-  type            String
-  publishDate     DateTime @default(now()) @map("publish_date")
-  state           String
-  userId          String   @map("user_id")
-  title           String?
-  url             String?
-  previewText     String?
-  text            String?
-  quoteText       String?
-  quoteAuthor     String?
-  imagePath       String?
-  linkDescription String?
-  likesCount      Int      @default(0) @map("likes_count")
-  commentsCount   Int      @default(0) @map("comments_count")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-  repostedPostId  String?  @map("reposted_post_id")
+model Product {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  addedDate    DateTime @default(now()) @map("added_date")
+  imagePath    String   @map("image_path")
+  type         String
+  article      String
+  stringsCount Int      @map("strings_сount")
+  price        Float
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
+  @@index([addedDate])
   @@index([type])
-  @@index([publishDate])
+  @@index([stringsCount])
+  @@index([price])
   @@index([createdAt])
-  @@index([state])
-  @@index([userId])
-  @@map("posts")
+  @@map("products")
 }
