@@ -1,17 +1,19 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiConsumes, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { fillDto } from '@backend/shared/helpers';
 import {
-  ApiParamOption, RequestWithRequestIdAndUserId, RouteAlias, ApiOperationOption,
-  PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, RequestWithUserId
+  ApiParamOption, RequestWithRequestIdAndUserId, ProductWithPaginationRdo, ApiOperationOption,
+  PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, RequestWithUserId, RouteAlias
+
 } from '@backend/shared/core';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { SearchProductQuery } from './query/search-product.query';
 import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
 @ApiTags('product')
@@ -22,32 +24,22 @@ export class ProductController {
     private readonly productService: ProductService
   ) { }
 
-  /*
-  private async getPostsWithPagination(
-    query: SearchProductQuery,
-    checkAuthorization = false,
-    userId?: string,
-    showDraft = false
-  ): Promise<PostWithUserIdAndPaginationRdo> {
-    const postsWithPagination = await this.productService.getAllPosts(query, userId, checkAuthorization, showDraft);
+  @ApiOperation(ApiOperationOption.Product.Index)
+  @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
+  @Get('')
+  public async index(
+    @Query() query: SearchProductQuery,
+    @Req() { userId }: RequestWithUserId
+  ): Promise<ProductWithPaginationRdo> {
+    const productsWithPagination = await this.productService.findProducts(query, userId);
     const result = {
-      ...postsWithPagination,
-      entities: postsWithPagination.entities.map((post) => post.toPOJO())
+      ...productsWithPagination,
+      entities: productsWithPagination.entities.map((product) => product.toPOJO())
     }
 
-    return fillDto(PostWithUserIdAndPaginationRdo, result);
+    return fillDto(ProductWithPaginationRdo, result);
   }
-
-  @ApiOperation(ApiOperationOption.Post.Index)
-  @ApiResponse(ProductApiResponse.PostsFound)
-  @ApiResponse(ProductApiResponse.BadRequest)
-  @Get('')
-  public async index(@Query() query: SearchProductQuery): Promise<PostWithUserIdAndPaginationRdo> {
-    const posts = await this.getPostsWithPagination(query);
-
-    return posts;
-  }
-  */
 
   @ApiOperation(ApiOperationOption.Product.Detail)
   @ApiResponse(ProductApiResponse.ProductFound)

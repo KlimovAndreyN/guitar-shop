@@ -7,7 +7,10 @@ import { ProductFactory } from './product.factory';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductMessage } from './product.constant';
+import { Default, ProductMessage } from './product.constant';
+import { SearchProductQuery } from './query/search-product.query';
+import { PaginationResult } from '@backend/shared/core';
+import { ProductQuery } from './query/product.query';
 
 @Injectable()
 export class ProductService {
@@ -55,34 +58,21 @@ export class ProductService {
     }
   }
 
-  /*
-  public async findById(productId: string): Promise<ProductEntity> {
-    const foundProduct = await this.productRepository.findById(productId);
-
-    return foundProduct;
-  }
-
-  public async getAllProducts(
+  public async findProducts(
     searchQuery: SearchProductQuery,
-    currentUserId: string,
-    checkAuthorization: boolean,
-    showDraft: boolean
+    currentUserId: string
   ): Promise<PaginationResult<ProductEntity>> {
-    if (checkAuthorization) {
-      this.checkAuthorization(currentUserId);
-    }
-
     const { page, sortType, userId } = searchQuery;
     const query: ProductQuery = {
       page,
       sortType,
       userIds: (userId) ? [userId] : undefined
     };
-    const result = await this.productRepository.find(query, showDraft, Default.PRODUCT_COUNT);
+    const result = await this.productRepository.find(query, Default.PRODUCT_COUNT);
 
     return result;
   }
-*/
+
   public async getProduct(productId: string, userId: string): Promise<ProductEntity> {
     this.checkAuthorization(userId);
 

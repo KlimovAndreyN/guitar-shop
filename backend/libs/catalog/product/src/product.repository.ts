@@ -19,18 +19,18 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     super(entityFactory, client);
   }
 
-  //!
-  /*
-  private getTypeAndState({ type, state }): { type: PostType, state: PostState } {
-    return { type: type as PostType, state: state as PostState };
+  private getGuitarTypeAndStringsCount({ guitarType, stringsCount }): { guitarType: GuitarType, stringsCount: StringsCount } {
+    return {
+      guitarType: guitarType as GuitarType,
+      stringsCount: stringsCount as StringsCount
+    };
   }
-  */
 
-  private getPostCount(where: Prisma.ProductWhereInput): Promise<number> {
+  private getProductsCount(where: Prisma.ProductWhereInput): Promise<number> {
     return this.client.product.count({ where });
   }
 
-  private async findPosts(
+  private async findProducts(
     where: Prisma.ProductWhereInput,
     orderBy: Prisma.ProductOrderByWithRelationInput = undefined,
     skip: number = undefined,
@@ -41,10 +41,7 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
       (record) => {
         const product: Product = {
           ...record,
-          //!
-          //...this.getTypeAndState(record)
-          guitarType: record.guitarType as GuitarType,
-          stringsCount: record.stringsCount as StringsCount
+          ...this.getGuitarTypeAndStringsCount(record)
         };
 
         return this.createEntityFromDocument(product);
@@ -54,7 +51,7 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     return entities;
   }
 
-  private calculatePostsPage(totalCount: number, limit: number): number {
+  private calculateProductsPage(totalCount: number, limit: number): number {
     return Math.ceil(totalCount / limit);
   }
 
@@ -67,10 +64,7 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
 
     const product: Product = {
       ...record,
-      //!
-      //...this.getTypeAndState(record)
-      guitarType: record.guitarType as GuitarType,
-      stringsCount: record.stringsCount as StringsCount
+      ...this.getGuitarTypeAndStringsCount(record)
     };
 
     return this.createEntityFromDocument(product);
@@ -104,7 +98,7 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     await this.client.product.delete({ where: { id } })
   }
 
-  public async find(query: ProductQuery, showDraft: boolean, take: number): Promise<PaginationResult<ProductEntity>> {
+  public async find(query: ProductQuery, take: number): Promise<PaginationResult<ProductEntity>> {
     const currentPage = query.page;
     const skip = (currentPage - 1) * take;
     const where: Prisma.ProductWhereInput = {};
@@ -114,12 +108,6 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     /*
     if (query.type) {
       where.type = query.type;
-    }
-
-    if (showDraft) {
-      where.state = PostState.Draft;
-    } else {
-      where.state = PostState.Published;
     }
 
     switch (query.sortType) {
@@ -138,19 +126,19 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     }
     */
 
-    const [entities, postCount] = await Promise.all(
+    const [entities, productsCount] = await Promise.all(
       [
-        this.findPosts(where, orderBy, skip, take),
-        this.getPostCount(where)
+        this.findProducts(where, orderBy, skip, take),
+        this.getProductsCount(where)
       ]
     );
 
     return {
       entities,
       currentPage,
-      totalPages: this.calculatePostsPage(postCount, take),
+      totalPages: this.calculateProductsPage(productsCount, take),
       itemsPerPage: take,
-      totalItems: postCount
+      totalItems: productsCount
     }
   }
 }
