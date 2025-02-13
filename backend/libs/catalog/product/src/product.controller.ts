@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpCode, Param, Post, Put, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiConsumes, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -47,21 +47,22 @@ export class ProductController {
 
     return posts;
   }
-
-  @ApiOperation(ApiOperationOption.Post.Create)
-  @ApiResponse(ProductApiResponse.PostFound)
-  @ApiResponse(ProductApiResponse.PostNotFound)
-  @ApiParam(ApiParamOption.PostId)
-  @Get(POST_ID_PARAM)
-  public async show(
-    @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
-    @Req() { userId }: RequestWithUserId
-  ): Promise<DetailPostWithUserIdRdo> {
-    const existProduct = await this.productService.getPost(postId, userId);
-
-    return fillDto(DetailPostWithUserIdRdo, existPost.toPOJO());
-  }
   */
+
+  @ApiOperation(ApiOperationOption.Product.Detail)
+  @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiResponse(ProductApiResponse.BadRequest)
+  @ApiParam(ApiParamOption.ProductId)
+  @Get(PRODUCT_ID_PARAM)
+  public async show(
+    @Param(ApiParamOption.ProductId.name, GuidValidationPipe) productId: string,
+    @Req() { userId }: RequestWithUserId
+  ): Promise<DetailProductRdo> {
+    const existProduct = await this.productService.getProduct(productId, userId);
+
+    return fillDto(DetailProductRdo, existProduct.toPOJO());
+  }
 
   @ApiOperation(ApiOperationOption.Product.Create)
   @ApiResponse(ProductApiResponse.ProductCreated)

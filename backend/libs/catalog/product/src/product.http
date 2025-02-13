@@ -1,15 +1,16 @@
-# Get posts
-GET http://localhost:4300/api/posts HTTP/1.1
+# Get products
+GET http://localhost:4300/api/products HTTP/1.1
 
 ###
 
-# Get posts by userId, type and tag
-GET http://localhost:4300/api/posts?userId=658170cbb954e9f5b905ccf4&sortType=date&tag=tag2&page=1 HTTP/1.1
+# Get products by filter, sort and page
+GET http://localhost:4300/api/products?sortType=date&page=1 HTTP/1.1
 
 ###
 
-# Get post by ID
-GET http://localhost:4300/api/posts/9df2e663-2e65-45b4-a2af-ecc93d937350 HTTP/1.1
+# Get product by ID
+GET http://localhost:4300/api/products/ed7a8bec-8582-472a-80c7-dd6d9d81427a HTTP/1.1
+X-User-Id: 1111222233334444
 
 ###
 

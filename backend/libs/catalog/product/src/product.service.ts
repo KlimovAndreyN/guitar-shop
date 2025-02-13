@@ -82,7 +82,7 @@ export class ProductService {
 
     return result;
   }
-
+*/
   public async getProduct(productId: string, userId: string): Promise<ProductEntity> {
     this.checkAuthorization(userId);
 
@@ -90,7 +90,6 @@ export class ProductService {
 
     return product;
   }
-  */
 
   public async createProduct(
     dto: CreateProductDto,
