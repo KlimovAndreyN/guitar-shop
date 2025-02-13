@@ -1,31 +1,31 @@
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+
 import Header from '../../components/header/header';
 import LoginFrom from '../../components/login-form/login-form';
-import { PageTitle } from '../../const';
-import CityLink from '../../components/city-link/city-link';
+import { AppRoute, PageTitle } from '../../const';
+import Footer from '../../components/footer/footer';
 
 function LoginPage(): JSX.Element {
   return (
-    <div className="page page--gray page--login">
+    <>
       <Helmet>
         <title>{PageTitle.Login}</title>
       </Helmet>
       <Header isHiddenUserInfo />
 
-      <main className="page__main page__main--login">
-        <div className="page__login-container container">
+      <main className="page-content">
+        <div className="container">
           <section className="login">
-            <h1 className="login__title">Sign in</h1>
+            <h1 className="login__title">Войти</h1>
+            <p className="login__text">Hовый пользователь? <Link className="login__link" to={AppRoute.Registration}>Зарегистрируйтесь</Link> прямо сейчас</p>
             <LoginFrom />
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <CityLink cityName={'Amsterdam'} />
-            </div>
-          </section>
         </div>
-      </main>
-    </div>
+      </main >
+
+      <Footer />
+    </>
   );
 }
 

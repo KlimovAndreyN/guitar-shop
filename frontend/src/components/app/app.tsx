@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HelmetProvider, Helmet } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 
 import MainPage from '../../pages/main-page/main-page';
 import PublicRoute from '../public-route/public-route';
@@ -11,7 +11,7 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import Spinner from '../spinner/spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { checkAuthAction } from '../../store/api-actions';
-import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -28,39 +28,38 @@ function App(): JSX.Element {
   }
 
   return (
-    <HelmetProvider>
-      <Helmet>
-        <title>{PageTitle.Root}</title>
-      </Helmet>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Catalog}
-            element={<MainPage />}
-          />
-          <Route
-            path={AppRoute.Offer}
-            element={
-              <PrivateRoute>
-                <OfferPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </HelmetProvider>
+    <div className="wrapper">
+      <HelmetProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path={AppRoute.Main}
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path={AppRoute.Catalog}
+              element={<MainPage />}
+            />
+            <Route
+              path={AppRoute.Offer}
+              element={
+                <PrivateRoute>
+                  <OfferPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={<NotFoundPage />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </HelmetProvider>
+    </div>
   );
 }
 

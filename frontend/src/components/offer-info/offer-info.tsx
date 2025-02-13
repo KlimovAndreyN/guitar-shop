@@ -5,7 +5,6 @@ import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
 import OfferHost from '../offer-host/offer-host';
 import OfferReviews from '../offer-reviews/offer-reviews';
-import NearPlaces from '../near-places/near-places';
 import Price from '../price/price';
 import OfferFeatures from '../offer-features/offer-features';
 import { useAppSelector } from '../../hooks';
@@ -15,10 +14,7 @@ import { ClassNamePrefix, OfferComponentsCount } from '../../const';
 
 function OfferInfo(): JSX.Element {
   const detailOffer = useAppSelector((state) => state.detailOffer);
-  const nearOffers = useAppSelector((state) => state.offerNearOffers);
   const reviews = useAppSelector((state) => state.offerReviews);
-
-  const offers = nearOffers.slice(0, OfferComponentsCount.NEAR_OFFERS);
 
   const offerReviews = [...reviews]
     .sort((firstReview: Review, secondReview: Review) => compareStringDate(firstReview.date, secondReview.date))
@@ -69,9 +65,6 @@ function OfferInfo(): JSX.Element {
           </div>
         </div>
       </section>
-      <div className="container">
-        <NearPlaces offers={offers} />
-      </div>
     </main>
   );
 }

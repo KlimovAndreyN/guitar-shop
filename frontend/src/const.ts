@@ -42,6 +42,7 @@ const OFFER_BASE_ROUTE = '/offer/';
 enum AppRoute {
   Main = '/',
   Login = Main,
+  Registration = 'registration',
   Catalog = '/catalog',
   Offer = `${OFFER_BASE_ROUTE}:id`
 }

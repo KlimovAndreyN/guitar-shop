@@ -36,10 +36,6 @@ function getOffersByCityName(offers: Offers): OffersByCityName[] {
   return offersByCityNames;
 }
 
-function getFavoriteOffersCount(offers: Offer[]): number {
-  return offers.filter(({ isFavorite }) => isFavorite).length;
-}
-
 function convertDetailOfferToOffer(offer: Offer, detailOffer: DetailOffer): Offer {
   const { previewImage } = offer;
   const newBaseOffer: BaseOffer = detailOffer;
@@ -56,4 +52,4 @@ function updateOffers(offers: Offer[], detailOffer: DetailOffer): void {
   }
 }
 
-export { getCityOffers, sortOffers, getOffersByCityName, getFavoriteOffersCount, updateOffers };
+export { getCityOffers, sortOffers, getOffersByCityName, updateOffers };
