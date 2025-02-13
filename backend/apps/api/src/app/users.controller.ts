@@ -1,12 +1,12 @@
 import { Body, Controller, HttpCode, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
   BearerAuth, RequestWithRequestId, RequestWithTokenPayload, UserRdo,
   RouteAlias, RequestWithRequestIdAndBearerAuth, ApiOperationOption
 } from '@backend/shared/core';
-import { dtoToFormData, makeHeaders } from '@backend/shared/helpers';
+import { makeHeaders } from '@backend/shared/helpers';
 import { AxiosExceptionFilter } from '@backend/shared/exception-filters';
 import { AuthenticationApiResponse, CreateUserDto, LoggedUserRdo, LoginUserDto, TokenPayloadRdo } from '@backend/account/authentication';
 
@@ -34,16 +34,12 @@ export class UsersController {
     @Req() { requestId, bearerAuth }: RequestWithRequestIdAndBearerAuth
   ): Promise<UserRdo> {
     // можно сразу проверить есть ли bearerAuth, и выкинуть ошибку, что требуется logout, пока передаю в account, там есть проверка
-    const formData = new FormData();
-
-    dtoToFormData(dto, formData);
-
     const url = this.userService.getUrl(RouteAlias.Register);
     // headers: Authorization - т.к. только анонимный пользователь может регистрироваться
     const headers = makeHeaders(requestId, bearerAuth);
     const { data: registerData } = await this.httpService.axiosRef.post<UserRdo>(
       url,
-      formData,
+      dto,
       headers
     );
 
@@ -54,6 +50,7 @@ export class UsersController {
   @ApiResponse(AuthenticationApiResponse.LoggedSuccess)
   @ApiResponse(AuthenticationApiResponse.LoggedError)
   @ApiResponse(AuthenticationApiResponse.BadRequest)
+  @ApiResponse(AuthenticationApiResponse.UserNotFound)
   @ApiResponse(AuthenticationApiResponse.Unauthorized)
   @Post(RouteAlias.Login)
   public async login(@Body() dto: LoginUserDto, @Req() { requestId }: RequestWithRequestId): Promise<LoggedUserRdo> {
@@ -66,7 +63,6 @@ export class UsersController {
 
   @ApiOperation(ApiOperationOption.User.Check)
   @ApiResponse(AuthenticationApiResponse.CheckSuccess)
-  @ApiResponse(AuthenticationApiResponse.BadRequest)
   @ApiResponse(AuthenticationApiResponse.Unauthorized)
   @ApiBearerAuth(BearerAuth.AccessToken)
   @HttpCode(AuthenticationApiResponse.CheckSuccess.status)

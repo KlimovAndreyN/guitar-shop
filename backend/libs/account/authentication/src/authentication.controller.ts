@@ -45,6 +45,7 @@ export class AuthenticationController {
   @ApiResponse(AuthenticationApiResponse.LoggedError)
   @ApiResponse(AuthenticationApiResponse.BadRequest)
   @ApiResponse(AuthenticationApiResponse.UserNotFound)
+  @ApiResponse(AuthenticationApiResponse.Unauthorized)
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalAuthGuard)
   @Post(RouteAlias.Login)
@@ -56,7 +57,6 @@ export class AuthenticationController {
 
   @ApiOperation(ApiOperationOption.User.Check)
   @ApiResponse(AuthenticationApiResponse.CheckSuccess)
-  @ApiResponse(AuthenticationApiResponse.BadRequest)
   @ApiResponse(AuthenticationApiResponse.Unauthorized)
   @ApiBearerAuth(BearerAuth.AccessToken)
   @HttpCode(AuthenticationApiResponse.CheckSuccess.status)
