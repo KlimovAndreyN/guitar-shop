@@ -14,8 +14,8 @@ export class CatalogService {
     private readonly apiOptions: ConfigType<typeof apiConfig>
   ) { }
 
-  public getProductsUrl(query: object = null): string {
-    return makeUrl(this.apiOptions.blogPostServiceUrl, RouteAlias.Products, '', query);
+  public getProductsUrl(route = '', query: object = null): string {
+    return makeUrl(this.apiOptions.blogPostServiceUrl, RouteAlias.Products, route, query);
   }
   /*
   public async createOrUpdate(
