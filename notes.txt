@@ -9,4 +9,5 @@
   просмотреть пометки //!
   переименовал все ли readme, blog, post, blog-post -> product, BlogPost -> Product
   если после фронта останется время, то сделать fileId и редирект из api в file-storage
+  catalog валидировать X-User-Id ?...
 --

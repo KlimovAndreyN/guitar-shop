@@ -97,7 +97,7 @@ export class ProductController {
   @ApiConsumes('multipart/form-data')
   @ApiHeader(ApiHeaderOption.RequestId)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
-  @Patch(POST_ID_PARAM)
+  @Put(POST_ID_PARAM)
   public async update(
     @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
     @Body() dto: UpdatePostDto,
