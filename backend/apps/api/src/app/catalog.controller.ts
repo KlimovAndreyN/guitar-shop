@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Query, Req, UseFilters, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpService } from '@nestjs/axios';
 import { join } from 'path/posix';
 
@@ -10,10 +10,11 @@ import {
 import { makeHeaders } from '@backend/shared/helpers';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 import { AxiosExceptionFilter } from '@backend/shared/exception-filters';
-import { ProductApiResponse, ProductQuery } from '@backend/catalog/product'
+import { CreateProductDto, ImageOption, parseFilePipeBuilder, ProductApiResponse, ProductQuery, UpdateProductDto } from '@backend/catalog/product'
 
 import { CatalogService } from './catalog.service';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('catalog')
 @Controller(join('catalog', RouteAlias.Products))
@@ -57,5 +58,70 @@ export class CatalogController {
     const { data } = await this.httpService.axiosRef.get<DetailProductRdo>(url, headers);
 
     return data;
+  }
+
+  @ApiOperation(ApiOperationOption.Product.Create)
+  @ApiResponse(ProductApiResponse.ProductCreated)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.BadRequest)
+  @ApiResponse(ProductApiResponse.BadFile)
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth(BearerAuth.AccessToken)
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(FileInterceptor(ImageOption.KEY))
+  @Post()
+  public async create(
+    @Body() dto: CreateProductDto,
+    @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
+    @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
+  ): Promise<DetailProductRdo> {
+    //!const product = await this.catalogService.createOrUpdate(null, dto, requestId, userId, imageFile);
+    const product: DetailProductRdo = undefined;
+
+    return product;
+  }
+
+  @ApiOperation(ApiOperationOption.Product.Update)
+  @ApiResponse(ProductApiResponse.ProductUpdated)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiResponse(ProductApiResponse.BadRequest)
+  @ApiResponse(ProductApiResponse.BadFile)
+  @ApiParam(ApiParamOption.ProductId)
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth(BearerAuth.AccessToken)
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(FileInterceptor(ImageOption.KEY))
+  @Put(PRODUCT_ID_PARAM)
+  public async update(
+    @Param(ApiParamOption.ProductId.name, GuidValidationPipe) productId: string,
+    @Body() dto: UpdateProductDto,
+    @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
+    @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
+  ): Promise<DetailProductRdo> {
+    //!const product = await this.catalogService.createOrUpdate(productId, dto, requestId, userId, imageFile);
+    const product: DetailProductRdo = undefined;
+
+    return product;
+  }
+
+
+  @ApiOperation(ApiOperationOption.Product.Delete)
+  @ApiResponse(ProductApiResponse.ProductDeleted)
+  @ApiResponse(ProductApiResponse.Unauthorized)
+  @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiParam(ApiParamOption.ProductId)
+  @ApiBearerAuth(BearerAuth.AccessToken)
+  @UseGuards(CheckAuthGuard)
+  @HttpCode(ProductApiResponse.ProductDeleted.status)
+  @Delete(PRODUCT_ID_PARAM)
+  public async delete(
+    @Param(ApiParamOption.ProductId.name, GuidValidationPipe) productId: string,
+    @Req() { requestId, userId }: RequestWithRequestIdAndUserId
+  ): Promise<void> {
+    const url = this.catalogService.getProductsUrl(productId);
+    const headers = makeHeaders(requestId, null, userId);
+
+    await this.httpService.axiosRef.delete(url, headers);
   }
 }

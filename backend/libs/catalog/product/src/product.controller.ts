@@ -78,6 +78,7 @@ export class ProductController {
   @ApiResponse(ProductApiResponse.ProductUpdated)
   @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiResponse(ProductApiResponse.BadRequest)
   @ApiResponse(ProductApiResponse.BadFile)
   @ApiParam(ApiParamOption.ProductId)
   @ApiConsumes('multipart/form-data')
