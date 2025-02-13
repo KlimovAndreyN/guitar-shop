@@ -36,7 +36,7 @@ function validateConfig(config: CatalogConfig): void {
   const { error } = validationSchema.validate(config, { abortEarly: true });
 
   if (error) {
-    throw new Error(`[Blog Config Validation Error]: ${error.message}`);
+    throw new Error(`[Catalog Config Validation Error]: ${error.message}`);
   }
 }
 

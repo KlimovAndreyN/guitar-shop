@@ -22,8 +22,8 @@ async function bootstrap() {
 
   //Swagger
   const documentBuilder = new DocumentBuilder()
-    .setTitle('Blog API')
-    .setDescription('The Blog API description')
+    .setTitle('Catalog API')
+    .setDescription('The Catalog API description')
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, documentBuilder);
