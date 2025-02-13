@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 
 import { EntityFactory, Product } from '@backend/shared/core';
 
@@ -21,6 +22,13 @@ export class ProductFactory implements EntityFactory<ProductEntity> {
       stringsCount: dto.stringsCount,
       price: dto.price
     };
+    const { addedDate } = dto;
+
+    if (addedDate) {
+      const [day, month, year] = addedDate.split('.');
+
+      product.addedDate = dayjs([year, month, day].join('-')).toDate();
+    }
 
     return new ProductEntity(product);
   }

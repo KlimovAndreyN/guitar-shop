@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsOptional } from 'class-validator';
+import { IsOptional, IsString, Matches } from 'class-validator';
 
-import { ApiPropertyOption, transformDate } from '@backend/shared/core';
+import { ApiPropertyOption } from '@backend/shared/core';
 
 import { BaseProductDto } from './base-product.dto';
-import { Transform } from 'class-transformer';
+import { ProductValidation } from '../product.constant';
 
 export class CreateProductDto extends BaseProductDto {
   @ApiProperty({
@@ -12,7 +12,7 @@ export class CreateProductDto extends BaseProductDto {
     required: false
   })
   @IsOptional()
-  @IsDateString({ strict: true }) //! валидация пройдет? dd.mm.yyyyy
-  @Transform(transformDate)
+  @IsString()
+  @Matches(ProductValidation.AddedDate.Regexp, { message: ProductValidation.AddedDate.Message })
   public addedDate?: string;
 }

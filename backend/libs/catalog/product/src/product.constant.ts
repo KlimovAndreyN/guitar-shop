@@ -22,6 +22,10 @@ export const ProductValidation = {
     MinLength: 20,
     MaxLength: 1024
   },
+  AddedDate: {
+    Regexp: /^\d{2}\.\d{2}\.\d{4}$/,
+    Message: 'addedDate format dd.mm.yyyy'
+  },
   ImageFile: {
     Type: { fileType: ImageOption.MIME_TYPES.join('|') },
     MaxSize: { maxSize: ImageOption.MAX_SIZE },
