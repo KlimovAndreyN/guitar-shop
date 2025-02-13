@@ -50,6 +50,15 @@ export function getQueryString(query: object): string {
 
 export function makeUrl(mainUrl: string, mainRoute = '', route = '', query: object = null) {
   const queryString = (query && Object.keys(query).length) ? `?${getQueryString(query)}` : '';
+  const paths: string[] = [mainUrl];
 
-  return [mainUrl, mainRoute, route].join('/') + queryString;
+  if (mainRoute) {
+    paths.push(mainRoute);
+  }
+
+  if (route) {
+    paths.push(route);
+  }
+
+  return paths.join('/') + queryString;
 }

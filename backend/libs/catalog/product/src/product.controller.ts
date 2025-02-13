@@ -28,9 +28,7 @@ export class ProductController {
   @ApiResponse(ProductApiResponse.ProductFound)
   @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
   @Get('')
-  public async index(
-    @Query() query: ProductQuery
-  ): Promise<ProductWithPaginationRdo> {
+  public async index(@Query() query: ProductQuery): Promise<ProductWithPaginationRdo> {
     const productsWithPagination = await this.productService.findProducts(query);
     const result = {
       ...productsWithPagination,
