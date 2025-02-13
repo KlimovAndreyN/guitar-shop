@@ -47,9 +47,6 @@ cd ~/guitar-shop/frontend
 # установить зависимости
 npm install
 
-# Скопировать .env-example -> .env:
-cp apps/account/.env-example apps/account/.env
-
 # запуск Web
 npm start
 ```
