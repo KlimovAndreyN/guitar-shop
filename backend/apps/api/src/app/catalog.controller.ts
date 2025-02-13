@@ -75,8 +75,7 @@ export class CatalogController {
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
   ): Promise<DetailProductRdo> {
-    //!const product = await this.catalogService.createOrUpdate(null, dto, requestId, userId, imageFile);
-    const product: DetailProductRdo = undefined;
+    const product = await this.catalogService.createOrUpdateProduct(null, dto, requestId, userId, imageFile);
 
     return product;
   }
@@ -99,8 +98,7 @@ export class CatalogController {
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
   ): Promise<DetailProductRdo> {
-    //!const product = await this.catalogService.createOrUpdate(productId, dto, requestId, userId, imageFile);
-    const product: DetailProductRdo = undefined;
+    const product = await this.catalogService.createOrUpdateProduct(productId, dto, requestId, userId, imageFile);
 
     return product;
   }
