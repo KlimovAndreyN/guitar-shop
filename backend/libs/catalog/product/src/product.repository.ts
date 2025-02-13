@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
-import { GuitarType, PaginationResult, Product, SortDirection, SortType, StringsCount } from '@backend/shared/core';
+import { GuitarType, PaginationResult, Product, SortType, StringsCount } from '@backend/shared/core';
 
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';

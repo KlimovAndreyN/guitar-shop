@@ -12,7 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  //url      = "postgres://admin:test@localhost:5433/guitar-shop-catalog" // на windows при команде "npx nx run blog:db:migrate" не вводит название migrate
+  //url      = "postgres://admin:test@localhost:5433/guitar-shop-catalog" // на windows при команде "npx nx run catalog:db:migrate" не вводит название migrate
 }
 
 model Product {

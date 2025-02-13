@@ -26,12 +26,12 @@ npm install
 # сформировать PrismaClient
 npx nx run catalog:db:generate
 
-# инициализировать БД postgres - blog
+# инициализировать БД postgres - catalog
 npx nx run catalog:db:migrate
 
 # наполнение тестовыми данными
-npx nx run account:db:seed
-npx nx run catalog:db:seed
+#//!npx nx run account:db:seed
+#//!npx nx run catalog:db:seed
 
 # запуск сервисов
 npx nx run file-storage:serve
