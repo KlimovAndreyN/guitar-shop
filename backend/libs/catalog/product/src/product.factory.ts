@@ -5,6 +5,7 @@ import { EntityFactory, Product } from '@backend/shared/core';
 
 import { ProductEntity } from './product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductFactory implements EntityFactory<ProductEntity> {
@@ -12,7 +13,7 @@ export class ProductFactory implements EntityFactory<ProductEntity> {
     return new ProductEntity(entityPlainData);
   }
 
-  public static createFromDto(dto: CreateProductDto, imagePath: string): ProductEntity {
+  public static createFromDto(dto: CreateProductDto | UpdateProductDto, imagePath: string): ProductEntity {
     const product: Product = {
       title: dto.title,
       description: dto.description,

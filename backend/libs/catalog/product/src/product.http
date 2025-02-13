@@ -51,7 +51,7 @@ Content-Disposition: form-data; name="price"
 
 ###
 
-# Create a new post from api - Content-Type: multipart/form-data
+# Create a new product from api
 POST http://localhost:3000/api/catalog/products HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzkzYjNlZWU4NTlmMWZjZjlmOThiYjYiLCJlbWFpbCI6InVzZXJAbG9jYWwubG9jYWwiLCJuYW1lIjoiTmFtZSIsImlhdCI6MTczNzk1MTAzOCwiZXhwIjoxNzQwNTQzMDM4fQ.uOyphexZXgzYL2lq678ErZGA2JSbDrSf-V67xpB2TeA
 Content-Type: multipart/form-data; boundary=boundary
@@ -89,66 +89,50 @@ Content-Disposition: form-data; name="price"
 
 ###
 
-# Update post by ID
-PUT http://localhost:4300/api/posts/9059dee5-7897-46d3-b8f6-e075a8b568c0 HTTP/1.1
-Content-Type: application/json
-
-{
-  "type": "video",
-  "tags": ["taG111", "tag2", "tttt2", "tttt2", "tttt1", "tttt1"],
-  "title": "asdasdsaasdasdsaasdasdsaasd",
-  "url": "http://localhost.ru/sadasd"
-}
-
-###
-
-# Update post by ID - Content-Type: multipart/form-data
-PATCH http://localhost:4300/api/posts/ef38a576-cf48-4f2f-af5d-286def1aa2ed HTTP/1.1
+# Update product by ID
+PUT http://localhost:4300/api/products/ff0c6fe5-d2bb-4cf3-a005-f117ab24b456 HTTP/1.1
 X-User-Id: 1111222233334444
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="type"
+Content-Disposition: form-data; name="title"
 
-photo
+title title
 --boundary
-Content-Disposition: form-data; name="tags"
+Content-Disposition: form-data; name="description"
 
-taG1
+description description
 --boundary
-Content-Disposition: form-data; name="tags"
+Content-Disposition: form-data; name="imageFile"; filename="add-item-1.png"
+Content-Type: image/png
 
-tag2
+< ../../../../../markup/img/content/add-item-1.png
 --boundary
-Content-Disposition: form-data; name="imageFile"; filename="cat.jpg"
-Content-Type: image/jpeg
+Content-Disposition: form-data; name="guitarType"
 
-< ../../../../../markup/img/cat.jpg
+electro
+--boundary
+Content-Disposition: form-data; name="article"
+
+article
+--boundary
+Content-Disposition: form-data; name="stringsCount"
+
+6
+--boundary
+Content-Disposition: form-data; name="price"
+
+11000
+--boundary
+Content-Disposition: form-data; name="addedDate"
+
+15.03.2025
 --boundary--
 
 ###
 
-PATCH http://localhost:4300/api/posts/9059dee5-7897-46d3-b8f6-e075a8b568c0 HTTP/1.1
-Content-Type: application/json
-
-{
-  "type": "quote",
-  "tags": ["taG111", "tag2", "tttt2", "tttt2", "tttt1", "tttt1"],
-  "quoteText": "quote text quote text quote text",
-  "quoteAuthor": "quote author",
-  "publishDate": "2025-02-31"
-}
-
-###
-
-# Repost post by ID
-POST http://localhost:4300/api/posts/repost/09209f73-16a7-4a5f-b5dd-10ff6d51e92c HTTP/1.1
-X-User-Id: 1111222233334444
-
-###
-
-# Delete post by ID
-DELETE http://localhost:4300/api/posts/09209f73-16a7-4a5f-b5dd-10ff6d51e92c HTTP/1.1
+# Delete product by ID
+DELETE http://localhost:4300/api/products/ff0c6fe5-d2bb-4cf3-a005-f117ab24b456 HTTP/1.1
 X-User-Id: 1111222233334444
 
 ###

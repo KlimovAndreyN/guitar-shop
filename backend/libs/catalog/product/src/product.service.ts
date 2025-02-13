@@ -1,20 +1,13 @@
-import { Inject, Injectable, Logger, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { join } from 'path/posix';
-
-import { PaginationResult, RouteAlias } from '@backend/shared/core';
-import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
 import { catalogConfig } from '@backend/catalog/config';
-import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductQuery } from './query/product.query';
-import { SearchProductQuery } from './query/search-product.query';
-import { ProductMessage, Default } from './product.constant';
+import { ProductMessage } from './product.constant';
 
 @Injectable()
 export class ProductService {
@@ -37,7 +30,7 @@ export class ProductService {
     }
   }
   */
-
+  /*
   private async uploadImageFile(imageFile: Express.Multer.File, requestId: string): Promise<string> {
     try {
       const fileRdo = await uploadFile<UploadedFileRdo>(
@@ -54,6 +47,7 @@ export class ProductService {
       throw new InternalServerErrorException('File upload error!');
     }
   }
+  */
 
   private checkAuthorization(userId: string): void {
     if (!userId) {
@@ -61,6 +55,7 @@ export class ProductService {
     }
   }
 
+  /*
   public async findById(productId: string): Promise<ProductEntity> {
     const foundProduct = await this.productRepository.findById(productId);
 
@@ -95,6 +90,7 @@ export class ProductService {
 
     return product;
   }
+  */
 
   public async createProduct(
     dto: CreateProductDto,
@@ -122,55 +118,17 @@ export class ProductService {
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //this.validateProductData(dto, imageFile);
+    //!this.validateProductData(dto, imageFile);
 
     const existsProduct = await this.productRepository.findById(productId);
+    //!const imagePath = await this.uploadImageFile(imageFile, requestId);
+    const imagePath = '/some/file';
+    const product = ProductFactory.createFromDto(dto, imagePath);
 
-    //! а нужно ли?
-    /*
-    let hasChanges = false;
+    product.id = existsProduct.id;
+    await this.productRepository.update(product);
 
-    // обнуляем поля, чтобы был null в БД
-    // можно вынести отдельно
-    Object.values(PostField).forEach((key) => {
-      existsPost[key] = null;
-    });
-    existsPost.imagePath = null;
-
-    for (const [key, value] of Object.entries(dto)) {
-      if (key === PostField.ImageFile) {
-        if (imageFile) {
-          existsPost.imagePath = await this.uploadImageFile(imageFile, requestId);
-          hasChanges = true;
-        }
-      }
-      else {
-        if (value !== undefined && existsPost[key] !== value) {
-          existsPost[key] = value;
-          hasChanges = true;
-        }
-      }
-    }
-
-    if (hasChanges) {
-    */
-    await this.productRepository.update(existsProduct);
-    /*    }
-
-    // поля с null в undefined, чтобы их небыло в rdo
-    // можно вынести отдельно
-    Object.values(PostField).forEach((key) => {
-      if (existsPost[key] === null) {
-        existsPost[key] = undefined;
-      }
-    });
-    */
-
-    if (existsProduct.imagePath === null) {
-      existsProduct.imagePath = undefined;
-    }
-
-    return existsProduct;
+    return product;
   }
 
   public async deleteProduct(productId: string, userId: string): Promise<void> {

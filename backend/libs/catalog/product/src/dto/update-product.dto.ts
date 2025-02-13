@@ -10,5 +10,5 @@ export class UpdateProductDto extends BaseProductDto {
   @ApiProperty(ApiPropertyOption.Product.AddedDate)
   @IsString()
   @Matches(ProductValidation.AddedDate.Regexp, { message: ProductValidation.AddedDate.Message })
-  public addedDate?: string;
+  public addedDate: string;
 }

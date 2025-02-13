@@ -1,20 +1,17 @@
-import {
-  Body, Controller, Delete, Get, HttpCode, Param, Patch,
-  Post, Query, Req, UploadedFile, UseInterceptors
-} from '@nestjs/common';
+import { Body, Controller, Delete, HttpCode, Param, Post, Put, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiConsumes, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { fillDto } from '@backend/shared/helpers';
 import {
-  ApiParamOption, RequestWithRequestIdAndUserId, RequestWithUserId, RouteAlias, ApiOperationOption,
-  PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, ProductWithPaginationRdo
+  ApiParamOption, RequestWithRequestIdAndUserId, RouteAlias, ApiOperationOption,
+  PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, RequestWithUserId
 } from '@backend/shared/core';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { SearchProductQuery } from './query/search-product.query';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
 @ApiTags('product')
@@ -87,41 +84,38 @@ export class ProductController {
     return fillDto(DetailProductRdo, newProduct.toPOJO());
   }
 
-  /*
-  @ApiOperation(ApiOperationOption.Post.Update)
-  @ApiResponse(ProductApiResponse.PostUpdated)
+  @ApiOperation(ApiOperationOption.Product.Update)
+  @ApiResponse(ProductApiResponse.ProductUpdated)
   @ApiResponse(ProductApiResponse.Unauthorized)
-  @ApiResponse(ProductApiResponse.PostNotFound)
-  @ApiResponse(ProductApiResponse.NotAllow)
-  @ApiParam(ApiParamOption.PostId)
+  @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiResponse(ProductApiResponse.BadFile)
+  @ApiParam(ApiParamOption.ProductId)
   @ApiConsumes('multipart/form-data')
   @ApiHeader(ApiHeaderOption.RequestId)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
-  @Put(POST_ID_PARAM)
+  @Put(PRODUCT_ID_PARAM)
   public async update(
-    @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
-    @Body() dto: UpdatePostDto,
+    @Param(ApiParamOption.ProductId.name, GuidValidationPipe) productId: string,
+    @Body() dto: UpdateProductDto,
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
-  ): Promise<DetailPostWithUserIdRdo> {
-    const updatedPost = await this.productService.updatePost(postId, dto, imageFile, userId, requestId);
+  ): Promise<DetailProductRdo> {
+    const updatedProduct = await this.productService.updateProduct(productId, dto, imageFile, userId, requestId);
 
-    return fillDto(DetailPostWithUserIdRdo, updatedPost.toPOJO());
+    return fillDto(DetailProductRdo, updatedProduct.toPOJO());
   }
 
-  @ApiOperation(ApiOperationOption.Post.Delete)
-  @ApiResponse(ProductApiResponse.PostDeleted)
+  @ApiOperation(ApiOperationOption.Product.Delete)
+  @ApiResponse(ProductApiResponse.ProductDeleted)
   @ApiResponse(ProductApiResponse.Unauthorized)
-  @ApiResponse(ProductApiResponse.PostNotFound)
-  @ApiResponse(ProductApiResponse.NotAllow)
-  @ApiParam(ApiParamOption.PostId)
-  @HttpCode(ProductApiResponse.PostDeleted.status)
-  @Delete(POST_ID_PARAM)
+  @ApiResponse(ProductApiResponse.ProductNotFound)
+  @ApiParam(ApiParamOption.ProductId)
+  @HttpCode(ProductApiResponse.ProductDeleted.status)
+  @Delete(PRODUCT_ID_PARAM)
   public async delete(
-    @Param(ApiParamOption.PostId.name, GuidValidationPipe) postId: string,
+    @Param(ApiParamOption.ProductId.name, GuidValidationPipe) productId: string,
     @Req() { userId }: RequestWithUserId
   ): Promise<void> {
-    await this.productService.deletePost(postId, userId);
+    await this.productService.deleteProduct(productId, userId);
   }
-    */
 }
