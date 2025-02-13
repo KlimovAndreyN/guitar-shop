@@ -70,6 +70,7 @@ export class ProductController {
   @ApiResponse(ProductApiResponse.ProductCreated)
   @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.BadRequest)
+  @ApiResponse(ProductApiResponse.BadFile)
   @ApiConsumes('multipart/form-data')
   @ApiHeader(ApiHeaderOption.RequestId)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
@@ -79,6 +80,8 @@ export class ProductController {
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
   ): Promise<DetailProductRdo> {
+    console.log(dto);
+
     const newProduct = await this.productService.createProduct(dto, imageFile, userId, requestId);
 
     return fillDto(DetailProductRdo, newProduct.toPOJO());

@@ -105,7 +105,8 @@ export class ProductService {
     this.checkAuthorization(userId);
     //!this.validateProductData(dto, imageFile);
 
-    const imagePath = await this.uploadImageFile(imageFile, requestId);
+    //!const imagePath = await this.uploadImageFile(imageFile, requestId);
+    const imagePath = '/some/file';
     const newProduct = ProductFactory.createFromDto(dto, imagePath);
 
     await this.productRepository.save(newProduct);

@@ -35,8 +35,8 @@ export const ProductValidation = {
     MaxLength: 40
   },
   Price: {
-    MinLength: 100,
-    MaxLength: 1000000
+    Min: 100,
+    Max: 1000000
   }
 } as const;
 
@@ -75,6 +75,10 @@ export const ProductApiResponse = {
   BadRequest: {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request.'
+  },
+  BadFile: {
+    status: HttpStatus.UNPROCESSABLE_ENTITY,
+    description: 'Bad file.'
   },
   ProductCreated: {
     type: DetailProductRdo,

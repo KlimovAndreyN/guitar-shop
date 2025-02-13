@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsIn, IsInt, IsNumber, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsIn, IsInt, IsNumber, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
 
-import { ApiPropertyOption, GuitarType, STRINGS_COUNT_VALUES, StringsCount } from '@backend/shared/core';
+import { ApiPropertyOption, GuitarType, STRINGS_COUNT_VALUES, StringsCount, transformNumber } from '@backend/shared/core';
 
 import { ProductValidation } from '../product.constant';
 
@@ -19,7 +20,7 @@ export class BaseProductDto {
   public description: string;
 
   @ApiProperty(ApiPropertyOption.Product.ImageFile)
-  @IsString()
+  //!@IsString()
   public imageFile: string;
 
   @ApiProperty(ApiPropertyOption.Product.GuitarType)
@@ -34,12 +35,15 @@ export class BaseProductDto {
   public article: string;
 
   @ApiProperty(ApiPropertyOption.Product.StringsCount)
+  @Transform(transformNumber)
   @IsInt()
   @IsIn(STRINGS_COUNT_VALUES)
   public stringsCount: StringsCount;
 
-  @ApiProperty(ApiPropertyOption.Product.StringsCount)
+  @ApiProperty(ApiPropertyOption.Product.Price)
+  @Transform(transformNumber)
   @IsNumber({ maxDecimalPlaces: 2 })
-  @IsIn(STRINGS_COUNT_VALUES)
+  @Min(ProductValidation.Price.Min)
+  @Max(ProductValidation.Price.Max)
   public price: number;
 }
