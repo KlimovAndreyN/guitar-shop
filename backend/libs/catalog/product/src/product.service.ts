@@ -58,7 +58,9 @@ export class ProductService {
     }
   }
 
-  public async findProducts(productQuery: ProductQuery): Promise<PaginationResult<ProductEntity>> {
+  public async findProducts(productQuery: ProductQuery, userId: string): Promise<PaginationResult<ProductEntity>> {
+    this.checkAuthorization(userId);
+
     const result = await this.productRepository.find(productQuery, Default.PRODUCT_COUNT);
 
     return result;

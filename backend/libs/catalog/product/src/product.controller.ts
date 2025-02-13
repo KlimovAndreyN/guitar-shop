@@ -26,10 +26,14 @@ export class ProductController {
 
   @ApiOperation(ApiOperationOption.Product.Index)
   @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
   @Get('')
-  public async index(@Query() query: ProductQuery): Promise<ProductWithPaginationRdo> {
-    const productsWithPagination = await this.productService.findProducts(query);
+  public async index(
+    @Query() query: ProductQuery,
+    @Req() { userId }: RequestWithUserId
+  ): Promise<ProductWithPaginationRdo> {
+    const productsWithPagination = await this.productService.findProducts(query, userId);
     const result = {
       ...productsWithPagination,
       entities: productsWithPagination.entities.map((product) => product.toPOJO())
@@ -40,6 +44,7 @@ export class ProductController {
 
   @ApiOperation(ApiOperationOption.Product.Detail)
   @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.ProductNotFound)
   @ApiResponse(ProductApiResponse.BadRequest)
   @ApiParam(ApiParamOption.ProductId)

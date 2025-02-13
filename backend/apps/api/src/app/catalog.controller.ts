@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('catalog')
 @Controller(join('catalog', RouteAlias.Products))
+@ApiBearerAuth(BearerAuth.AccessToken)
 @UseFilters(AxiosExceptionFilter)
 export class CatalogController {
   constructor(
@@ -27,6 +28,7 @@ export class CatalogController {
 
   @ApiOperation(ApiOperationOption.Product.Index)
   @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
   @Get('')
   public async index(
@@ -44,9 +46,9 @@ export class CatalogController {
 
   @ApiOperation(ApiOperationOption.Product.Detail)
   @ApiResponse(ProductApiResponse.ProductFound)
+  @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.ProductNotFound)
   @ApiParam(ApiParamOption.ProductId)
-  @ApiBearerAuth(BearerAuth.AccessToken)
   @UseGuards(CheckAuthGuard)
   @Get(PRODUCT_ID_PARAM)
   public async show(
@@ -66,7 +68,6 @@ export class CatalogController {
   @ApiResponse(ProductApiResponse.BadRequest)
   @ApiResponse(ProductApiResponse.BadFile)
   @ApiConsumes('multipart/form-data')
-  @ApiBearerAuth(BearerAuth.AccessToken)
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
   @Post()
@@ -88,7 +89,6 @@ export class CatalogController {
   @ApiResponse(ProductApiResponse.BadFile)
   @ApiParam(ApiParamOption.ProductId)
   @ApiConsumes('multipart/form-data')
-  @ApiBearerAuth(BearerAuth.AccessToken)
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
   @Put(PRODUCT_ID_PARAM)
@@ -103,13 +103,11 @@ export class CatalogController {
     return product;
   }
 
-
   @ApiOperation(ApiOperationOption.Product.Delete)
   @ApiResponse(ProductApiResponse.ProductDeleted)
   @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.ProductNotFound)
   @ApiParam(ApiParamOption.ProductId)
-  @ApiBearerAuth(BearerAuth.AccessToken)
   @UseGuards(CheckAuthGuard)
   @HttpCode(ProductApiResponse.ProductDeleted.status)
   @Delete(PRODUCT_ID_PARAM)
