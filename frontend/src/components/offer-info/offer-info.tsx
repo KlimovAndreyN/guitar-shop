@@ -8,7 +8,6 @@ import OfferReviews from '../offer-reviews/offer-reviews';
 import NearPlaces from '../near-places/near-places';
 import Price from '../price/price';
 import OfferFeatures from '../offer-features/offer-features';
-import OffersMap from '../offers-map/offers-map';
 import { useAppSelector } from '../../hooks';
 import { Review } from '../../types/review';
 import { compareStringDate } from '../../utils/date';
@@ -30,7 +29,6 @@ function OfferInfo(): JSX.Element {
     title,
     type,
     price,
-    city,
     isFavorite,
     isPremium,
     rating,
@@ -70,12 +68,6 @@ function OfferInfo(): JSX.Element {
             <OfferReviews reviewsCount={reviews.length} reviews={offerReviews} />
           </div>
         </div>
-        <OffersMap
-          classNamePrefix={classNamePrefix}
-          startLocation={city.location}
-          offers={offers}
-          activeDetailOffer={detailOffer}
-        />
       </section>
       <div className="container">
         <NearPlaces offers={offers} />

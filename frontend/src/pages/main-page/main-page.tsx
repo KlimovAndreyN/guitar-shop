@@ -4,12 +4,11 @@ import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-import OffersMap from '../../components/offers-map/offers-map';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOfferSortingType } from '../../store/action';
 import { addPluralEnding } from '../../utils/common';
 import { getCityOffers, sortOffers } from '../../utils/offer';
-import { ClassNamePrefix, OfferSortigType, RequestStatus } from '../../const';
+import { OfferSortigType, RequestStatus } from '../../const';
 
 function MainPage(): JSX.Element {
   const offersLoadingRequestStatus = useAppSelector((state) => state.offersLoadingRequestStatus);
@@ -73,21 +72,6 @@ function MainPage(): JSX.Element {
                   </>
               }
             </section>
-            <div className="cities__right-section">
-              {
-                isCityOffersEmpty
-                  ?
-                  null
-                  :
-                  <OffersMap
-                    classNamePrefix={ClassNamePrefix.Cities}
-                    // для координат города можно взять коодинаты из первого предложения
-                    startLocation={cityOffers[0].city.location}
-                    offers={cityOffers}
-
-                  />
-              }
-            </div>
           </div>
         </div>
       </main>
