@@ -6,15 +6,12 @@ import { join } from 'path/posix';
 import { dtoToFormData, fillDto, makeHeaders, makeUrl, multerFileToFormData } from '@backend/shared/helpers';
 import { apiConfig } from '@backend/api/config';
 
-import { UserService } from './user.service';
-
 @Injectable()
 export class CatalogService {
   constructor(
     private readonly httpService: HttpService,
     @Inject(apiConfig.KEY)
-    private readonly apiOptions: ConfigType<typeof apiConfig>,
-    private userService: UserService
+    private readonly apiOptions: ConfigType<typeof apiConfig>
   ) { }
 
   /*

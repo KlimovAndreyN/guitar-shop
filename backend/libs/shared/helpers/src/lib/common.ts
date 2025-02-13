@@ -1,6 +1,5 @@
 import { ValidationError } from '@nestjs/common';
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
-import { join } from 'path/posix';
 
 export function getPort(evnName: string, defaultPort: number): number {
   return parseInt(process.env[evnName] || `${defaultPort}`, 10)
@@ -52,5 +51,5 @@ export function getQueryString(query: object): string {
 export function makeUrl(mainUrl: string, mainRoute = '', route = '', query: object = null) {
   const queryString = (query && Object.keys(query).length) ? `?${getQueryString(query)}` : '';
 
-  return join(mainUrl, mainRoute, route) + queryString;
+  return [mainUrl, mainRoute, route].join('/') + queryString;
 }

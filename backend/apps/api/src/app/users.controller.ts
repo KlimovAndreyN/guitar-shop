@@ -1,6 +1,7 @@
-import { Body, Controller, HttpCode, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Inject, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ConfigType } from '@nestjs/config';
 
 import {
   BearerAuth, RequestWithRequestId, RequestWithTokenPayload, UserRdo,
@@ -9,8 +10,8 @@ import {
 import { makeHeaders } from '@backend/shared/helpers';
 import { AxiosExceptionFilter } from '@backend/shared/exception-filters';
 import { AuthenticationApiResponse, CreateUserDto, LoggedUserRdo, LoginUserDto, TokenPayloadRdo } from '@backend/account/authentication';
+import { apiConfig } from '@backend/api/config';
 
-import { UserService } from './user.service';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 
 @ApiTags('users')
@@ -18,9 +19,14 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
 @UseFilters(AxiosExceptionFilter)
 export class UsersController {
   constructor(
-    private readonly httpService: HttpService,
-    private userService: UserService
+    @Inject(apiConfig.KEY)
+    private readonly apiOptions: ConfigType<typeof apiConfig>,
+    private readonly httpService: HttpService
   ) { }
+
+  private getUrl(route: string): string {
+    return [this.apiOptions.accountServiceUrl, route].join('/');
+  }
 
   @ApiOperation(ApiOperationOption.User.Register)
   @ApiResponse(AuthenticationApiResponse.UserCreated)
@@ -34,7 +40,7 @@ export class UsersController {
     @Req() { requestId, bearerAuth }: RequestWithRequestIdAndBearerAuth
   ): Promise<UserRdo> {
     // можно сразу проверить есть ли bearerAuth, и выкинуть ошибку, что требуется logout, пока передаю в account, там есть проверка
-    const url = this.userService.getUrl(RouteAlias.Register);
+    const url = this.getUrl(RouteAlias.Register);
     // headers: Authorization - т.к. только анонимный пользователь может регистрироваться
     const headers = makeHeaders(requestId, bearerAuth);
     const { data: registerData } = await this.httpService.axiosRef.post<UserRdo>(
@@ -54,7 +60,7 @@ export class UsersController {
   @ApiResponse(AuthenticationApiResponse.Unauthorized)
   @Post(RouteAlias.Login)
   public async login(@Body() dto: LoginUserDto, @Req() { requestId }: RequestWithRequestId): Promise<LoggedUserRdo> {
-    const url = this.userService.getUrl(RouteAlias.Login);
+    const url = this.getUrl(RouteAlias.Login);
     const headers = makeHeaders(requestId);
     const { data } = await this.httpService.axiosRef.post<LoggedUserRdo>(url, dto, headers);
 

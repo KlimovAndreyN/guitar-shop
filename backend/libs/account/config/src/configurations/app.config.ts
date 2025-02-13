@@ -7,7 +7,7 @@ import { getPort } from '@backend/shared/helpers';
 export interface ApplicationConfig {
   environment: string;
   port: number;
-  apiMainUrl: string;
+  frontendLoginUrl: string;
   mailSmtp: {
     host: string;
     port: number;
@@ -21,7 +21,7 @@ const validationSchema =
   Joi.object({
     environment: Joi.string().valid(...ENVIRONMENTS).required().label(ConfigAlias.NodeEnv),
     port: Joi.number().port().default(DEFAULT_PORT),
-    apiMainUrl: Joi.string().required().label(ConfigAlias.ApiMainUrlEnv),
+    frontendLoginUrl: Joi.string().required().label(ConfigAlias.FrontendLoginUrlEnv),
     mailSmtp: Joi.object({
       host: Joi.string().valid().hostname().required().label(ConfigAlias.MailSmtpHostEnv),
       port: Joi.number().port().default(DEFAULT_SMTP_PORT),
@@ -43,7 +43,7 @@ function getConfig(): ApplicationConfig {
   const config: ApplicationConfig = {
     environment: process.env[ConfigAlias.NodeEnv] as Environment,
     port: getPort(ConfigAlias.PortEnv, DEFAULT_PORT),
-    apiMainUrl: process.env[ConfigAlias.ApiMainUrlEnv],
+    frontendLoginUrl: process.env[ConfigAlias.FrontendLoginUrlEnv],
     mailSmtp: {
       host: process.env[ConfigAlias.MailSmtpHostEnv],
       port: getPort(ConfigAlias.MailSmtpPortEnv, DEFAULT_SMTP_PORT),

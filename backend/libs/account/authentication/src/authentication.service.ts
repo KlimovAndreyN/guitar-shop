@@ -5,7 +5,7 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { RouteAlias, Token, User } from '@backend/shared/core';
+import { Token, User } from '@backend/shared/core';
 import { createJWTPayload } from '@backend/shared/helpers';
 import { ShopUserRepository, ShopUserEntity } from '@backend/account/shop-user';
 import { applicationConfig } from '@backend/account/config';
@@ -52,8 +52,7 @@ export class AuthenticationService {
 
     await userEntity.setPassword(password);
     await this.shopUserRepository.save(userEntity);
-    //! join(path/posix) http:// -> http:/ ? await this.mailService.sendNotifyRegiteredUser(join(this.applicationOptions.apiMainUrl, RouteAlias.Login), name, email, password);
-    await this.mailService.sendNotifyRegiteredUser(`${this.applicationOptions.apiMainUrl}/${RouteAlias.Login}`, name, email, password);
+    await this.mailService.sendNotifyRegiteredUser(this.applicationOptions.frontendLoginUrl, name, email, password);
 
     return userEntity;
   }
