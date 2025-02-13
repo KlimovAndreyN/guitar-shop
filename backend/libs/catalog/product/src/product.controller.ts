@@ -8,13 +8,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { fillDto } from '@backend/shared/helpers';
 import {
   ApiParamOption, RequestWithRequestIdAndUserId, RequestWithUserId, RouteAlias, ApiOperationOption,
-  POST_ID_PARAM, ApiHeaderOption, DetailPostWithUserIdRdo, PostWithUserIdAndPaginationRdo
+  PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, ProductWithPaginationRdo
 } from '@backend/shared/core';
 import { GuidValidationPipe } from '@backend/shared/pipes';
 
 import { ProductService } from './product.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { CreateProductDto } from './dto/create-product.dto';
 import { SearchProductQuery } from './query/search-product.query';
 import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
@@ -26,6 +25,7 @@ export class ProductController {
     private readonly productService: ProductService
   ) { }
 
+  /*
   private async getPostsWithPagination(
     query: SearchProductQuery,
     checkAuthorization = false,
@@ -64,9 +64,10 @@ export class ProductController {
 
     return fillDto(DetailPostWithUserIdRdo, existPost.toPOJO());
   }
+  */
 
-  @ApiOperation(ApiOperationOption.Post.Create)
-  @ApiResponse(ProductApiResponse.PostCreated)
+  @ApiOperation(ApiOperationOption.Product.Create)
+  @ApiResponse(ProductApiResponse.ProductCreated)
   @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.BadRequest)
   @ApiConsumes('multipart/form-data')
@@ -74,15 +75,16 @@ export class ProductController {
   @UseInterceptors(FileInterceptor(ImageOption.KEY))
   @Post()
   public async create(
-    @Body() dto: CreatePostDto,
+    @Body() dto: CreateProductDto,
     @Req() { requestId, userId }: RequestWithRequestIdAndUserId,
     @UploadedFile(parseFilePipeBuilder) imageFile?: Express.Multer.File
-  ): Promise<DetailPostWithUserIdRdo> {
-    const newProduct = await this.productService.createPost(dto, imageFile, userId, requestId);
+  ): Promise<DetailProductRdo> {
+    const newProduct = await this.productService.createProduct(dto, imageFile, userId, requestId);
 
-    return fillDto(DetailPostWithUserIdRdo, newProduct.toPOJO());
+    return fillDto(DetailProductRdo, newProduct.toPOJO());
   }
 
+  /*
   @ApiOperation(ApiOperationOption.Post.Update)
   @ApiResponse(ProductApiResponse.PostUpdated)
   @ApiResponse(ProductApiResponse.Unauthorized)
@@ -118,4 +120,5 @@ export class ProductController {
   ): Promise<void> {
     await this.productService.deletePost(postId, userId);
   }
+    */
 }

@@ -77,12 +77,10 @@ export class ProductService {
       this.checkAuthorization(currentUserId);
     }
 
-    const { page, sortType, tag, type, userId } = searchQuery;
+    const { page, sortType, userId } = searchQuery;
     const query: ProductQuery = {
       page,
       sortType,
-      tag,
-      type,
       userIds: (userId) ? [userId] : undefined
     };
     const result = await this.productRepository.find(query, showDraft, Default.PRODUCT_COUNT);
