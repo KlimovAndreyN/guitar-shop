@@ -4,10 +4,9 @@ import { HttpModule } from '@nestjs/axios';
 import { ApiConfigModule } from '@backend/api/config';
 
 import { UserService } from './user.service';
-import { BlogService } from './blog.service';
+import { CatalogService } from './catalog.service';
 import { UsersController } from './users.controller';
-import { BlogPostController } from './blog-post.controller';
-import { BlogController } from './blog.controller';
+import { CatalogController } from './catalog.controller';
 
 const HTTP_CLIENT_MAX_REDIRECTS = 5;
 const HTTP_CLIENT_TIMEOUT = 3000;
@@ -22,12 +21,11 @@ const HTTP_CLIENT_TIMEOUT = 3000;
   ],
   controllers: [
     UsersController,
-    BlogPostController,
-    BlogController
+    CatalogController
   ],
   providers: [
     UserService,
-    BlogService
+    CatalogService
   ]
 })
 export class AppModule { }

@@ -11,7 +11,6 @@ cd ~/guitar-shop
 cp ./backend/apps/file-storage/.env-example ./backend/apps/file-storage/.env
 cp ./backend/apps/account/.env-example ./backend/apps/account/.env
 cp ./backend/apps/catalog/.env-example ./backend/apps/catalog/.env
-
 cp ./backend/apps/api/.env-example ./backend/apps/api/.env
 
 # запустить внешние сервисы
@@ -37,7 +36,6 @@ npx nx run catalog:db:migrate
 npx nx run file-storage:serve
 npx nx run account:serve
 npx nx run catalog:serve
-
 npx nx run api:serve
 ```
 

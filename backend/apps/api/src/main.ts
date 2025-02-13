@@ -39,9 +39,9 @@ async function bootstrap() {
 
   await app.listen(port);
   // Микросервисы
+  Logger.log(`FileStorage Service on: ${fileStorageServiceUrl}`);
   Logger.log(`Account Service on: ${accountServiceUrl}`);
   Logger.log(`Catalog Service on: ${blogPostServiceUrl}`);
-  Logger.log(`FileStorage Service on: ${fileStorageServiceUrl}`);
   //
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${PrefixOption.Global}`);
   Logger.log(`Swagger on: http://localhost:${port}/${PrefixOption.Swagger}`);

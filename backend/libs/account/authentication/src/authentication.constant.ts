@@ -44,6 +44,10 @@ export const AuthenticationApiResponse = {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request.'
   },
+  UserNotFound: {
+    status: HttpStatus.BAD_REQUEST,
+    description: 'User not found.'
+  },
   LoggedSuccess: {
     type: LoggedUserRdo,
     status: HttpStatus.OK,

@@ -44,7 +44,7 @@ export class AuthenticationController {
   @ApiResponse(AuthenticationApiResponse.LoggedSuccess)
   @ApiResponse(AuthenticationApiResponse.LoggedError)
   @ApiResponse(AuthenticationApiResponse.BadRequest)
-  @ApiResponse(AuthenticationApiResponse.Unauthorized)
+  @ApiResponse(AuthenticationApiResponse.UserNotFound)
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalAuthGuard)
   @Post(RouteAlias.Login)
