@@ -13,7 +13,7 @@ import { GuidValidationPipe } from '@backend/shared/pipes';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { SearchProductQuery } from './query/search-product.query';
+import { ProductQuery } from './query/product.query';
 import { ProductApiResponse, ImageOption, parseFilePipeBuilder } from './product.constant';
 
 @ApiTags('product')
@@ -29,10 +29,9 @@ export class ProductController {
   @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
   @Get('')
   public async index(
-    @Query() query: SearchProductQuery,
-    @Req() { userId }: RequestWithUserId
+    @Query() query: ProductQuery
   ): Promise<ProductWithPaginationRdo> {
-    const productsWithPagination = await this.productService.findProducts(query, userId);
+    const productsWithPagination = await this.productService.findProducts(query);
     const result = {
       ...productsWithPagination,
       entities: productsWithPagination.entities.map((product) => product.toPOJO())

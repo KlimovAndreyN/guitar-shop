@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { PrismaClientService } from '@backend/catalog/models';
 import { BasePostgresRepository } from '@backend/shared/data-access';
-import { GuitarType, PaginationResult, Product, StringsCount } from '@backend/shared/core';
+import { GuitarType, PaginationResult, Product, SortDirection, SortType, StringsCount } from '@backend/shared/core';
 
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';
@@ -98,33 +98,20 @@ export class ProductRepository extends BasePostgresRepository<ProductEntity, Pro
     await this.client.product.delete({ where: { id } })
   }
 
-  public async find(query: ProductQuery, take: number): Promise<PaginationResult<ProductEntity>> {
-    const currentPage = query.page;
+  public async find(productQuery: ProductQuery, take: number): Promise<PaginationResult<ProductEntity>> {
+    const { sortType, sortDirection, page: currentPage } = productQuery;
     const skip = (currentPage - 1) * take;
     const where: Prisma.ProductWhereInput = {};
     const orderBy: Prisma.ProductOrderByWithRelationInput = {};
 
-    //!
-    /*
-    if (query.type) {
-      where.type = query.type;
-    }
-
-    switch (query.sortType) {
-      case SortType.PublishDate:
-        orderBy.publishDate = SortDirection.Desc;
+    switch (sortType) {
+      case SortType.AddedDate:
+        orderBy.addedDate = sortDirection;
         break;
-      case SortType.CreateDate:
-        orderBy.createdAt = SortDirection.Desc;
-        break;
-      case SortType.Comments:
-        orderBy.commentsCount = SortDirection.Desc;
-        break;
-      case SortType.Likes:
-        orderBy.likesCount = SortDirection.Desc;
+      case SortType.Price:
+        orderBy.price = sortDirection;
         break;
     }
-    */
 
     const [entities, productsCount] = await Promise.all(
       [

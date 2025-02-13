@@ -1,10 +1,11 @@
 import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
-import { DetailProductRdo, GuitarType, ProductWithPaginationRdo, SortType } from '@backend/shared/core';
+import { DetailProductRdo, GuitarType, ProductWithPaginationRdo, SortDirection, SortType } from '@backend/shared/core';
 
 export const Default = {
   PRODUCT_COUNT: 7,
-  SORT_TYPE: SortType.AddedDate
+  SORT_TYPE: SortType.AddedDate, //! что в ТЗ по умолчанию?
+  SORT_DIRECTION: SortDirection.Asc //! что в ТЗ по умолчанию?
 } as const;
 
 export const ImageOption = {
@@ -55,6 +56,12 @@ export const ProductQueryApiProperty = {
     description: 'The sorting type',
     enum: SortType,
     example: SortType.AddedDate,
+    required: false
+  },
+  SortDirection: {
+    description: 'The sorting direction',
+    enum: SortDirection,
+    example: SortDirection.Desc,
     required: false
   }
 } as const;

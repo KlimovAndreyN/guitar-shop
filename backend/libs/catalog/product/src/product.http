@@ -4,7 +4,7 @@ GET http://localhost:4300/api/products HTTP/1.1
 ###
 
 # Get products by filter, sort and page
-GET http://localhost:4300/api/products?sortType=date&page=1 HTTP/1.1
+GET http://localhost:4300/api/products?sortType=addedDate&sortDirection=desc&page=1 HTTP/1.1
 
 ###
 

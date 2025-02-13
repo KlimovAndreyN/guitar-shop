@@ -1,5 +1,18 @@
-import { BaseProductQuery } from './base-product.query';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsOptional } from 'class-validator';
 
-export class ProductQuery extends BaseProductQuery {
-  public userIds?: string[];
+import { PageQuery, SortDirection, SortType } from '@backend/shared/core';
+
+import { Default, ProductQueryApiProperty } from '../product.constant';
+
+export class ProductQuery extends PageQuery {
+  @ApiProperty(ProductQueryApiProperty.SortType)
+  @IsEnum(SortType)
+  @IsOptional()
+  public sortType?: SortType = Default.SORT_TYPE;
+
+  @ApiProperty(ProductQueryApiProperty.SortDirection)
+  @IsEnum(SortDirection)
+  @IsOptional()
+  public sortDirection?: SortDirection = Default.SORT_DIRECTION;
 }

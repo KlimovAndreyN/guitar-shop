@@ -1,5 +1,7 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+
+import { PaginationResult } from '@backend/shared/core';
 import { catalogConfig } from '@backend/catalog/config';
 
 import { ProductEntity } from './product.entity';
@@ -8,8 +10,6 @@ import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Default, ProductMessage } from './product.constant';
-import { SearchProductQuery } from './query/search-product.query';
-import { PaginationResult } from '@backend/shared/core';
 import { ProductQuery } from './query/product.query';
 
 @Injectable()
@@ -58,17 +58,8 @@ export class ProductService {
     }
   }
 
-  public async findProducts(
-    searchQuery: SearchProductQuery,
-    currentUserId: string
-  ): Promise<PaginationResult<ProductEntity>> {
-    const { page, sortType, userId } = searchQuery;
-    const query: ProductQuery = {
-      page,
-      sortType,
-      userIds: (userId) ? [userId] : undefined
-    };
-    const result = await this.productRepository.find(query, Default.PRODUCT_COUNT);
+  public async findProducts(productQuery: ProductQuery): Promise<PaginationResult<ProductEntity>> {
+    const result = await this.productRepository.find(productQuery, Default.PRODUCT_COUNT);
 
     return result;
   }
