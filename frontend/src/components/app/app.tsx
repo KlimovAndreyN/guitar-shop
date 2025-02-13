@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
+
 import MainPage from '../../pages/main-page/main-page';
 import PublicRoute from '../public-route/public-route';
 import PrivateRoute from '../private-route/private-route';
 import LoginPage from '../../pages/login-page/login-page';
-import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import Spinner from '../spinner/spinner';
@@ -36,10 +36,6 @@ function App(): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage />}
-          />
-          <Route
-            path={AppRoute.Login}
             element={
               <PublicRoute>
                 <LoginPage />
@@ -47,17 +43,15 @@ function App(): JSX.Element {
             }
           />
           <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute>
-                <FavoritesPage />
-              </PrivateRoute>
-            }
+            path={AppRoute.Catalog}
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Offer}
             element={
-              <OfferPage />
+              <PrivateRoute>
+                <OfferPage />
+              </PrivateRoute>
             }
           />
           <Route

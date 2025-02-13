@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
 import { getFavoriteOffersCount } from '../../utils/offer';
@@ -43,7 +44,7 @@ function Header({ favoriteOfferCount, isHiddenUserInfo }: HeaderProps): JSX.Elem
                     {
                       (isAuthUser)
                         ?
-                        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Main}>
                           <div className="header__avatar-wrapper user__avatar-wrapper" style={{ backgroundImage: `url(${user.avatarUrl})` }}>
                           </div>
                           <span className="header__user-name user__name">{user.email}</span>

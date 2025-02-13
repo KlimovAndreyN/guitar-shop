@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 module.exports = {
-  project: { tsconfigRootDir: __dirname }, /* Parsing error: Cannot read file '....guitar-shop/tsconfig.json'.eslint */
+  //project: { tsconfigRootDir: __dirname }, /* Parsing error: Cannot read file '....guitar-shop/tsconfig.json'.eslint */
   env: { browser: true, es2022: true },
   extends: [
     'eslint:recommended',

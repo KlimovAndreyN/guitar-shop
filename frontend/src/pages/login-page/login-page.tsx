@@ -1,14 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import LoginFrom from '../../components/login-form/login-form';
-import { CityName } from '../../types';
-import { getRandomArrayElement } from '../../utils/common';
-import { CITIES_NAMES, PageTitle } from '../../const';
+import { PageTitle } from '../../const';
 import CityLink from '../../components/city-link/city-link';
 
 function LoginPage(): JSX.Element {
-  const randomCityName = getRandomArrayElement<CityName>([...CITIES_NAMES]);
-
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -24,7 +20,7 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <CityLink cityName={randomCityName} />
+              <CityLink cityName={'Amsterdam'} />
             </div>
           </section>
         </div>

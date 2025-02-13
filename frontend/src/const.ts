@@ -2,12 +2,15 @@ import { CityName } from './types';
 import { DetailOffer } from './types/offer';
 
 enum PageTitle {
-  Root = '6 cities',
-  Favorites = `${Root}: favorites`,
-  EmptyFavorites = `${Favorites} empty`,
-  Login = `${Root}: authorization`,
-  NotFound = `${Root}: 404`,
-  Offer = `${Root}: offer`
+  Root = 'Guitar-shop',
+  Registration = `Регистрация — ${Root}`,
+  Login = `Авторизация — ${Root}`,
+  Catalog = `Просмотр товаров — ${Root}`,
+  Product = `Товар — ${Root}`,
+  AddProduct = `Добавление товара — ${Root}`,
+  EditProduct = `Редактирование товара — ${Root}`,
+  Offer = `Товар — ${Root}`, //!
+  NotFound = `404 — ${Root}`
 }
 
 const APIService = {
@@ -38,8 +41,8 @@ const OFFER_BASE_ROUTE = '/offer/';
 
 enum AppRoute {
   Main = '/',
-  Login = '/login',
-  Favorites = '/favorites',
+  Login = Main,
+  Catalog = '/catalog',
   Offer = `${OFFER_BASE_ROUTE}:id`
 }
 

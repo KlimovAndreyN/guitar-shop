@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+
 import {
   changeActiveOfferId, changeCityName, changeDetailOffer, changeOfferSortingType,
   loadDetailOffer, loadFavoriteOffers, loadOfferNearOffers, loadOfferReview,

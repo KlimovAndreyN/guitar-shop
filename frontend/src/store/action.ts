@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+
 import { CityName, UserData } from '../types';
 import { DetailOffer, Offers, OfferId } from '../types/offer';
 import { Review, Reviews } from '../types/review';
