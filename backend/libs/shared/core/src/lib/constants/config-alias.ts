@@ -82,5 +82,5 @@ export enum ConfigAlias {
   CatalogServiceUrlEnv = `CATALOG_${ServiceUrlEnv}`,
   FileStorageServiceUrlEnv = `FILE_STORAGE_${ServiceUrlEnv}`,
   //...
-  FrontendLoginUrlEnv = `FRONTEND_LOGIN_URL`
+  FrontendUrlEnv = `FRONTEND_URL`
 }

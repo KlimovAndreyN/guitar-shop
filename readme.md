@@ -44,6 +44,9 @@ npx nx run api:serve
 # перейти в папку с проектом
 cd ~/guitar-shop/frontend
 
+# Скопировать .env-example -> .env:
+cp ./.env-example .env
+
 # установить зависимости
 npm install
 

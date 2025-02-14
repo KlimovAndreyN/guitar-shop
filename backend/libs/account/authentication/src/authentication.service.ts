@@ -52,7 +52,7 @@ export class AuthenticationService {
 
     await userEntity.setPassword(password);
     await this.shopUserRepository.save(userEntity);
-    await this.mailService.sendNotifyRegiteredUser(this.applicationOptions.frontendLoginUrl, name, email, password);
+    await this.mailService.sendNotifyRegiteredUser(this.applicationOptions.frontendUrl, name, email, password);
 
     return userEntity;
   }
