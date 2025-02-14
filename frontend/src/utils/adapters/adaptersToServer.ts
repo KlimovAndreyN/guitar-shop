@@ -1,6 +1,6 @@
 import { NewOffer } from '../../types/types';
 import { CreateOfferDto } from '../../dto/offer/create-offer.dto';
-import { getTime } from '../utils';
+import { getTime } from '../common';
 
 export const adaptCreateOfferToServer =
   (offer: NewOffer): CreateOfferDto => {

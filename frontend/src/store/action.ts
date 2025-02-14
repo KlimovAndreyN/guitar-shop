@@ -3,11 +3,12 @@ import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
-import { Token } from '../utils';
+import { TokenStore } from '../utils/token-store';
 import { DetailOfferDto } from '../dto/offer/detail-offer.dto';
 import { ReviewDto } from '../dto/reviews/review.dto';
 import { adaptDetailOfferToClient, adaptReviewsToClient, adaptReviewToClient } from '../utils/adapters/adaptersToClient';
 import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
+import { Token } from '../utils/backend';
 
 type Extra = {
   api: AxiosInstance;
@@ -129,7 +130,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { 
       const axiosError = error as AxiosError;
 
       if (axiosError.response?.status === HttpCode.NoAuth) {
-        Token.drop();
+        TokenStore.drop();
       }
 
       return Promise.reject(error);
@@ -140,10 +141,10 @@ export const loginUser = createAsyncThunk<UserAuth['email'], UserAuth, { extra: 
   Action.LOGIN_USER,
   async ({ email: login, password }, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<User & { accessToken: string }>(ApiRoute.Login, { login, password });
+    const { data } = await api.post<User & Token>(ApiRoute.Login, { login, password });
     const { accessToken } = data;
 
-    Token.save(accessToken);
+    TokenStore.save(accessToken);
     //!history.push(AppRoute.Root);
     history.push('main');
 
@@ -156,7 +157,7 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
     const { api } = extra;
     await api.delete(ApiRoute.Logout);
 
-    Token.drop();
+    TokenStore.drop();
   });
 
 export const registerUser = createAsyncThunk<void, UserRegister, { extra: Extra }>(

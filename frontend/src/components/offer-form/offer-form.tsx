@@ -5,7 +5,7 @@ import { City, NewOffer, Offer } from '../../types/types';
 
 import LocationPicker from '../location-picker/location-picker';
 import { CITIES, CityLocation, GOODS, TYPES } from '../../const';
-import { capitalize } from '../../utils';
+import { capitalize } from '../../utils/common';
 
 enum FormFieldName {
   title = 'title',
@@ -183,7 +183,7 @@ const OfferForm = <T extends Offer | NewOffer>({
         {images.map((image, index) => (
           <div key={image} className="form__input-wrapper">
             <label htmlFor={`image=${index}`} className="offer-form__label">
-          Offer Image #{index + 1}
+              Offer Image #{index + 1}
             </label>
             <input
               className="form__input offer-form__text-input"

@@ -13,7 +13,7 @@ import {
   deleteOffer,
 } from '../../store/action';
 import Spinner from '../../components/spinner/spinner';
-import { capitalize, getStarsWidth, pluralize } from '../../utils';
+import { capitalize, getStarsWidth, pluralize } from '../../utils/common';
 import { NewComment } from '../../types/types';
 import { getIsAuthorized } from '../../store/user-process/selectors';
 import {
@@ -177,9 +177,8 @@ const Property = (): JSX.Element | null => {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div
-                    className={`property__avatar-wrapper${
-                      isPro ? ' property__avatar-wrapper--pro' : ''
-                    } user__avatar-wrapper`}
+                    className={`property__avatar-wrapper${isPro ? ' property__avatar-wrapper--pro' : ''
+                      } user__avatar-wrapper`}
                   >
                     <img
                       className="property__avatar user__avatar"

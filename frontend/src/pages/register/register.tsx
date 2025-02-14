@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import type { CityName, UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
-import { getRandomElement } from '../../utils';
+import { getRandomElement } from '../../utils/common';
 import { AppRoute, CITIES, UserType } from '../../const';
 import { setCity } from '../../store/site-process/site-process';
 
@@ -107,14 +107,14 @@ const Register = (): JSX.Element => {
                 id="isPro"
               />
               <label htmlFor="isPro" className="register-form__is-pro-label">
-          Create pro account
+                Create pro account
               </label>
             </div>
             <button
               className="login__submit form__submit button"
               type="submit"
             >
-                Sign up
+              Sign up
             </button>
           </form>
         </section>

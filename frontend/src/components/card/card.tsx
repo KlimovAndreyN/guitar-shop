@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import type { Offer } from '../../types/types';
 import { AppRoute } from '../../const';
-import { capitalize, getStarsWidth } from '../../utils';
+import { capitalize, getStarsWidth } from '../../utils/common';
 import Bookmark from '../bookmark/bookmark';
 
 type CardProps = Offer & {

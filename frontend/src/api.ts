@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
-import { Token } from './utils';
+import { TokenStore } from './utils/token-store';
 
 const BACKEND_URL = 'http://localhost:3000/api';
 const REQUEST_TIMEOUT = 5000;
@@ -14,7 +14,7 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const token = Token.get();
+      const token = TokenStore.get();
 
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
