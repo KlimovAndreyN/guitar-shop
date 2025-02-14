@@ -122,7 +122,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { 
     const { api } = extra;
 
     try {
-      const { data } = await api.get<User>(ApiRoute.Login);
+      const { data } = await api.get<User>(ApiRoute.Check);
 
       return data.email;
     } catch (error) {
