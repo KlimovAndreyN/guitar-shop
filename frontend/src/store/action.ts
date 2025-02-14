@@ -1,7 +1,7 @@
 import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
+import type { UserAuth, User, Offer, Comment, CommentAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { TokenStore } from '../utils/token-store';
 import { DetailOfferDto } from '../dto/offer/detail-offer.dto';
@@ -38,15 +38,6 @@ export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }
   async (_, { extra }) => {
     const { api } = extra;
     const { data } = await api.get<Offer[]>(ApiRoute.Offers);
-
-    return data;
-  });
-
-export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
-  Action.FETCH_FAVORITE_OFFERS,
-  async (_, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<Offer[]>(ApiRoute.Favorite);
 
     return data;
   });
@@ -189,51 +180,3 @@ export const postComment = createAsyncThunk<Comment, CommentAuth, { extra: Extra
 
     return adaptReviewToClient(data);
   });
-
-export const postFavorite = createAsyncThunk<
-  Offer,
-  FavoriteAuth,
-  { extra: Extra }
->(Action.POST_FAVORITE, async (id, { extra }) => {
-  const { api, history } = extra;
-
-  try {
-    const { data } = await api.post<Offer>(
-      `${ApiRoute.Favorite}/${id}`
-    );
-
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response?.status === HttpCode.NoAuth) {
-      history.push(AppRoute.Login);
-    }
-
-    return Promise.reject(error);
-  }
-});
-
-export const deleteFavorite = createAsyncThunk<
-  Offer,
-  FavoriteAuth,
-  { extra: Extra }
->(Action.DELETE_FAVORITE, async (id, { extra }) => {
-  const { api, history } = extra;
-
-  try {
-    const { data } = await api.delete<Offer>(
-      `${ApiRoute.Favorite}/${id}`
-    );
-
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response?.status === HttpCode.NoAuth) {
-      history.push(AppRoute.Login);
-    }
-
-    return Promise.reject(error);
-  }
-});

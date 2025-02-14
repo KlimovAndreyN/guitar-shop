@@ -7,7 +7,6 @@ import Footer from '../footer/footer';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
-import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import AddOffer from '../../pages/add-offer/add-offer';
 import EditOffer from '../../pages/edit-offer/edit-offer';
@@ -37,14 +36,6 @@ const App = (): JSX.Element => (
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
               <AddOffer />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
-              <Favorites />
             </PrivateRoute>
           }
         />

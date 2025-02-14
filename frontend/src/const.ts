@@ -47,7 +47,6 @@ export enum AppRoute {
   Root = '/',
   Login = Root,
   Register = '/register',
-  Favorites = '/favorites',
   Property = '/offer',
   Add = '/add',
   Edit = '/edit',
@@ -62,7 +61,6 @@ export enum ApiRoute {
   Register = '/users',
   Avatar = '/users/:id/avatar',
   Comments = '/reviews',
-  Favorite = '/favorites',
   Premium = '/offers?isPremium=true',
 }
 

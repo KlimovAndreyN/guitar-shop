@@ -18,5 +18,8 @@
     setCity
     CityName
     six-cities
+    Favorite
+    Favorites
+    favorites
 
 --

@@ -1,24 +1,28 @@
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
+//import classNames from 'classnames';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutUser } from '../../store/action';
-import { AppRoute, AuthorizationStatus } from '../../const';
+//import { useAppDispatch, useAppSelector } from '../../hooks';
+//import { logoutUser } from '../../store/action';
+import { AppRoute/*, AuthorizationStatus*/ } from '../../const';
 
+/*
 type HeaderProps = {
   isHiddenUserInfo?: boolean;
 }
+*/
 
-function Header({ isHiddenUserInfo }: HeaderProps): JSX.Element {
+function Header(/*{ isHiddenUserInfo }: HeaderProps*/): JSX.Element {
   //!const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   //!const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  //const dispatch = useAppDispatch();
   //!const isAuthUser = authorizationStatus === AuthorizationStatus.Auth;
-  const logoLinkClassName = classNames('header__logo-link', { 'header__logo-link--active': !isHiddenUserInfo });
+  //const logoLinkClassName = classNames('header__logo-link', { 'header__logo-link--active': !isHiddenUserInfo });
 
-  const handleSignOutClick = () => {
-    dispatch(logoutUser());
-  };
+  /*
+    const handleSignOutClick = () => {
+      dispatch(logoutUser());
+    };
+  */
 
   return (
     <header className="header" id="header">
@@ -134,7 +138,6 @@ const Header = () => {
     [AppRoute.Root]: 'page--gray page--main',
     [AppRoute.Login]: 'page--gray page--login',
     [AppRoute.Register]: 'page--gray page--login',
-    [AppRoute.Favorites]: favoriteOffers.length === 0 ? 'page--favorites-empty' : '',
     [AppRoute.Property]: '',
     [AppRoute.Add]: '',
     [AppRoute.Edit]: '',
@@ -167,10 +170,6 @@ const Header = () => {
                       </Link>
                     </li>
                     <li className="header__nav-item user">
-                      <Link
-                        className="header__nav-link header__nav-link--profile"
-                        to={AppRoute.Favorites}
-                      >
                         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                         <span className="header__user-name user__name">
                           {user}
