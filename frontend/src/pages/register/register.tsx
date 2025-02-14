@@ -1,129 +1,52 @@
-import type { FormEvent, MouseEvent, ChangeEvent } from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import type { FormEvent } from 'react';
 
-import type { CityName, UserRegister } from '../../types/types';
+import type { UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
-import { getRandomElement } from '../../utils/common';
-import { AppRoute, CITIES, UserType } from '../../const';
-import { setCity } from '../../store/site-process/site-process';
 
 const Register = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [avatar, setAvatar] = useState<File | undefined>();
 
-  const handleAvatarUpload = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (!evt.target.files) {
-      return;
-    }
-    setAvatar(evt.target.files[0]);
-  };
-
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
 
     const formData = new FormData(form) as Iterable<[UserRegister]>;
     const data = Object.fromEntries(formData);
 
-    data.type = data.isPro ? UserType.Pro : UserType.Regular;
-    delete data.isPro;
     dispatch(registerUser(data));
   };
 
-  const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    const cityName = e.currentTarget.textContent as CityName;
-    dispatch(setCity(cityName));
-  };
-
   return (
-    <main className="page__main page__main--login">
-      <div className="page__login-container container">
+    <main className="page-content">
+      <div className="container">
         <section className="login">
-          <h1 className="login__title">Sign up</h1>
-          <form className="login__form form register-form" action="#" method="post" onSubmit={handleFormSubmit}>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">Name</label>
-              <input
-                className="login__input form__input"
-                type="text"
-                name="name"
-                placeholder="Name"
-                required
-                minLength={1}
-                maxLength={15}
-              />
+          <h1 className="login__title">Регистрация</h1>
+          <form method="post" action="/" onSubmit={handleFormSubmit}>
+            <div className="input-login">
+              <label htmlFor="name">Введите имя</label>
+              <input type="text" id="name" name="name" autoComplete="off" required />
+              <p className="input-login__error">Заполните поле</p>
             </div>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">E-mail</label>
-              <input
-                className="login__input form__input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
+            <div className="input-login">
+              <label htmlFor="email">Введите e-mail</label>
+              <input type="email" id="email" name="email" autoComplete="off" required />
+              <p className="input-login__error">Заполните поле</p>
             </div>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">Password</label>
-              <input
-                className="login__input form__input"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                minLength={6}
-                maxLength={12}
-              />
+            <div className="input-login">
+              <label htmlFor="password">Придумайте пароль</label>
+              <span>
+                <input type="password" placeholder="• • • • • • • • • • • •" id="password" name="password" autoComplete="off" required />
+                <button className="input-login__button-eye" type="button">
+                  <svg width="14" height="8" aria-hidden="true">
+                    <use xlinkHref="#icon-eye"></use>
+                  </svg>
+                </button>
+              </span>
+              <p className="input-login__error">Заполните поле</p>
             </div>
-            <div
-              className="login__input-wrapper form__input-wrapper register-form__avatar-wrapper"
-            >
-              <input
-                className="visually-hidden"
-                type="file"
-                name="avatar"
-                id="avatar"
-                accept="image/png, image/jpeg"
-                onChange={handleAvatarUpload}
-              />
-              <label htmlFor="avatar" className="register-form__avatar-label">
-                {avatar ? (
-                  <img
-                    src={URL.createObjectURL(avatar)}
-                    alt="Avatar preview"
-                    className="register-form__avatar-preview"
-                  />
-                ) : (
-                  'Upload avatar'
-                )}
-              </label>
-            </div>
-            <div className="register-form__is-pro-wrapper">
-              <input
-                type="checkbox"
-                name="isPro"
-                id="isPro"
-              />
-              <label htmlFor="isPro" className="register-form__is-pro-label">
-                Create pro account
-              </label>
-            </div>
-            <button
-              className="login__submit form__submit button"
-              type="submit"
-            >
-              Sign up
-            </button>
+            <button className="button login__button button--medium" type="submit">Зарегистрироваться</button>
           </form>
-        </section>
-        <section className="locations locations--login locations--current">
-          <div className="locations__item">
-            <Link className="locations__item-link" onClick={handleLinkClick} to={AppRoute.Root}>
-              <span>{getRandomElement<CityName>(CITIES)}</span>
-            </Link>
-          </div>
         </section>
       </div>
     </main>

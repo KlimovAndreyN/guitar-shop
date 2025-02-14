@@ -152,21 +152,17 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
 
 export const registerUser = createAsyncThunk<void, UserRegister, { extra: Extra }>(
   Action.REGISTER_USER,
-  async ({ email, password, name, avatar, type }, { extra }) => {
+  async ({ email, password, name }, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<{ id: string }>(ApiRoute.Register, {
-      email,
-      password,
-      name,
-      type,
-    });
-    if (avatar) {
-      const payload = new FormData();
-      payload.append('avatar', avatar);
-      await api.post(`${ApiRoute.Avatar.replace(':id', data.id)}`, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    }
+    await api.post<{ id: string }>(
+      ApiRoute.Register,
+      {
+        email,
+        password,
+        name
+      }
+    );
+
     history.push(AppRoute.Root);
   });
 
