@@ -2,8 +2,8 @@ import { MAX_PERCENT_STARS_WIDTH, STARS_COUNT } from './const';
 
 export const formatDate = (date: string) => new Intl.DateTimeFormat(
   'en-US',
-  {'month':'long','year':'numeric'}
-).format( new Date(date) );
+  { 'month': 'long', 'year': 'numeric' }
+).format(new Date(date));
 
 export const getStarsWidth = (rating: number) =>
   `${(MAX_PERCENT_STARS_WIDTH * Math.round(rating)) / STARS_COUNT}%`;
@@ -13,7 +13,7 @@ export const pluralize = (str: string, count: number) => count === 1 ? str : `${
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export class Token {
-  private static _name = 'six-cities-auth-token';
+  private static _name = 'guitar-shop-auth-token';
 
   static get() {
     const token = localStorage.getItem(this._name);

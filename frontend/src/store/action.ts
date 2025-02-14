@@ -138,15 +138,16 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { 
 
 export const loginUser = createAsyncThunk<UserAuth['email'], UserAuth, { extra: Extra }>(
   Action.LOGIN_USER,
-  async ({ email, password }, { extra }) => {
+  async ({ email: login, password }, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<User & { token: string }>(ApiRoute.Login, { email, password });
-    const { token } = data;
+    const { data } = await api.post<User & { accessToken: string }>(ApiRoute.Login, { login, password });
+    const { accessToken } = data;
 
-    Token.save(token);
-    history.push(AppRoute.Root);
+    Token.save(accessToken);
+    //!history.push(AppRoute.Root);
+    history.push('main');
 
-    return email;
+    return login;
   });
 
 export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
