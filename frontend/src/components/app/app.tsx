@@ -22,7 +22,7 @@ const App = (): JSX.Element => (
       <Header />
       <Routes>
         <Route index element={<Login />} />
-        <Route path={'namin'} element={<Main />} />
+        <Route path={'main'/* //! */} element={<Main />} />
         <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
         <Route
           path={`${AppRoute.Property}/:id${AppRoute.Edit}`}
