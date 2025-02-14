@@ -118,7 +118,7 @@ const Property = (): JSX.Element | null => {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <Bookmark id={id} isActive={isFavorite} place="property" />
+                <Bookmark isActive={isFavorite} place="property" />
               </div>
               {isAuthor && (
                 <div className="property__controls">

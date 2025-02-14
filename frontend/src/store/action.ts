@@ -136,8 +136,7 @@ export const loginUser = createAsyncThunk<UserAuth['email'], UserAuth, { extra: 
     const { accessToken } = data;
 
     TokenStore.save(accessToken);
-    //!history.push(AppRoute.Root);
-    history.push('main');
+    history.push(AppRoute.Catalog);
 
     return login;
   });
@@ -168,7 +167,7 @@ export const registerUser = createAsyncThunk<void, UserRegister, { extra: Extra 
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     }
-    history.push(AppRoute.Login);
+    history.push(AppRoute.Root);
   });
 
 

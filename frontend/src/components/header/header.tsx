@@ -42,7 +42,7 @@ function Header(/*{ isHiddenUserInfo }: HeaderProps*/): JSX.Element {
             </ul>
           </nav>
           <div className="header__container"><span className="header__user-name">Имя</span>
-            <Link className="header__link" to={AppRoute.Login} aria-label="Перейти в личный кабинет">
+            <Link className="header__link" to={AppRoute.Root} aria-label="Перейти в личный кабинет">
               <svg className="header__link-icon" width="12" height="14" aria-hidden="true">
                 <use xlinkHref="#icon-account"></use>
               </svg><span className="header__link-text">Вход</span>

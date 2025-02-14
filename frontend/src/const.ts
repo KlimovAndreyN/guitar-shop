@@ -45,8 +45,8 @@ export const PageTitle = {
 
 export enum AppRoute {
   Root = '/',
-  Login = Root,
   Register = '/register',
+  Catalog = '/catalog',
   Property = '/offer',
   Add = '/add',
   Edit = '/edit',

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
-import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postFavorite, deleteFavorite, fetchFavoriteOffers, postOffer, editOffer } from '../action';
+import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postOffer, editOffer } from '../action';
 
 const initialState: SiteData = {
   offers: [],
@@ -31,16 +31,6 @@ export const siteData = createSlice({
       })
       .addCase(fetchOffers.rejected, (state) => {
         state.isOffersLoading = false;
-      })
-      .addCase(fetchFavoriteOffers.pending, (state) => {
-        state.isFavoriteOffersLoading = true;
-      })
-      .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
-        state.favoriteOffers = action.payload;
-        state.isFavoriteOffersLoading = false;
-      })
-      .addCase(fetchFavoriteOffers.rejected, (state) => {
-        state.isFavoriteOffersLoading = false;
       })
       .addCase(fetchOffer.pending, (state) => {
         state.isOfferLoading = true;
@@ -76,26 +66,6 @@ export const siteData = createSlice({
       })
       .addCase(postComment.rejected, (state) => {
         state.commentStatus = SubmitStatus.Rejected;
-      })
-      .addCase(postFavorite.fulfilled, (state, action) => {
-        const updatedOffer = action.payload;
-        state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.premiumOffers = state.premiumOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.favoriteOffers = state.favoriteOffers.concat(updatedOffer);
-
-        if (state.offer && state.offer.id === updatedOffer.id) {
-          state.offer = updatedOffer;
-        }
-      })
-      .addCase(deleteFavorite.fulfilled, (state, action) => {
-        const updatedOffer = action.payload;
-        state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.premiumOffers = state.premiumOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.favoriteOffers = state.favoriteOffers.filter((favoriteOffer) => favoriteOffer.id !== updatedOffer.id);
-
-        if (state.offer && state.offer.id === updatedOffer.id) {
-          state.offer = updatedOffer;
-        }
       });
   }
 });

@@ -20,29 +20,10 @@ const App = (): JSX.Element => (
     <HistoryRouter history={history}>
       <Header />
       <Routes>
-        <Route index element={<Login />} />
-        <Route path={'main'/* //! */} element={<Main />} />
-        <Route path={`${AppRoute.Property}/:id`} element={<Property />} />
         <Route
-          path={`${AppRoute.Property}/:id${AppRoute.Edit}`}
+          path={AppRoute.Root}
           element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
-              <EditOffer />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Add}
-          element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
-              <AddOffer />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.Auth} redirectTo={AppRoute.Root}>
+            <PrivateRoute restrictedFor={AuthorizationStatus.Auth} redirectTo={AppRoute.Catalog}>
               <Login />
             </PrivateRoute>
           }
@@ -50,8 +31,40 @@ const App = (): JSX.Element => (
         <Route
           path={AppRoute.Register}
           element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.Auth} redirectTo={AppRoute.Root}>
+            <PrivateRoute restrictedFor={AuthorizationStatus.Auth} redirectTo={AppRoute.Catalog}>
               <Register />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Catalog}
+          element={
+            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
+              <Main />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Property}/:id`}
+          element={
+            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
+              <Property />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Property}/:id${AppRoute.Edit}`}
+          element={
+            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
+              <EditOffer />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Add}
+          element={
+            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
+              <AddOffer />
             </PrivateRoute>
           }
         />
