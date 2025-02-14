@@ -20,7 +20,7 @@ export class CheckAuthGuard implements CanActivate {
     const url = `${this.apiOptions.accountServiceUrl}/check`;
     const requestId = request[RequestProperty.RequestId];
     const authorization = request.headers[AUTH_NAME]
-    const { data } = await this.httpService.axiosRef.post<TokenPayloadRdo>(url, {}, makeHeaders(requestId, authorization));
+    const { data } = await this.httpService.axiosRef.get<TokenPayloadRdo>(url, makeHeaders(requestId, authorization));
     const userId = data.sub;
 
     request[RequestProperty.User] = data; // для UsersController.checkToken

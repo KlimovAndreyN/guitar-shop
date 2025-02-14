@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BearerAuth, RequestWithBearerAuth, RequestWithTokenPayload, RouteAlias, UserRdo, ApiOperationOption } from '@backend/shared/core';
@@ -61,7 +61,7 @@ export class AuthenticationController {
   @ApiBearerAuth(BearerAuth.AccessToken)
   @HttpCode(AuthenticationApiResponse.CheckSuccess.status)
   @UseGuards(JwtAuthGuard)
-  @Post(RouteAlias.Check)
+  @Get(RouteAlias.Check)
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload): Promise<TokenPayloadRdo> {
     return fillDto(TokenPayloadRdo, payload);
   }

@@ -19,6 +19,7 @@ async function bootstrap() {
   const apiOption = app.get<ApiConfig>(apiConfig.KEY);
   const { port, accountServiceUrl, blogPostServiceUrl, fileStorageServiceUrl } = apiOption;
 
+  app.enableCors();
   app.setGlobalPrefix(PrefixOption.Global);
 
   //Swagger
