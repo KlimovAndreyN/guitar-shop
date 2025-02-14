@@ -26,5 +26,5 @@
     favorites
     Bookmark
     UserType
-    
+    avatarUrl
 --

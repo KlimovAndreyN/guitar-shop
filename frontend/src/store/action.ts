@@ -108,7 +108,7 @@ export const fetchComments = createAsyncThunk<Comment[], Offer['id'], { extra: E
     return adaptReviewsToClient(data);
   });
 
-export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { extra: Extra }>(
+export const fetchUserStatus = createAsyncThunk<UserAuth['name'], undefined, { extra: Extra }>(
   Action.FETCH_USER_STATUS,
   async (_, { extra }) => {
     const { api } = extra;
@@ -116,7 +116,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { 
     try {
       const { data } = await api.get<User>(ApiRoute.Check);
 
-      return data.email;
+      return data.name;
     } catch (error) {
       const axiosError = error as AxiosError;
 
@@ -143,10 +143,7 @@ export const loginUser = createAsyncThunk<UserAuth['email'], UserAuth, { extra: 
 
 export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
   Action.LOGOUT_USER,
-  async (_, { extra }) => {
-    const { api } = extra;
-    await api.delete(ApiRoute.Logout);
-
+  async () => {
     TokenStore.drop();
   });
 

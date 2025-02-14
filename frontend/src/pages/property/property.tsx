@@ -23,7 +23,7 @@ import {
   selectComments,
   getCommentStatus,
 } from '../../store/site-data/selectors';
-import { getUser } from '../../store/user-process/selectors';
+import { getUserName } from '../../store/user-process/selectors';
 import Bookmark from '../../components/bookmark/bookmark';
 import { AppRoute, UserType } from '../../const';
 
@@ -32,7 +32,7 @@ const Property = (): JSX.Element | null => {
   const dispatch = useAppDispatch();
   const isAuthorized = useAppSelector(getIsAuthorized);
   const isOfferLoading = useAppSelector(getIsOfferLoading);
-  const user = useAppSelector(getUser);
+  const userName = useAppSelector(getUserName);
   const offer = useAppSelector(getOffer);
   const premiumOffers = useAppSelector(getPremiumOffers);
   const comments = useAppSelector(selectComments);
@@ -77,7 +77,7 @@ const Property = (): JSX.Element | null => {
     city,
     location,
   } = offer;
-  const isAuthor = host.email === user;
+  const isAuthor = host.email === userName;
   const isPro = host.type === UserType.Pro;
 
   const locations = premiumOffers.map(
