@@ -30,9 +30,22 @@ export const MAX_COMMENTS = 10;
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
 
+export const MAIN_TITLE = 'Guitar-shop';
+
+export const PageTitle = {
+  Root: MAIN_TITLE,
+  Registration: `Регистрация — ${MAIN_TITLE}`,
+  Login: `Авторизация — ${MAIN_TITLE}`,
+  Catalog: `Просмотр товаров — ${MAIN_TITLE}`,
+  Product: `Товар — ${MAIN_TITLE}`,
+  AddProduct: `Добавление товара — ${MAIN_TITLE}`,
+  EditProduct: `Редактирование товара — ${MAIN_TITLE}`,
+  NotFound: `404 — ${MAIN_TITLE}`
+} as const;
+
 export enum AppRoute {
   Root = '/',
-  Login = '/login',
+  Login = Root,
   Register = '/register',
   Favorites = '/favorites',
   Property = '/offer',
