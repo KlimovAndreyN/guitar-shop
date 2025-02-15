@@ -4,8 +4,8 @@ import { HttpService } from '@nestjs/axios';
 import { join } from 'path/posix';
 
 import {
-  RouteAlias, ApiOperationOption, ProductsWithPaginationRdo, RequestWithRequestId,
-  BearerAuth, ApiParamOption, PRODUCT_ID_PARAM, DetailProductRdo, RequestWithRequestIdAndUserId
+  RouteAlias, ApiOperationOption, ProductsWithPaginationRdo, DetailProductRdo,
+  BearerAuth, ApiParamOption, PRODUCT_ID_PARAM, RequestWithRequestIdAndUserId
 } from '@backend/shared/core';
 import { makeHeaders } from '@backend/shared/helpers';
 import { GuidValidationPipe } from '@backend/shared/pipes';
@@ -30,15 +30,14 @@ export class CatalogController {
   @ApiResponse(ProductApiResponse.ProductFound)
   @ApiResponse(ProductApiResponse.Unauthorized)
   @ApiResponse(ProductApiResponse.BadRequest) //! проверять фильтрацию? что в ТЗ?
+  @UseGuards(CheckAuthGuard)
   @Get('')
   public async index(
     @Query() query: ProductQuery,
-    @Req() { requestId }: RequestWithRequestId
+    @Req() { requestId, userId }: RequestWithRequestIdAndUserId
   ): Promise<ProductsWithPaginationRdo> {
     const url = this.catalogService.getProductsUrl('', query);
-    console.log('url', url);
-
-    const headers = makeHeaders(requestId);
+    const headers = makeHeaders(requestId, null, userId);
     const { data } = await this.httpService.axiosRef.get<ProductsWithPaginationRdo>(url, headers);
 
     return data;
