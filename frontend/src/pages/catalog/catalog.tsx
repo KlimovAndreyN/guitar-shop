@@ -4,16 +4,11 @@ import ProductList from '../../components/product-list/product-list';
 import { PageTitle } from '../../const';
 
 const Catalog = (): JSX.Element => (
-    <main className="page__main page__main--index">
+    <main className="page-content">
         <Helmet>
-            <title>{PageTitle.Registration}</title>
+            <title>{PageTitle.Catalog}</title>
         </Helmet>
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-            <section className="locations container">
-                <ProductList />
-            </section>
-        </div>
+        <ProductList />
     </main>
 );
 
