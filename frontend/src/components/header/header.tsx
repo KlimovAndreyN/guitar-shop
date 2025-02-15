@@ -11,6 +11,7 @@ function Header(): JSX.Element {
   const isAuthorized = useAppSelector(getIsAuthorized);
   const userName = useAppSelector(getUserName);
   const className = classNames('header', { 'header--admin': isAuthorized });
+
   const handleLogoutClick = () => {
     if (isAuthorized) {
       dispatch(logoutUser());

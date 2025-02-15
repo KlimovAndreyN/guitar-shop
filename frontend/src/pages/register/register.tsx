@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 
 import type { UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
+import useScrollToTop from '../../hooks/use-scroll-to-top';
 import { registerUser } from '../../store/action';
 
 const Register = (): JSX.Element => {
@@ -16,6 +17,8 @@ const Register = (): JSX.Element => {
 
     dispatch(registerUser(data));
   };
+
+  useScrollToTop();
 
   return (
     <main className="page-content">
