@@ -15,7 +15,7 @@ function Footer(): JSX.Element {
         <div className="footer__container">
           <div className="footer__logo-wrapper">
             <Link className="footer__logo logo" to={AppRoute.Root} onClick={handleLogoutClick}>
-              <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" />
+              <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" />
             </Link>
             <div className="socials footer__socials">
               <ul className="socials__list">
