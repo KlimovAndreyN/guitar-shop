@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
+import BreadcrumbList from '../../components/breadcrumb-list/breadcrumb-list';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import ProductList from '../../components/product-list/product-list';
@@ -21,7 +21,7 @@ const Catalog = (): JSX.Element => {
             <section className="product-list">
                 <div className="container">
                     <h1 className="product-list__title">Список товаров</h1>
-                    <Breadcrumbs />
+                    <BreadcrumbList />
                     <div className="catalog">
                         <CatalogFilter />
                         <CatalogSort />
