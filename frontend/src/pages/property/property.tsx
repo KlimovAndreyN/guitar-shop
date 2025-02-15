@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import ReviewList from '../../components/review-list/review-list';
-import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
@@ -74,7 +73,6 @@ const Property = (): JSX.Element | null => {
     goods,
     host,
     description,
-    city,
     location,
   } = offer;
   const isAuthor = host.email === userName;
@@ -205,12 +203,6 @@ const Property = (): JSX.Element | null => {
               />
             </div>
           </div>
-          <Map
-            city={city}
-            locations={locations}
-            activeOffer={id}
-            place="property"
-          />
         </section>
         <div className="container">
           <section className="near-places places">

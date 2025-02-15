@@ -1,11 +1,8 @@
 import type { SortName } from '../../types/types';
 
-import { useState } from 'react';
-
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSorting } from '../../store/site-process/site-process';
 import Card from '../card/card';
-import Map from '../map/map';
 import SortingList from '../sorting-list/sorting-list';
 import Spinner from '../spinner/spinner';
 import { getCity, getSorting } from '../../store/site-process/selectors';
@@ -18,17 +15,8 @@ const CardList = (): JSX.Element => {
   const activeCity = useAppSelector(getCity);
   const isOffersLoading = useAppSelector(getIsOffersLoading);
   const offers = useAppSelector(selectOffers);
-  const [activeOffer, setActiveOffer] = useState<string | null>(null);
 
   const isEmpty = offers.length === 0;
-
-  const handleCardMouseEnter = (id: string) => {
-    setActiveOffer(id);
-  };
-
-  const handleCardMouseLeave = () => {
-    setActiveOffer(null);
-  };
 
   const onSortingChange = (name: SortName) => {
     dispatch(setSorting(name));
@@ -50,15 +38,10 @@ const CardList = (): JSX.Element => {
               <Card
                 key={offer.id}
                 {...offer}
-                onMouseEnter={handleCardMouseEnter}
-                onMouseLeave={handleCardMouseLeave}
               />
             ))}
           </div>
         </section>)}
-      <div className="cities__right-section">
-        {!isEmpty && <Map locations={offers.map(({ id, location }) => ({ id, ...location }))} city={activeCity} activeOffer={activeOffer} />}
-      </div>
     </div>
   );
 };

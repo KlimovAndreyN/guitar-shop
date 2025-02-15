@@ -1,9 +1,8 @@
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Select from 'react-select';
 
 import { City, NewOffer, Offer } from '../../types/types';
 
-import LocationPicker from '../location-picker/location-picker';
 import { CITIES, CityLocation, GOODS, TYPES } from '../../const';
 import { capitalize } from '../../utils/common';
 
@@ -81,19 +80,10 @@ const OfferForm = <T extends Offer | NewOffer>({
     images
   } = offer;
   const [chosenLocation, setChosenLocation] = useState(location);
-  const [chosenCity, setChosenCity] = useState(city);
 
   const handleCityChange = (value: keyof typeof CityLocation) => {
-    setChosenCity(getCity(value));
     setChosenLocation(CityLocation[value]);
   };
-
-  const handleLocationChange = useCallback(
-    ({ lat, lng }: { lat: number; lng: number }) => {
-      setChosenLocation({ latitude: lat, longitude: lng });
-    },
-    []
-  );
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -298,11 +288,6 @@ const OfferForm = <T extends Offer | NewOffer>({
           }}
         />
       </div>
-      <LocationPicker
-        city={chosenCity}
-        onChange={handleLocationChange}
-        location={chosenLocation}
-      />
       <button className="form__submit button" type="submit">
         Save
       </button>

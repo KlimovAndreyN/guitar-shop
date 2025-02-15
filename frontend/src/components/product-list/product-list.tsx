@@ -4,7 +4,6 @@ import type { SortName } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSorting } from '../../store/site-process/site-process';
 import Card from '../card/card';
-import Map from '../map/map';
 import SortingList from '../sorting-list/sorting-list';
 import Spinner from '../spinner/spinner';
 import { getSorting } from '../../store/site-process/selectors';
