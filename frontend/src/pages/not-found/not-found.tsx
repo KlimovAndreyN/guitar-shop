@@ -1,5 +1,7 @@
+import { Helmet } from 'react-helmet-async';
+
 import history from '../../history';
-import { AppRoute } from '../../const';
+import { AppRoute, PageTitle } from '../../const';
 
 const NotFound = (): JSX.Element => {
     const navigateToMain = () => {
@@ -8,6 +10,9 @@ const NotFound = (): JSX.Element => {
 
     return (
         <main className="page-content">
+            <Helmet>
+                <title>{PageTitle.NotFound}</title>
+            </Helmet>
             <div className="container">
                 <section className="error">
                     <h1 className="error__title">404</h1><span className="error__subtitle">Страница не найдена.</span>

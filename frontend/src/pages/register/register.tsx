@@ -1,9 +1,11 @@
 import type { FormEvent } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import type { UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
 import { registerUser } from '../../store/action';
+import { PageTitle } from '../../const';
 
 const Register = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -22,6 +24,9 @@ const Register = (): JSX.Element => {
 
   return (
     <main className="page-content">
+      <Helmet>
+        <title>{PageTitle.Registration}</title>
+      </Helmet>
       <div className="container">
         <section className="login">
           <h1 className="login__title">Регистрация</h1>
