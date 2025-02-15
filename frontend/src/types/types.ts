@@ -7,6 +7,7 @@ export type User = {
   email: string;
 };
 
+//!
 export type NewOffer = {
   title: string;
   description: string;
