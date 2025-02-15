@@ -34,6 +34,17 @@ const Product = (): JSX.Element | null => {
     return null;
   }
 
+  const {
+    title,
+    //addedDate,
+    //imagePath,
+    //price,
+    //description,
+    guitarType,
+    article,
+    stringsCount
+  } = product;
+
   return (
     <main className="page-content">
       <Helmet>
@@ -45,7 +56,7 @@ const Product = (): JSX.Element | null => {
         <div className="product-container">
           <img className="product-container__img" src="/img/content/catalog-product-1.png" srcSet="/img/content/catalog-product-1@2x.png 2x" width="90" height="235" alt="" />
           <div className="product-container__info-wrapper">
-            <h2 className="product-container__title title title--big title--uppercase">СURT Z30 Plus</h2>
+            <h2 className="product-container__title title title--big title--uppercase">{title}</h2>
             <br />
             <br />
             <div className="tabs"><a className="button button--medium tabs__button" href="#characteristics">Характеристики</a><a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
@@ -54,15 +65,15 @@ const Product = (): JSX.Element | null => {
                   <tbody>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Артикул:</td>
-                      <td className="tabs__value">SO754565</td>
+                      <td className="tabs__value">{article}</td>
                     </tr>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Тип:</td>
-                      <td className="tabs__value">Электрогитара</td>
+                      <td className="tabs__value">{guitarType}</td>
                     </tr>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Количество струн:</td>
-                      <td className="tabs__value">6 струнная</td>
+                      <td className="tabs__value">{stringsCount} струнная</td>
                     </tr>
                   </tbody>
                 </table>
