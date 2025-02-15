@@ -2,13 +2,9 @@ import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { UserAuth, User, Offer, Comment, CommentAuth, UserRegister, NewOffer } from '../types/types';
+import type { UserAuth, User, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { TokenStore } from '../utils/token-store';
-import { DetailOfferDto } from '../dto/offer/detail-offer.dto';
-import { ReviewDto } from '../dto/reviews/review.dto';
-import { adaptDetailOfferToClient, adaptReviewsToClient, adaptReviewToClient } from '../utils/adapters/adaptersToClient';
-import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
 import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
 
 type Extra = {
@@ -16,21 +12,18 @@ type Extra = {
   history: History;
 };
 
+//! временно
+type Offer = {
+  id: string;
+};
+
 export const Action = {
   FETCH_PRODUCTS: 'products/fetch',
   FETCH_PRODUCT: 'product/fetch',
 
-  FETCH_OFFERS: 'offers/fetch',
-  FETCH_OFFER: 'offer/fetch',
   POST_OFFER: 'offer/post-offer',
   EDIT_OFFER: 'offer/edit-offer',
   DELETE_OFFER: 'offer/delete-offer',
-  FETCH_FAVORITE_OFFERS: 'offers/fetch-favorite',
-  FETCH_PREMIUM_OFFERS: 'offers/fetch-premium',
-  FETCH_COMMENTS: 'offer/fetch-comments',
-  POST_COMMENT: 'offer/post-comment',
-  POST_FAVORITE: 'offer/post-favorite',
-  DELETE_FAVORITE: 'offer/delete-favorite',
 
   LOGIN_USER: 'user/login',
   LOGOUT_USER: 'user/logout',
@@ -67,41 +60,12 @@ export const fetchProduct = createAsyncThunk<DetailProduct, DetailProduct['id'],
     }
   });
 
-export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
-  Action.FETCH_OFFERS,
-  async (_, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<Offer[]>(ApiRoute.Offers);
-
-    return data;
-  });
-
-export const fetchOffer = createAsyncThunk<Offer, Offer['id'], { extra: Extra }>(
-  Action.FETCH_OFFER,
-  async (id, { extra }) => {
-    const { api, history } = extra;
-
-    try {
-      const { data } = await api.get<DetailOfferDto>(`${ApiRoute.Offers}/${id}`);
-
-      return adaptDetailOfferToClient(data);
-    } catch (error) {
-      const axiosError = error as AxiosError;
-
-      if (axiosError.response?.status === HttpCode.NotFound) {
-        history.push(AppRoute.NotFound);
-      }
-
-      return Promise.reject(error);
-    }
-  });
-
 export const postOffer = createAsyncThunk<Offer, NewOffer, { extra: Extra }>(
   Action.POST_OFFER,
   async (newOffer, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<Offer>(ApiRoute.Offers, adaptCreateOfferToServer(newOffer));
-    history.push(`${AppRoute.Property}/${data.id}`);
+    const { data } = await api.post<Offer>(ApiRoute.Offers, newOffer);
+    history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;
   });
@@ -110,8 +74,8 @@ export const editOffer = createAsyncThunk<Offer, Offer, { extra: Extra }>(
   Action.EDIT_OFFER,
   async (offer, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.patch<Offer>(`${ApiRoute.Offers}/${offer.id}`, adaptCreateOfferToServer(offer));
-    history.push(`${AppRoute.Property}/${data.id}`);
+    const { data } = await api.patch<Offer>(`${ApiRoute.Offers}/${offer.id}`, offer);
+    history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;
   });
@@ -122,24 +86,6 @@ export const deleteOffer = createAsyncThunk<void, string, { extra: Extra }>(
     const { api, history } = extra;
     await api.delete(`${ApiRoute.Offers}/${id}`);
     history.push(AppRoute.Root);
-  });
-
-export const fetchPremiumOffers = createAsyncThunk<Offer[], string, { extra: Extra }>(
-  Action.FETCH_PREMIUM_OFFERS,
-  async (cityName, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<Offer[]>(`${ApiRoute.Premium}?city=${cityName}`);
-
-    return data;
-  });
-
-export const fetchComments = createAsyncThunk<Comment[], Offer['id'], { extra: Extra }>(
-  Action.FETCH_COMMENTS,
-  async (id, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<ReviewDto[]>(`${ApiRoute.Comments}/${id}`);
-
-    return adaptReviewsToClient(data);
   });
 
 export const fetchUserStatus = createAsyncThunk<UserAuth['name'], undefined, { extra: Extra }>(
@@ -195,14 +141,4 @@ export const registerUser = createAsyncThunk<void, UserRegister, { extra: Extra 
     );
 
     history.push(AppRoute.Root);
-  });
-
-
-export const postComment = createAsyncThunk<Comment, CommentAuth, { extra: Extra }>(
-  Action.POST_COMMENT,
-  async ({ id, comment, rating }, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.post<ReviewDto>(`${ApiRoute.Comments}/${id}`, { comment, rating });
-
-    return adaptReviewToClient(data);
   });

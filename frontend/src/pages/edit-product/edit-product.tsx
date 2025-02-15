@@ -1,3 +1,4 @@
+/*
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -7,8 +8,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { editOffer, fetchOffer } from '../../store/action';
 import { getIsOfferLoading, getOffer } from '../../store/site-data/selectors';
 import { Offer } from '../../types/types';
+*/
 
-const EditOffer = (): JSX.Element | null => {
+const EditProduct = (): JSX.Element | null => (
+  /*
+  {
   const params = useParams();
   const dispatch = useAppDispatch();
   const isOfferLoading = useAppSelector(getIsOfferLoading);
@@ -43,6 +47,10 @@ const EditOffer = (): JSX.Element | null => {
       </div>
     </main>
   );
+  */
+  <p>EditProduct</p>);
+/*
 };
+*/
 
-export default EditOffer;
+export default EditProduct;

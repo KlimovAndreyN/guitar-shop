@@ -18,29 +18,8 @@
   сделать хлебные крошки(breadcrumbs) при просмотре, добавлении и редактировании
   что делать с /*href="#characteristics"*/ и /*href="#description"*/ может есть вариант уравлять якорями?
   удалить:
-    CITIES
-    getRandomElement
-    setCity
-    CityName
-    six-cities
-    Favorite
-    Favorites
-    favorites
-    Bookmark
-    UserType
-    avatarUrl
-    getCity
+    capitalize
+    NewOffer
+    Offer
     offers
-    isOffersLoading
-    offer
-    isOfferLoading
-    city
-    City
-    CardList
-    CitiesList
-    TYPES
-    GOODS
-    property
-    Property
-    
 --

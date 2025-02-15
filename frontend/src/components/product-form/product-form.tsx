@@ -1,3 +1,4 @@
+/*
 import { FormEvent, useState } from 'react';
 import Select from 'react-select';
 
@@ -60,54 +61,56 @@ type OfferFormProps<T> = {
   offer: T;
   onSubmit: (offerData: T) => void;
 };
+*/
 
-const OfferForm = <T extends Offer | NewOffer>({
+const OfferForm = /*<T extends Offer | NewOffer>*/(/*{
   offer,
   onSubmit,
-}: OfferFormProps<T>): JSX.Element => {
-  const {
-    title,
-    description,
-    city,
-    previewImage,
-    isPremium,
-    type,
-    bedrooms,
-    maxAdults,
-    price,
-    goods: chosenGoods,
-    location,
-    images
-  } = offer;
-  const [chosenLocation, setChosenLocation] = useState(location);
+}: OfferFormProps<T>*/): JSX.Element => (
+  /*
+  {
+    const {
+      title,
+      description,
+      city,
+      previewImage,
+      isPremium,
+      type,
+      bedrooms,
+      maxAdults,
+      price,
+      goods: chosenGoods,
+      location,
+      images
+    } = offer;
+    const [chosenLocation, setChosenLocation] = useState(location);
 
-  const handleCityChange = (value: keyof typeof CityLocation) => {
-    setChosenLocation(CityLocation[value]);
-  };
-
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const data = {
-      ...offer,
-      title: formData.get(FormFieldName.title),
-      description: formData.get(FormFieldName.description),
-      city: getCity(formData.get(FormFieldName.cityName)),
-      previewImage: formData.get(FormFieldName.previewImage),
-      isPremium: Boolean(formData.get(FormFieldName.isPremium)),
-      type: formData.get(FormFieldName.type),
-      bedrooms: Number(formData.get(FormFieldName.bedrooms)),
-      maxAdults: Number(formData.get(FormFieldName.maxAdults)),
-      price: Number(formData.get(FormFieldName.price)),
-      goods: getGoods(formData.entries()),
-      location: chosenLocation,
-      images: getImages(formData.entries()),
+    const handleCityChange = (value: keyof typeof CityLocation) => {
+      setChosenLocation(CityLocation[value]);
     };
 
-    onSubmit(data);
-  };
+    const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = {
+        ...offer,
+        title: formData.get(FormFieldName.title),
+        description: formData.get(FormFieldName.description),
+        city: getCity(formData.get(FormFieldName.cityName)),
+        previewImage: formData.get(FormFieldName.previewImage),
+        isPremium: Boolean(formData.get(FormFieldName.isPremium)),
+        type: formData.get(FormFieldName.type),
+        bedrooms: Number(formData.get(FormFieldName.bedrooms)),
+        maxAdults: Number(formData.get(FormFieldName.maxAdults)),
+        price: Number(formData.get(FormFieldName.price)),
+        goods: getGoods(formData.entries()),
+        location: chosenLocation,
+        images: getImages(formData.entries()),
+      };
 
+      onSubmit(data);
+    };
   return (
     <form
       className="form offer-form"
@@ -293,6 +296,8 @@ const OfferForm = <T extends Offer | NewOffer>({
       </button>
     </form>
   );
-};
+  */
+  <p>OfferForm</p>);
+//!};
 
 export default OfferForm;

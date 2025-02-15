@@ -1,3 +1,4 @@
+/*
 import { NewOffer } from '../../types/types';
 import { CITIES, CityLocation } from '../../const';
 import OfferForm from '../../components/offer-form/offer-form';
@@ -18,8 +19,11 @@ const emptyOffer: NewOffer = {
   location: CityLocation[CITIES[0]],
   images: new Array(6).fill('')
 };
+*/
 
-const AddOffer = (): JSX.Element | null => {
+const AddProduct = (): JSX.Element | null => (
+  /*
+  {
   const dispatch = useAppDispatch();
 
   const handleFormSubmit = (offerData: NewOffer) => {
@@ -35,6 +39,11 @@ const AddOffer = (): JSX.Element | null => {
         </section>
       </div>
     </main>
-  );};
+  );
+*/
+  <p>AddProduct</p>);
+/*
+};
+*/
 
-export default AddOffer;
+export default AddProduct;

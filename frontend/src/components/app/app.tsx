@@ -8,9 +8,8 @@ import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
 import Catalog from '../../pages/catalog/catalog';
 import Product from '../../pages/product/product';
-
-import AddOffer from '../../pages/add-offer/add-offer';
-import EditOffer from '../../pages/edit-offer/edit-offer';
+import AddProduct from '../../pages/add-product/add-product';
+import EditProduct from '../../pages/edit-product/edit-product';
 
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
@@ -55,18 +54,18 @@ const App = (): JSX.Element => (
           }
         />
         <Route
-          path={`${AppRoute.Property}/:id${AppRoute.Edit}`}
+          path={`${AppRoute.Product}/:id${AppRoute.Edit}`}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
-              <EditOffer />
+              <EditProduct />
             </PrivateRoute>
           }
         />
         <Route
-          path={AppRoute.Add}
+          path={`${AppRoute.Product}${AppRoute.Edit}`}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
-              <AddOffer />
+              <AddProduct />
             </PrivateRoute>
           }
         />

@@ -1,9 +1,7 @@
-import type { SortName } from '../../types/types';
-
 import { useState } from 'react';
 
+import type { SortName } from '../../types/types';
 import { Sorting } from '../../const';
-
 
 type SortingListProps = {
   onChange: (name: SortName) => void;
