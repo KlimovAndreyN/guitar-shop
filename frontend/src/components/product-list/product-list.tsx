@@ -11,9 +11,12 @@ const ProductList = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const page = 1;
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [page, dispatch]);
+  useEffect(
+    () => {
+      dispatch(fetchProducts());
+    },
+    [page, dispatch]
+  );
 
   const isProductsLoading = useAppSelector(getIsProductsLoading);
   const productsWithPagination = useAppSelector(getProductsWithPagination);

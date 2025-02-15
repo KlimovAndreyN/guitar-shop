@@ -7,8 +7,8 @@ import Footer from '../footer/footer';
 import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
 import Catalog from '../../pages/catalog/catalog';
+import Product from '../../pages/product/product';
 
-import Property from '../../pages/property/property';
 import AddOffer from '../../pages/add-offer/add-offer';
 import EditOffer from '../../pages/edit-offer/edit-offer';
 
@@ -47,10 +47,10 @@ const App = (): JSX.Element => (
           }
         />
         <Route
-          path={`${AppRoute.Property}/:id`}
+          path={`${AppRoute.Product}/:id`}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
-              <Property />
+              <Product />
             </PrivateRoute>
           }
         />
