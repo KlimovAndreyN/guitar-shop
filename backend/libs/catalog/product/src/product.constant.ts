@@ -1,6 +1,6 @@
 import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
-import { DetailProductRdo, GuitarType, ProductWithPaginationRdo, SortDirection, SortType } from '@backend/shared/core';
+import { DetailProductRdo, GuitarType, ProductsWithPaginationRdo, SortDirection, SortType } from '@backend/shared/core';
 
 export const Default = {
   PRODUCT_COUNT: 7,
@@ -111,7 +111,7 @@ export const ProductApiResponse = {
     description: 'Product found.'
   },
   ProductsFound: {
-    type: ProductWithPaginationRdo,
+    type: ProductsWithPaginationRdo,
     status: HttpStatus.OK,
     description: 'Products found.'
   },

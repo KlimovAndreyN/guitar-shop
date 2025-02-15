@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { fillDto } from '@backend/shared/helpers';
 import {
-  ApiParamOption, RequestWithRequestIdAndUserId, ProductWithPaginationRdo, ApiOperationOption,
+  ApiParamOption, RequestWithRequestIdAndUserId, ProductsWithPaginationRdo, ApiOperationOption,
   PRODUCT_ID_PARAM, ApiHeaderOption, DetailProductRdo, RequestWithUserId, RouteAlias
 
 } from '@backend/shared/core';
@@ -32,14 +32,14 @@ export class ProductController {
   public async index(
     @Query() query: ProductQuery,
     @Req() { userId }: RequestWithUserId
-  ): Promise<ProductWithPaginationRdo> {
+  ): Promise<ProductsWithPaginationRdo> {
     const productsWithPagination = await this.productService.findProducts(query, userId);
     const result = {
       ...productsWithPagination,
       entities: productsWithPagination.entities.map((product) => product.toPOJO())
     }
 
-    return fillDto(ProductWithPaginationRdo, result);
+    return fillDto(ProductsWithPaginationRdo, result);
   }
 
   @ApiOperation(ApiOperationOption.Product.Detail)

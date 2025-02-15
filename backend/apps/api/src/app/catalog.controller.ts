@@ -4,7 +4,7 @@ import { HttpService } from '@nestjs/axios';
 import { join } from 'path/posix';
 
 import {
-  RouteAlias, ApiOperationOption, ProductWithPaginationRdo, RequestWithRequestId,
+  RouteAlias, ApiOperationOption, ProductsWithPaginationRdo, RequestWithRequestId,
   BearerAuth, ApiParamOption, PRODUCT_ID_PARAM, DetailProductRdo, RequestWithRequestIdAndUserId
 } from '@backend/shared/core';
 import { makeHeaders } from '@backend/shared/helpers';
@@ -34,12 +34,12 @@ export class CatalogController {
   public async index(
     @Query() query: ProductQuery,
     @Req() { requestId }: RequestWithRequestId
-  ): Promise<ProductWithPaginationRdo> {
+  ): Promise<ProductsWithPaginationRdo> {
     const url = this.catalogService.getProductsUrl('', query);
     console.log('url', url);
 
     const headers = makeHeaders(requestId);
-    const { data } = await this.httpService.axiosRef.get<ProductWithPaginationRdo>(url, headers);
+    const { data } = await this.httpService.axiosRef.get<ProductsWithPaginationRdo>(url, headers);
 
     return data;
   }
