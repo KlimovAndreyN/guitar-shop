@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postOffer, editOffer, fetchProcuts, fetchProduct } from '../action';
+import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postOffer, editOffer, fetchProducts, fetchProduct } from '../action';
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
 
@@ -27,14 +27,14 @@ export const siteData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchProcuts.pending, (state) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.isProductsLoading = true;
       })
-      .addCase(fetchProcuts.fulfilled, (state, action) => {
+      .addCase(fetchProducts.fulfilled, (state, action) => {
         state.productsWithPagination = action.payload;
         state.isProductsLoading = false;
       })
-      .addCase(fetchProcuts.rejected, (state) => {
+      .addCase(fetchProducts.rejected, (state) => {
         state.isProductsLoading = false;
       })
       .addCase(fetchProduct.pending, (state) => {

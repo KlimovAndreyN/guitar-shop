@@ -47,6 +47,7 @@ export enum AppRoute {
   Root = '/',
   Register = '/register',
   Catalog = '/catalog',
+  Product = '/catalog/product',
   Property = '/offer',
   Add = '/add',
   Edit = '/edit',

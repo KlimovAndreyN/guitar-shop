@@ -38,7 +38,7 @@ export const Action = {
   REGISTER_USER: 'user/register',
 };
 
-export const fetchProcuts = createAsyncThunk<ProductsWithPagination, undefined, { extra: Extra }>(
+export const fetchProducts = createAsyncThunk<ProductsWithPagination, undefined, { extra: Extra }>(
   Action.FETCH_PRODUCTS,
   async (_, { extra }) => {
     const { api } = extra;
