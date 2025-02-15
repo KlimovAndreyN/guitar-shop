@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { getCity, getSorting } from '../site-process/selectors';
-import { DetailProduct, ProductsWithPagination } from '../../utils/backend';
+import { DetailProduct, ProductsWithPagination } from '../../types/backend';
 import type { State } from '../../types/state';
 import type { Offer, Comment } from '../../types/types';
 import { Comparator, MAX_COMMENTS, StoreSlice, SubmitStatus } from '../../const';

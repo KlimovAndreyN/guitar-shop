@@ -5,7 +5,7 @@ import Spinner from '../spinner/spinner';
 import ProductItem from '../product-item/product-item';
 import { getIsProductsLoading, getProductsWithPagination } from '../../store/site-data/selectors';
 import { fetchProducts } from '../../store/action';
-import { Product } from '../../utils/backend';
+import { Product } from '../../types/backend';
 
 const ProductList = (): JSX.Element => {
   const dispatch = useAppDispatch();

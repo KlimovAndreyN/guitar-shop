@@ -1,6 +1,6 @@
 import store from '../store';
 import type { Offer, Comment, City, SortName, User } from './types';
-import { DetailProduct, ProductsWithPagination } from '../utils/backend';
+import { DetailProduct, ProductsWithPagination } from './backend';
 import { AuthorizationStatus, SubmitStatus } from '../const';
 
 export type SiteData = {

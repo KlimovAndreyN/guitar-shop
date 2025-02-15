@@ -1,3 +1,4 @@
+import { GuitarType } from './types/backend';
 import { Offer, Location, CityName, SortName } from './types/types';
 
 export const CITIES = [
@@ -112,6 +113,12 @@ export const Comparator: {
   PriceDecrease: (a, b) => b.price - a.price,
   TopRated: (a, b) => b.rating - a.rating
 };
+
+export const GuitarTypeTitle: { [key in GuitarType]: string } = {
+  electro: 'Акустическая гитара',
+  acoustic: 'Электрогитара',
+  ukulele: 'Укулеле'
+} as const;
 
 export const CityLocation: { [key in CityName]: Location } = {
   Paris: {

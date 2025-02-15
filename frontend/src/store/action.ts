@@ -9,7 +9,7 @@ import { DetailOfferDto } from '../dto/offer/detail-offer.dto';
 import { ReviewDto } from '../dto/reviews/review.dto';
 import { adaptDetailOfferToClient, adaptReviewsToClient, adaptReviewToClient } from '../utils/adapters/adaptersToClient';
 import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
-import { DetailProduct, ProductsWithPagination, Token } from '../utils/backend';
+import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
 
 type Extra = {
   api: AxiosInstance;

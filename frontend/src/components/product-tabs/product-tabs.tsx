@@ -1,15 +1,18 @@
 import { MouseEvent, useState } from 'react';
-
 import classNames from 'classnames';
+
+import { GuitarType } from '../../types/backend';
+import { GuitarTypeTitle } from '../../const';
 
 type ProductTabsProps = {
   description: string;
-  guitarType: string;
+  guitarType: GuitarType;
   article: string;
   stringsCount: number;
 }
 
 const ProductTabs = ({ description, guitarType, article, stringsCount }: ProductTabsProps): JSX.Element => {
+  const guitarTypeTitle = GuitarTypeTitle[guitarType];
   const startIsShowDescription = false;
   const [isShowDescription, setIsShowDescription] = useState(startIsShowDescription);
 
@@ -45,7 +48,7 @@ const ProductTabs = ({ description, guitarType, article, stringsCount }: Product
             </tr>
             <tr className="tabs__table-row">
               <td className="tabs__title">Тип:</td>
-              <td className="tabs__value">{guitarType}</td>
+              <td className="tabs__value">{guitarTypeTitle}</td>
             </tr>
             <tr className="tabs__table-row">
               <td className="tabs__title">Количество струн:</td>
