@@ -1,15 +1,23 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { getCity, getSorting } from '../site-process/selectors';
+import { DetailProduct, ProductsWithPagination } from '../../utils/backend';
 import type { State } from '../../types/state';
 import type { Offer, Comment } from '../../types/types';
 import { Comparator, MAX_COMMENTS, StoreSlice, SubmitStatus } from '../../const';
-import { getCity, getSorting } from '../site-process/selectors';
+
+export const getIsProductsLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isProductsLoading;
+export const getProductsWithPagination = ({ [StoreSlice.SiteData]: SITE_DATA }: State): ProductsWithPagination | null => SITE_DATA.productsWithPagination;
+
+export const getIsProductLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isProductLoading;
+export const getProduct = ({ [StoreSlice.SiteData]: SITE_DATA }: State): DetailProduct | null => SITE_DATA.product;
+
 
 export const getIsOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isOffersLoading;
-export const getOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.offers;
+export const getOffers = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Offer[] => SITE_DATA.offers;
 
 export const getIsFavoriteOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isFavoriteOffersLoading;
-export const getFavoriteOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.favoriteOffers;
+export const getFavoriteOffers = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Offer[] => SITE_DATA.favoriteOffers;
 
 export const getIsOfferLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isOfferLoading;
 export const getOffer = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Offer | null => SITE_DATA.offer;
@@ -17,6 +25,7 @@ export const getOffer = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Offer | n
 export const getPremiumOffers = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Offer[] => SITE_DATA.premiumOffers;
 export const getComments = ({ [StoreSlice.SiteData]: SITE_DATA }: State): Comment[] => SITE_DATA.comments;
 export const getCommentStatus = ({ [StoreSlice.SiteData]: SITE_DATA }: State): SubmitStatus => SITE_DATA.commentStatus;
+
 
 export const selectOffers = createSelector(
   [getOffers, getCity, getSorting],

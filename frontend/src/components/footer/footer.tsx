@@ -1,13 +1,20 @@
 import { Link } from 'react-router-dom';
+
 import { AppRoute } from '../../const';
+import useScrollToTop from '../../hooks/use-scroll-to-top';
 
 function Footer(): JSX.Element {
+  const handleLogoutClick = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useScrollToTop();
+  };
+
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__container">
           <div className="footer__logo-wrapper">
-            <Link className="footer__logo logo" to={AppRoute.Root}>
+            <Link className="footer__logo logo" to={AppRoute.Root} onClick={handleLogoutClick}>
               <img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" />
             </Link>
             <div className="socials footer__socials">

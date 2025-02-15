@@ -1,10 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postOffer, editOffer, fetchProcuts, fetchProduct } from '../action';
 import type { SiteData } from '../../types/state';
 import { StoreSlice, SubmitStatus } from '../../const';
-import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postOffer, editOffer } from '../action';
 
 const initialState: SiteData = {
+  productsWithPagination: null,
+  isProductsLoading: false,
+  product: null,
+  isProductLoading: false,
+
   offers: [],
   isOffersLoading: false,
   offer: null,
@@ -13,7 +18,7 @@ const initialState: SiteData = {
   isFavoriteOffersLoading: false,
   premiumOffers: [],
   comments: [],
-  commentStatus: SubmitStatus.Still,
+  commentStatus: SubmitStatus.Still
 };
 
 export const siteData = createSlice({
@@ -22,6 +27,28 @@ export const siteData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchProcuts.pending, (state) => {
+        state.isProductsLoading = true;
+      })
+      .addCase(fetchProcuts.fulfilled, (state, action) => {
+        state.productsWithPagination = action.payload;
+        state.isProductsLoading = false;
+      })
+      .addCase(fetchProcuts.rejected, (state) => {
+        state.isProductsLoading = false;
+      })
+      .addCase(fetchProduct.pending, (state) => {
+        state.isProductLoading = true;
+      })
+      .addCase(fetchProduct.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.isProductLoading = false;
+      })
+      .addCase(fetchProduct.rejected, (state) => {
+        state.isProductLoading = false;
+      })
+
+
       .addCase(fetchOffers.pending, (state) => {
         state.isOffersLoading = true;
       })

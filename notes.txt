@@ -27,4 +27,14 @@
     Bookmark
     UserType
     avatarUrl
+    getCity
+    offers
+    isOffersLoading
+    offer
+    isOfferLoading
+    city
+    City
+    CardList
+    CitiesList
+    
 --

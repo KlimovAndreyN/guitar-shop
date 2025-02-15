@@ -4,16 +4,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../header/header';
 import Footer from '../footer/footer';
-import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
+import Catalog from '../../pages/catalog/catalog';
+
 import Property from '../../pages/property/property';
 import AddOffer from '../../pages/add-offer/add-offer';
 import EditOffer from '../../pages/edit-offer/edit-offer';
+
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const';
 import history from '../../history';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 const App = (): JSX.Element => (
   <HelmetProvider>
@@ -40,7 +42,7 @@ const App = (): JSX.Element => (
           path={AppRoute.Catalog}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
-              <Main />
+              <Catalog />
             </PrivateRoute>
           }
         />

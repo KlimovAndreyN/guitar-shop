@@ -1,6 +1,7 @@
 import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import type { UserAuth, User, Offer, Comment, CommentAuth, UserRegister, NewOffer } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { TokenStore } from '../utils/token-store';
@@ -8,7 +9,7 @@ import { DetailOfferDto } from '../dto/offer/detail-offer.dto';
 import { ReviewDto } from '../dto/reviews/review.dto';
 import { adaptDetailOfferToClient, adaptReviewsToClient, adaptReviewToClient } from '../utils/adapters/adaptersToClient';
 import { adaptCreateOfferToServer } from '../utils/adapters/adaptersToServer';
-import { Token } from '../utils/backend';
+import { DetailProduct, ProductsWithPagination, Token } from '../utils/backend';
 
 type Extra = {
   api: AxiosInstance;
@@ -16,6 +17,9 @@ type Extra = {
 };
 
 export const Action = {
+  FETCH_PRODUCTS: 'products/fetch',
+  FETCH_PRODUCT: 'product/fetch',
+
   FETCH_OFFERS: 'offers/fetch',
   FETCH_OFFER: 'offer/fetch',
   POST_OFFER: 'offer/post-offer',
@@ -27,11 +31,41 @@ export const Action = {
   POST_COMMENT: 'offer/post-comment',
   POST_FAVORITE: 'offer/post-favorite',
   DELETE_FAVORITE: 'offer/delete-favorite',
+
   LOGIN_USER: 'user/login',
   LOGOUT_USER: 'user/logout',
   FETCH_USER_STATUS: 'user/fetch-status',
   REGISTER_USER: 'user/register',
 };
+
+export const fetchProcuts = createAsyncThunk<ProductsWithPagination, undefined, { extra: Extra }>(
+  Action.FETCH_PRODUCTS,
+  async (_, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<ProductsWithPagination>(ApiRoute.Products);
+
+    return data;
+  });
+
+export const fetchProduct = createAsyncThunk<DetailProduct, DetailProduct['id'], { extra: Extra }>(
+  Action.FETCH_PRODUCT,
+  async (id, { extra }) => {
+    const { api, history } = extra;
+
+    try {
+      const { data } = await api.get<DetailProduct>(`${ApiRoute.Products}/${id}`);
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === HttpCode.NotFound) {
+        history.push(AppRoute.NotFound);
+      }
+
+      return Promise.reject(error);
+    }
+  });
 
 export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: Extra }>(
   Action.FETCH_OFFERS,
