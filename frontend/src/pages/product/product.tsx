@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 
 import Spinner from '../../components/spinner/spinner';
 import BreadcrumbList from '../../components/breadcrumb-list/breadcrumb-list';
+import ProductTabs from '../../components/product-tabs/product-tabs';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchProduct } from '../../store/action';
 import { getIsProductLoading, getProduct } from '../../store/site-data/selectors';
@@ -34,16 +35,10 @@ const Product = (): JSX.Element | null => {
     return null;
   }
 
-  const {
-    title,
-    //addedDate,
-    //imagePath,
-    //price,
-    //description,
-    guitarType,
-    article,
-    stringsCount
-  } = product;
+  //!const { title,imagePath } = product;
+  const { title } = product;
+  const imagePath = '/img/content/catalog-product-1.png';
+  const srcSet = '/img/content/catalog-product-1@2x.png 2x';
 
   return (
     <main className="page-content">
@@ -54,32 +49,12 @@ const Product = (): JSX.Element | null => {
         <h1 className="page-content__title title title--bigger">Товар</h1>
         <BreadcrumbList actionName='Товар' isFromProduct />
         <div className="product-container">
-          <img className="product-container__img" src="/img/content/catalog-product-1.png" srcSet="/img/content/catalog-product-1@2x.png 2x" width="90" height="235" alt="" />
+          <img className="product-container__img" src={imagePath} srcSet={srcSet} width="90" height="235" alt="" />
           <div className="product-container__info-wrapper">
             <h2 className="product-container__title title title--big title--uppercase">{title}</h2>
             <br />
             <br />
-            <div className="tabs"><a className="button button--medium tabs__button" href="#characteristics">Характеристики</a><a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
-              <div className="tabs__content" id="characteristics">
-                <table className="tabs__table">
-                  <tbody>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Артикул:</td>
-                      <td className="tabs__value">{article}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Тип:</td>
-                      <td className="tabs__value">{guitarType}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Количество струн:</td>
-                      <td className="tabs__value">{stringsCount} струнная</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p className="tabs__product-description hidden">Гитара подходит как для старта обучения, так и для домашних занятий или использования в полевых условиях, например, в походах или для проведения уличных выступлений. Доступная стоимость, качество и надежная конструкция, а также приятный внешний вид, который сделает вас звездой вечеринки.</p>
-              </div>
-            </div>
+            <ProductTabs {...product} />
           </div>
         </div>
       </div>

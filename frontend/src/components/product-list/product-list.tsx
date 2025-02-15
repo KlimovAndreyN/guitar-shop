@@ -36,9 +36,13 @@ const ProductList = (): JSX.Element => {
           <p>Товары не найдены</p>
           :
           <ul className="catalog-cards__list">
-            {products.map((product) => (
-              <ProductItem key={product.id} {...product} />
-            ))}
+            {
+              products.map(
+                (product) => (
+                  <ProductItem key={product.id} {...product} />
+                )
+              )
+            }
           </ul>
       }
     </div>
