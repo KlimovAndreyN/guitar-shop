@@ -5,13 +5,13 @@ type ProductItemProps = {
   title: string;
   addedDate: string;
   price: number;
-  imagePath: string;
+  //imagePath: string;
 }
 
-const ProductItem = ({ id, title, addedDate, price, imagePath }: ProductItemProps): JSX.Element => (
+const ProductItem = ({ id, title, addedDate, price/*, imagePath*/ }: ProductItemProps): JSX.Element => (
   <li className="catalog-item">
     <div className="catalog-item__data">
-      <img src={imagePath/*"img/content/catalog-product-1.png" //! srcSet ? */} srcSet="img/content/catalog-product-1@2x.png 2x" width="36" height="93" alt="Картинка гитары" />
+      <img src={'/img/content/catalog-product-1.png' /*imagePath/*"img/content/catalog-product-1.png" //! srcSet ? */} srcSet="img/content/catalog-product-1@2x.png 2x" width="36" height="93" alt="Картинка гитары" />
       <div className="catalog-item__data-wrapper">
         <a className="link" href={`${AppRoute.Product}/${id}`}>
           <p className="catalog-item__data-title">{title}</p>
