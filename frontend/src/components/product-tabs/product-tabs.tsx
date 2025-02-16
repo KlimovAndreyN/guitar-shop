@@ -23,8 +23,10 @@ const ProductTabs = ({ description, guitarType, article, stringsCount }: Product
   const openedTab = TabOption.Characteristics;
   const [chosenOpenedTab, setOpenedTab] = useState(openedTab);
   const isOpenedDescriptionTab = isDescriptionTab(chosenOpenedTab);
-  const characteristicsClassName = classNames('tabs__table', { 'hidden': isOpenedDescriptionTab });
-  const descriptionClassName = classNames('tabs__product-description', { 'hidden': !isOpenedDescriptionTab });
+  const characteristicsTableClassName = classNames('tabs__table', { 'hidden': isOpenedDescriptionTab });
+  const descriptionTableClassName = classNames('tabs__product-description', { 'hidden': !isOpenedDescriptionTab });
+  const characteristicsButtonClassName = classNames('button button--medium tabs__button', { 'button--black-border  ': isOpenedDescriptionTab });
+  const descriptionButtonClassName = classNames('button button--medium tabs__button', { 'button--black-border  ': !isOpenedDescriptionTab });
 
   const handleCharacteristicsClick = (event: MouseEvent) => {
     event.preventDefault();
@@ -44,10 +46,10 @@ const ProductTabs = ({ description, guitarType, article, stringsCount }: Product
 
   return (
     <div className="tabs">
-      <a className="button button--medium tabs__button" /*href="#characteristics"*/ onClick={handleCharacteristicsClick}>Характеристики</a>
-      <a className="button button--black-border button--medium tabs__button" /*href="#description"*/ onClick={handleDescriptionClick}>Описание</a>
+      <a className={characteristicsButtonClassName} /*href="#characteristics"*/ onClick={handleCharacteristicsClick}>Характеристики</a>
+      <a className={descriptionButtonClassName} /*href="#description"*/ onClick={handleDescriptionClick}>Описание</a>
       <div className="tabs__content" id="characteristics">
-        <table className={characteristicsClassName}>
+        <table className={characteristicsTableClassName}>
           <tbody>
             <tr className="tabs__table-row">
               <td className="tabs__title">Артикул:</td>
@@ -63,7 +65,7 @@ const ProductTabs = ({ description, guitarType, article, stringsCount }: Product
             </tr>
           </tbody>
         </table>
-        <p className={descriptionClassName}>{description}</p>
+        <p className={descriptionTableClassName}>{description}</p>
       </div>
     </div>
   );
