@@ -101,17 +101,17 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['name'], undefined, { e
     }
   });
 
-export const loginUser = createAsyncThunk<UserAuth['email'], UserAuth, { extra: Extra }>(
+export const loginUser = createAsyncThunk<UserAuth['name'], UserAuth, { extra: Extra }>(
   Action.LOGIN_USER,
   async ({ email: login, password }, { extra }) => {
     const { api, history } = extra;
     const { data } = await api.post<User & Token>(ApiRoute.Login, { login, password });
-    const { accessToken } = data;
+    const { accessToken, name } = data;
 
     TokenStore.save(accessToken);
     history.push(AppRoute.Catalog);
 
-    return login;
+    return name;
   });
 
 export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
