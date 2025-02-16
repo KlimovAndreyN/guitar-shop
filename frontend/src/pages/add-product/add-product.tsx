@@ -21,7 +21,15 @@ const emptyOffer: NewOffer = {
 };
 */
 
-const AddProduct = (): JSX.Element | null => (
+import { Helmet } from 'react-helmet-async';
+
+import BreadcrumbList from '../../components/breadcrumb-list/breadcrumb-list';
+import ProductForm from '../../components/product-form/product-form';
+import useScrollToTop from '../../hooks/use-scroll-to-top';
+import { PageTitle } from '../../const';
+
+const AddProduct = (): JSX.Element => {
+  const actionName = 'Новый товар';
   /*
   {
   const dispatch = useAppDispatch();
@@ -41,9 +49,22 @@ const AddProduct = (): JSX.Element | null => (
     </main>
   );
 */
-  <p>AddProduct</p>);
-/*
+  useScrollToTop();
+
+  return (
+    <main className="page-content">
+      <Helmet>
+        <title>{PageTitle.AddProduct}</title>
+      </Helmet>
+      <section className="add-item">
+        <div className="container">
+          <h1 className="add-item__title">{actionName}</h1>
+          <BreadcrumbList actionName={actionName} />
+          <ProductForm />
+        </div>
+      </section>
+    </main>
+  );
 };
-*/
 
 export default AddProduct;

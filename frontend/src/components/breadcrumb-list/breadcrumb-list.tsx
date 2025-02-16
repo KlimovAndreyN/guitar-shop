@@ -4,10 +4,10 @@ import classNames from 'classnames';
 
 type BreadcrumbListProps = {
   actionName?: string;
-  isFromProduct?: boolean;
+  isFromShowProduct?: boolean;
 }
 
-const BreadcrumbList = ({ actionName, isFromProduct = false }: BreadcrumbListProps): JSX.Element => {
+const BreadcrumbList = ({ actionName, isFromShowProduct: isFromProduct = false }: BreadcrumbListProps): JSX.Element => {
   const className = classNames('breadcrumbs', { 'page-content__breadcrumbs': isFromProduct });
 
   return (

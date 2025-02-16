@@ -39,6 +39,7 @@ const Product = (): JSX.Element | null => {
   const { title } = product;
   const imagePath = '/img/content/catalog-product-1.png';
   const srcSet = '/img/content/catalog-product-1@2x.png 2x';
+  const actionName = 'Товар';
 
   return (
     <main className="page-content">
@@ -46,8 +47,8 @@ const Product = (): JSX.Element | null => {
         <title>{PageTitle.Product}</title>
       </Helmet>
       <div className="container">
-        <h1 className="page-content__title title title--bigger">Товар</h1>
-        <BreadcrumbList actionName='Товар' isFromProduct />
+        <h1 className="page-content__title title title--bigger">{actionName}</h1>
+        <BreadcrumbList actionName={actionName} isFromShowProduct />
         <div className="product-container">
           <img className="product-container__img" src={imagePath} srcSet={srcSet} width="90" height="235" alt="" />
           <div className="product-container__info-wrapper">

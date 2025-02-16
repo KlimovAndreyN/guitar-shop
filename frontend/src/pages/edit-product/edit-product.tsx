@@ -10,7 +10,15 @@ import { getIsOfferLoading, getOffer } from '../../store/site-data/selectors';
 import { Offer } from '../../types/types';
 */
 
-const EditProduct = (): JSX.Element | null => (
+import { Helmet } from 'react-helmet-async';
+
+import BreadcrumbList from '../../components/breadcrumb-list/breadcrumb-list';
+import ProductForm from '../../components/product-form/product-form';
+import useScrollToTop from '../../hooks/use-scroll-to-top';
+import { PageTitle } from '../../const';
+
+const EditProduct = (): JSX.Element | null => {
+  const actionName = 'СURT Z30 Plus';
   /*
   {
   const params = useParams();
@@ -48,9 +56,22 @@ const EditProduct = (): JSX.Element | null => (
     </main>
   );
   */
-  <p>EditProduct</p>);
-/*
+  useScrollToTop();
+
+  return (
+    <main className="page-content">
+      <Helmet>
+        <title>{PageTitle.EditProduct}</title>
+      </Helmet>
+      <section className="edit-item">
+        <div className="container">
+          <h1 className="edit-item__title">{actionName}</h1>
+          <BreadcrumbList actionName={actionName} />
+          <ProductForm />
+        </div>
+      </section>
+    </main>
+  );
 };
-*/
 
 export default EditProduct;
