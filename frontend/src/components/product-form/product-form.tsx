@@ -60,6 +60,7 @@ const getImages = (
 
 import { FormEvent, Fragment } from 'react';
 
+import { toMoneyRuLocate } from '../../utils/common';
 import { ProductDto } from '../../types/types';
 import { GuitarTypeTitle, GuitarType, STRINGS_COUNT_VALUES } from '../../const';
 
@@ -74,17 +75,24 @@ type ProductFormProps = {
 
 const ProductForm = (props: ProductFormProps): JSX.Element => {
   const { isEditing, prefixClassName, product, onSubmit, onCancel } = props;
-  //!const { id, /*..... */ } = product;
+  const {
+    //!id,
+    title,
+    article,
+    description,
+    addedDate,
+    guitarType,
+    stringsCount,
+    price,
+    //!imageFile
+  } = product;
+  const priceString = (price) ? toMoneyRuLocate(price) : '';
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
   const guitarTypeSpanText = isEditing ? 'Тип товара' : 'Выберите тип товара';
   const titleSpanText = isEditing ? 'Наименование товара' : 'Введите наименование товара';
   const priceSpanText = isEditing ? 'Цена товара' : 'Введите цену товара';
   const artileSpanText = isEditing ? 'Артикул товара' : 'Введите артикул товара';
   const descriptionSpanText = isEditing ? 'Описание товара' : 'Введите описание товара';
-
-  //!
-  // eslint-disable-next-line no-console
-  console.log(product);
 
   /*
     const {
@@ -162,15 +170,15 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
         <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>{guitarTypeSpanText}</span>
           {
             Object.values(GuitarType).map(
-              (guitarType) => {
-                const key = guitarType;
-                const inputId = guitarType;
-                const isChecked = false; //!
+              (type) => {
+                const key = type;
+                const inputId = type;
+                const isChecked = type === guitarType;
 
                 return (
                   <Fragment key={key}>
-                    <input type="radio" id={inputId} name="item-type" value={guitarType} defaultChecked={isChecked} />
-                    <label htmlFor={inputId}>{GuitarTypeTitle[guitarType]}</label>
+                    <input type="radio" id={inputId} name="item-type" value={type} defaultChecked={isChecked} />
+                    <label htmlFor={inputId}>{GuitarTypeTitle[type]}</label>
                   </Fragment>
                 );
               }
@@ -183,7 +191,7 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
               (value) => {
                 const inputName = 'string-qty';
                 const inputId = `${inputName}-${value}`;
-                const isChecked = false; //!
+                const isChecked = value === stringsCount;
 
                 return (
                   <Fragment key={`${value}`}>
@@ -199,31 +207,31 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
       <div className={`${prefixClassName}-item__form-right`}>
         <div className={`custom-input ${prefixClassName}-item__form-input`}>
           <label><span>Дата добавления товара</span>
-            <input type="text" name="date" defaultValue="" placeholder="Дата в формате 00.00.0000" readOnly={!isEditing} />
+            <input type="text" name="date" defaultValue={addedDate} placeholder="Дата в формате 00.00.0000" readOnly={!isEditing} />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className={`custom-input ${prefixClassName}-item__form-input`}>
           <label><span>{titleSpanText}</span>
-            <input type="text" name="title" defaultValue="" placeholder="Наименование" />
+            <input type="text" name="title" defaultValue={title} placeholder="Наименование" />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className={`custom-input ${prefixClassName}-item__form-input ${prefixClassName}-item__form-input--price${isEditing ? '' : ' is-placeholder'}`}>
           <label><span>{priceSpanText}</span>
-            <input type="text" name="price" defaultValue="" placeholder="Цена в формате 00 000" />
+            <input type="text" name="price" defaultValue={priceString} placeholder="Цена в формате 00 000" />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className={`custom-input ${prefixClassName}-item__form-input`}>
           <label><span>{artileSpanText}</span>
-            <input type="text" name="sku" defaultValue="" placeholder="Артикул товара" />
+            <input type="text" name="sku" defaultValue={article} placeholder="Артикул товара" />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className={`custom-textarea ${prefixClassName}-item__form-textarea`}>
           <label><span>{descriptionSpanText}</span>
-            <textarea name="description" placeholder=""></textarea>
+            <textarea name="description" placeholder="" defaultValue={description}></textarea>
           </label>
           <p>Заполните поле</p>
         </div>

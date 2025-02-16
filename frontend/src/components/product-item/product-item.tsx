@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
+import { toMoneyRuLocate } from '../../utils/common';
 import { AppRoute } from '../../const';
 
 type ProductItemProps = {
@@ -35,7 +36,7 @@ const ProductItem = ({ id, title, addedDate, price/*, imagePath*/ }: ProductItem
           </a>
           <br />
           <p className="catalog-item__data-date">Дата добавления {addedDate}</p>
-          <p className="catalog-item__data-price">{price.toLocaleString('ru-RU')} ₽</p>
+          <p className="catalog-item__data-price">{toMoneyRuLocate(price)} ₽</p>
         </div>
       </div>
       <div className="catalog-item__buttons">
