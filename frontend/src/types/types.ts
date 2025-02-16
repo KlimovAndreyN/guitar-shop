@@ -4,11 +4,11 @@ export type SortName = keyof typeof Sorting;
 
 export type ProductDto = {
   id?: string;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   imageFile?: string;
   guitarType?: GuitarType;
-  article: string;
+  article?: string;
   stringsCount?: StringsCount;
   price?: number;
   addedDate?: string;
