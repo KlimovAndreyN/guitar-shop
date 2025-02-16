@@ -60,11 +60,12 @@ const getImages = (
 
 import { FormEvent } from 'react';
 
-import { CreateProductDto, GuitarType } from '../../types/backend';
+import { GuitarType } from '../../types/backend';
+import { ProductDto } from '../../types/types';
 
 type ProductFormProps = {
-  product: CreateProductDto & { id: string };
-  onSubmit: (productData: CreateProductDto & { id: string }) => void;
+  product: ProductDto;
+  onSubmit: (productData: ProductDto) => void;
 };
 
 
@@ -100,14 +101,14 @@ const ProductForm = ({ product, onSubmit }: ProductFormProps): JSX.Element => {
     const form = event.currentTarget;
     const formData = new FormData(form);
     */
-    const data: CreateProductDto & { id: string } = {
+    const data: ProductDto = {
       id: '',
       article: '',
       description: '',
       guitarType: 'acoustic' as GuitarType, //!
       imageFile: '',
       price: 0,
-      stringsCount: 5,
+      stringsCount: 6,
       title: '',
       addedDate: ''
 

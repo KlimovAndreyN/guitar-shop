@@ -2,10 +2,10 @@ import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { UserAuth, User, UserRegister } from '../types/types';
-import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { TokenStore } from '../utils/token-store';
-import { CreateProductDto, DetailProduct, ProductsWithPagination, Token } from '../types/backend';
+import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
+import type { UserAuth, User, UserRegister, ProductDto } from '../types/types';
+import { ApiRoute, AppRoute, HttpCode } from '../const';
 
 type Extra = {
   api: AxiosInstance;
@@ -53,21 +53,21 @@ export const fetchProduct = createAsyncThunk<DetailProduct, DetailProduct['id'],
     }
   });
 
-export const postProduct = createAsyncThunk<DetailProduct, CreateProductDto & { id: string }, { extra: Extra }>(
+export const postProduct = createAsyncThunk<DetailProduct, ProductDto, { extra: Extra }>(
   Action.POST_PRODUCT,
-  async (createProductDto, { extra }) => {
+  async (productDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<DetailProduct>(ApiRoute.Products, createProductDto);
+    const { data } = await api.post<DetailProduct>(ApiRoute.Products, productDto);
     history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;
   });
 
-export const editProduct = createAsyncThunk<DetailProduct, CreateProductDto & { id: string }, { extra: Extra }>(
+export const editProduct = createAsyncThunk<DetailProduct, ProductDto, { extra: Extra }>(
   Action.EDIT_PRODUCT,
-  async (updateProductDto, { extra }) => {
+  async (productDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.patch<DetailProduct>(`${ApiRoute.Products}/${updateProductDto.id}`, updateProductDto);
+    const { data } = await api.patch<DetailProduct>(`${ApiRoute.Products}/${productDto.id}`, productDto);
     history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;

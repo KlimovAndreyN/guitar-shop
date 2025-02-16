@@ -17,18 +17,19 @@ import ProductForm from '../../components/product-form/product-form';
 import { editProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
-import { CreateProductDto, GuitarType } from '../../types/backend';
+import { GuitarType } from '../../types/backend';
+import { ProductDto } from '../../types/types';
 import { PageTitle } from '../../const';
 
 
-const product: CreateProductDto & { id: string } = {
+const product: ProductDto = {
   id: '',
   article: '',
   description: '',
   guitarType: 'acoustic' as GuitarType, //!
   imageFile: '',
   price: 0,
-  stringsCount: 5,
+  stringsCount: 6,
   title: '',
   addedDate: ''
 };
@@ -58,7 +59,7 @@ const EditProduct = (): JSX.Element | null => {
     return null;
   }
 */
-  const handleFormSubmit = (productData: CreateProductDto & { id: string }) => {
+  const handleFormSubmit = (productData: ProductDto) => {
     dispatch(editProduct(productData));
   };
   useScrollToTop();
