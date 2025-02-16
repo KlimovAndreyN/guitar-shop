@@ -4,6 +4,14 @@ import classNames from 'classnames';
 import { GuitarType } from '../../types/backend';
 import { GuitarTypeTitle } from '../../const';
 
+enum TabOption {
+  Characteristics = 'characteristics',
+  Description = 'description'
+}
+
+const isCharacteristicsTab = (value: TabOption) => (value === TabOption.Characteristics);
+const isDescriptionTab = (value: TabOption) => (value === TabOption.Description);
+
 type ProductTabsProps = {
   description: string;
   guitarType: GuitarType;
@@ -13,25 +21,25 @@ type ProductTabsProps = {
 
 const ProductTabs = ({ description, guitarType, article, stringsCount }: ProductTabsProps): JSX.Element => {
   const guitarTypeTitle = GuitarTypeTitle[guitarType];
-  const startIsShowDescription = false;
-  const [isShowDescription, setIsShowDescription] = useState(startIsShowDescription);
-
-  const characteristicsClassName = classNames('tabs__table', { 'hidden': isShowDescription });
-  const descriptionClassName = classNames('tabs__product-description', { 'hidden': !isShowDescription });
+  const openedTab = TabOption.Characteristics;
+  const [chosenOpenedTab, setOpenedTab] = useState(openedTab);
+  const isOpenedDescriptionTab = isDescriptionTab(chosenOpenedTab);
+  const characteristicsClassName = classNames('tabs__table', { 'hidden': isOpenedDescriptionTab });
+  const descriptionClassName = classNames('tabs__product-description', { 'hidden': !isOpenedDescriptionTab });
 
   const handleCharacteristicsClick = (event: MouseEvent) => {
     event.preventDefault();
 
-    if (isShowDescription) {
-      setIsShowDescription(!isShowDescription);
+    if (isDescriptionTab(chosenOpenedTab)) {
+      setOpenedTab(TabOption.Characteristics);
     }
   };
 
   const handleDescriptionClick = (event: MouseEvent) => {
     event.preventDefault();
 
-    if (!isShowDescription) {
-      setIsShowDescription(!isShowDescription);
+    if (isCharacteristicsTab(chosenOpenedTab)) {
+      setOpenedTab(TabOption.Description);
     }
   };
 
