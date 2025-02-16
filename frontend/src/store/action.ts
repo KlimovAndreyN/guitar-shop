@@ -57,7 +57,23 @@ export const postProduct = createAsyncThunk<DetailProduct, ProductDto, { extra: 
   Action.POST_PRODUCT,
   async (productDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<DetailProduct>(ApiRoute.Products, productDto);
+    const formData = new FormData();
+    const fileKeyName = 'imageFile';
+    const imageFile = productDto[fileKeyName];
+
+    //! тест
+    for (const [key, value] of Object.entries(productDto)) {
+      if (key !== fileKeyName) {
+        formData.append(key, value as string);
+      }
+    }
+
+    if (imageFile) {
+      formData.append(fileKeyName, imageFile);
+    }
+    //
+
+    const { data } = await api.post<DetailProduct>(ApiRoute.Products, formData);
     history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;

@@ -6,7 +6,7 @@ export type ProductDto = {
   id?: string;
   title?: string;
   description?: string;
-  imageFile?: string;
+  imageFile?: File,
   guitarType?: GuitarType;
   article?: string;
   stringsCount?: StringsCount;

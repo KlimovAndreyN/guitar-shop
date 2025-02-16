@@ -21,6 +21,8 @@
   /*checked*/
   ссылку на просомтр товара на картинку в списке товаров или должна быть модалка с фото?
   и что такое  / srcset ?
+  двойная перегонка formData...  components\product-form\product-form.tsx и store\action.ts
+    попробовать как tmp-html-frontend\src\pages\register\register.tsx
   удалить:
     capitalize
     Offer

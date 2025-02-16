@@ -1,4 +1,4 @@
-import { FormEvent, Fragment } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 
 import { toMoneyRuLocate } from '../../utils/common';
 import { ProductDto } from '../../types/types';
@@ -8,7 +8,7 @@ enum FormFieldName {
   title = 'title',
   description = 'description',
   guitarType = 'item-type',
-  imageFile = 'imageFile', //!
+  imageFile = 'imageFile',
   stringsCount = 'string-qty',
   addedDate = 'date',
   article = 'sku',
@@ -33,8 +33,7 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
     addedDate,
     guitarType,
     stringsCount,
-    price,
-    //!imageFile
+    price
   } = product;
   const priceString = (price) ? toMoneyRuLocate(price) : '';
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
@@ -43,6 +42,17 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
   const priceSpanText = isEditing ? 'Цена товара' : 'Введите цену товара';
   const artileSpanText = isEditing ? 'Артикул товара' : 'Введите артикул товара';
   const descriptionSpanText = isEditing ? 'Описание товара' : 'Введите описание товара';
+  //! временно
+  const [imageFile, setImageFile] = useState<File | undefined>();
+
+  const handleImageEditButtonClick = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    }
+
+    setImageFile(event.target.files[0]);
+  };
+  //
 
   const handleBackButtonClick = () => {
     onCancel();
@@ -56,8 +66,8 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
     const data: ProductDto = {
       article: formData.get(FormFieldName.article)?.toString(),
       description: formData.get(FormFieldName.description)?.toString(),
+      imageFile,
       guitarType: formData.get(FormFieldName.guitarType)?.toString() as GuitarType,
-      //!imageFile: formData.get(FormFieldName.imageFile)?.toString(),
       price: parseInt((formData.get(FormFieldName.price)?.toString() || '').replaceAll(String.fromCharCode(160), ''), 10),
       stringsCount: parseInt(formData.get(FormFieldName.stringsCount)?.toString() || '', 10) as StringsCount,
       title: formData.get(FormFieldName.title)?.toString()
@@ -76,6 +86,32 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
       <div className={`${prefixClassName}-item__form-left`}>
         <div className={`edit-item-image ${prefixClassName}-item__form-image`}>
           <div className="edit-item-image__image-wrap">
+            {/* //! временно */}
+            <input
+              className="visually-hidden"
+              type="file"
+              name="imageFile"
+              id="imageFile"
+              accept="image/png, image/jpeg"
+              onChange={handleImageEditButtonClick}
+            />
+            <label htmlFor="imageFile">
+              {
+                imageFile
+                  ?
+                  (
+                    <img
+                      src={URL.createObjectURL(imageFile)}
+                      alt="Картинка гитары"
+                    />
+                  )
+                  :
+                  (
+                    'Upload image'
+                  )
+              }
+            </label>
+            {/* // */}
           </div>
           <div className="edit-item-image__btn-wrap">
             <button className="button button--small button--black-border edit-item-image__btn">{imageEditButtonCaption}</button>

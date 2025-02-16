@@ -18,4 +18,3 @@ export function multerFileToFormData(file: Express.Multer.File, formData: FormDa
 
   formData.append(name, fileBlob, originalFilename);
 }
-
