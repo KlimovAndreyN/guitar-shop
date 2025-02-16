@@ -65,6 +65,8 @@ import { GuitarType } from '../../types/backend';
 import { ProductDto } from '../../types/types';
 
 type ProductFormProps = {
+  isEditing: boolean;
+  prefixClassName: string;
   actionName: string;
   product: ProductDto;
   onCancel: () => void;
@@ -72,10 +74,9 @@ type ProductFormProps = {
 };
 
 
-const ProductForm = ({ actionName, product, onSubmit, onCancel }: ProductFormProps): JSX.Element => {
-  const { id, /*..... */ } = product;
-  const isEditing = id !== undefined;
-  const prefixClassName = isEditing ? 'edit' : 'add';
+const ProductForm = (props: ProductFormProps): JSX.Element => {
+  const { isEditing, prefixClassName, actionName, product, onSubmit, onCancel } = props;
+  //!const { id, /*..... */ } = product;
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
   const guitarTypeSpanText = isEditing ? 'Тип товара' : 'Выберите тип товара';
   const titleSpanText = isEditing ? 'Наименование товара' : 'Введите наименование товара';

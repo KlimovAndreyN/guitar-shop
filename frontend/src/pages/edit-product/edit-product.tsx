@@ -12,14 +12,13 @@ import { Offer } from '../../types/types';
 
 import { Helmet } from 'react-helmet-async';
 
-import ProductForm from '../../components/product-form/product-form';
+import ProductFormSection from '../../components/product-form-section/product-form-section';
 import { editProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
-import history from '../../history';
 import { GuitarType } from '../../types/backend';
 import { ProductDto } from '../../types/types';
-import { AppRoute, PageTitle } from '../../const';
+import { PageTitle } from '../../const';
 
 const product: ProductDto = {
   id: 'ProductDtoId',
@@ -29,13 +28,11 @@ const product: ProductDto = {
   imageFile: '',
   price: 0,
   stringsCount: 6,
-  title: '',
+  title: 'title',
   addedDate: ''
 };
 
 const EditProduct = (): JSX.Element | null => {
-  //! product.title
-  const actionName = 'СURT Z30 Plus';
   const dispatch = useAppDispatch();
   /*
   {
@@ -58,9 +55,6 @@ const EditProduct = (): JSX.Element | null => {
     return null;
   }
 */
-  const handleFormCancel = () => {
-    history.push(AppRoute.Catalog);
-  };
 
   const handleFormSubmit = (productData: ProductDto) => {
     dispatch(editProduct(productData));
@@ -73,11 +67,9 @@ const EditProduct = (): JSX.Element | null => {
       <Helmet>
         <title>{PageTitle.EditProduct}</title>
       </Helmet>
-      <ProductForm
-        actionName={actionName}
+      <ProductFormSection
         product={product}
         onSubmit={handleFormSubmit}
-        onCancel={handleFormCancel}
       />
     </main>
   );

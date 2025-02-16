@@ -1,12 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 
-import ProductForm from '../../components/product-form/product-form';
+import ProductFormSection from '../../components/product-form-section/product-form-section';
 import { postProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
-import history from '../../history';
 import { ProductDto } from '../../types/types';
-import { AppRoute, PageTitle } from '../../const';
+import { PageTitle } from '../../const';
 
 const emptyProduct: ProductDto = {
   title: '',
@@ -15,12 +14,7 @@ const emptyProduct: ProductDto = {
 };
 
 const AddProduct = (): JSX.Element => {
-  const actionName = 'Новый товар';
   const dispatch = useAppDispatch();
-
-  const handleFormCancel = () => {
-    history.push(AppRoute.Catalog);
-  };
 
   const handleFormSubmit = (productData: ProductDto) => {
     dispatch(postProduct(productData));
@@ -33,11 +27,9 @@ const AddProduct = (): JSX.Element => {
       <Helmet>
         <title>{PageTitle.AddProduct}</title>
       </Helmet>
-      <ProductForm
-        actionName={actionName}
+      <ProductFormSection
         product={emptyProduct}
         onSubmit={handleFormSubmit}
-        onCancel={handleFormCancel}
       />
     </main>
   );
