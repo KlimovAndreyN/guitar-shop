@@ -29,9 +29,6 @@ export enum ApiRoute {
   Logout = '/users/logout',
   Register = 'users/register',
   Products = '/catalog/products',
-
-  //!
-  Offers = '/offers'
 }
 
 export enum AuthorizationStatus {

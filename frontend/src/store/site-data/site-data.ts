@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchProducts, fetchProduct, postOffer, editOffer } from '../action';
+import { fetchProducts, fetchProduct, postProduct, editProduct } from '../action';
 import type { SiteData } from '../../types/state';
 import { StoreSlice } from '../../const';
 
@@ -37,16 +37,16 @@ export const siteData = createSlice({
       .addCase(fetchProduct.rejected, (state) => {
         state.isProductLoading = false;
       })
-      .addCase(postOffer.fulfilled, (_state, action) => {
+      .addCase(postProduct.fulfilled, (_state, action) => {
         // eslint-disable-next-line no-console
         console.log(action.payload);
         //state.offers.push(action.payload);
       })
-      .addCase(editOffer.fulfilled, (_state, action) => {
+      .addCase(editProduct.fulfilled, (_state, action) => {
         //!
-        const updatedOffer = action.payload;
+        const updatedProduct = action.payload;
         // eslint-disable-next-line no-console
-        console.log(updatedOffer);
+        console.log(updatedProduct);
         //!state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
       });
   }

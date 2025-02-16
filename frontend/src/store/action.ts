@@ -2,29 +2,22 @@ import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { UserAuth, User, UserRegister, NewOffer } from '../types/types';
+import type { UserAuth, User, UserRegister } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { TokenStore } from '../utils/token-store';
-import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
+import { CreateProductDto, DetailProduct, ProductsWithPagination, Token } from '../types/backend';
 
 type Extra = {
   api: AxiosInstance;
   history: History;
 };
 
-//! временно
-type Offer = {
-  id: string;
-};
-
 export const Action = {
   FETCH_PRODUCTS: 'products/fetch',
   FETCH_PRODUCT: 'product/fetch',
-
-  POST_OFFER: 'offer/post-offer',
-  EDIT_OFFER: 'offer/edit-offer',
-  DELETE_OFFER: 'offer/delete-offer',
-
+  POST_PRODUCT: 'product/post-product',
+  EDIT_PRODUCT: 'product/edit-product',
+  DELETE_PRODUCT: 'product/delete-product',
   LOGIN_USER: 'user/login',
   LOGOUT_USER: 'user/logout',
   FETCH_USER_STATUS: 'user/fetch-status',
@@ -60,31 +53,31 @@ export const fetchProduct = createAsyncThunk<DetailProduct, DetailProduct['id'],
     }
   });
 
-export const postOffer = createAsyncThunk<Offer, NewOffer, { extra: Extra }>(
-  Action.POST_OFFER,
-  async (newOffer, { extra }) => {
+export const postProduct = createAsyncThunk<DetailProduct, CreateProductDto & { id: string }, { extra: Extra }>(
+  Action.POST_PRODUCT,
+  async (createProductDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.post<Offer>(ApiRoute.Offers, newOffer);
+    const { data } = await api.post<DetailProduct>(ApiRoute.Products, createProductDto);
     history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;
   });
 
-export const editOffer = createAsyncThunk<Offer, Offer, { extra: Extra }>(
-  Action.EDIT_OFFER,
-  async (offer, { extra }) => {
+export const editProduct = createAsyncThunk<DetailProduct, CreateProductDto & { id: string }, { extra: Extra }>(
+  Action.EDIT_PRODUCT,
+  async (updateProductDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.patch<Offer>(`${ApiRoute.Offers}/${offer.id}`, offer);
+    const { data } = await api.patch<DetailProduct>(`${ApiRoute.Products}/${updateProductDto.id}`, updateProductDto);
     history.push(`${AppRoute.Product}/${data.id}`);
 
     return data;
   });
 
-export const deleteOffer = createAsyncThunk<void, string, { extra: Extra }>(
-  Action.DELETE_OFFER,
+export const deleteProduct = createAsyncThunk<void, string, { extra: Extra }>(
+  Action.DELETE_PRODUCT,
   async (id, { extra }) => {
     const { api, history } = extra;
-    await api.delete(`${ApiRoute.Offers}/${id}`);
+    await api.delete(`${ApiRoute.Products}/${id}`);
     history.push(AppRoute.Root);
   });
 

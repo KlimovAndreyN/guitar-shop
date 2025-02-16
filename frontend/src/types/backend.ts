@@ -9,3 +9,7 @@ export type { DetailProductRdo as DetailProduct } from '../../../backend/libs/sh
 export type { PaginationRdo as Pagination } from '../../../backend/libs/shared/core/src/lib/rdo/pagination.rdo';
 
 export type { ProductsWithPaginationRdo as ProductsWithPagination } from '../../../backend/libs/shared/core/src/lib/rdo/products-with-pagination.rdo';
+
+export type { CreateProductDto } from '../../../backend/libs/catalog/product/src/dto/create-product.dto';
+
+export type { UpdateProductDto } from '../../../backend/libs/catalog/product/src/dto/update-product.dto';
