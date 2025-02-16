@@ -14,13 +14,13 @@ const emptyProduct: ProductDto = {
 };
 
 const AddProduct = (): JSX.Element => {
+  useScrollToTop();
+
   const dispatch = useAppDispatch();
 
   const handleFormSubmit = (productData: ProductDto) => {
     dispatch(postProduct(productData));
   };
-
-  useScrollToTop();
 
   return (
     <main className="page-content">

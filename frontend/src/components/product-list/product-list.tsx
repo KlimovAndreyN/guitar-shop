@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import Spinner from '../spinner/spinner';
 import ProductItem from '../product-item/product-item';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import useScrollToTop from '../../hooks/use-scroll-to-top';
 import { getIsProductsLoading, getProductsWithPagination } from '../../store/site-data/selectors';
 import { fetchProducts } from '../../store/action';
 import { Product } from '../../types/backend';
 
 const ProductList = (): JSX.Element => {
+  useScrollToTop();
+
   const dispatch = useAppDispatch();
   const page = 1;
 
@@ -27,9 +30,6 @@ const ProductList = (): JSX.Element => {
   if (isProductsLoading) {
     return <Spinner />;
   }
-
-  //! не прокручивает - ошибка
-  //!useScrollToTop();
 
   return (
     <div className="catalog-cards">

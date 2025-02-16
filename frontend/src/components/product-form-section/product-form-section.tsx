@@ -10,9 +10,9 @@ type ProductFormSectionProps = {
 };
 
 const ProductFormSection = ({ product, onSubmit }: ProductFormSectionProps): JSX.Element => {
-  const { id, title } = product;
+  const { id, title: productTitle } = product;
   const isEditing = id !== undefined;
-  const actionName = isEditing ? title : 'Новый товар';
+  const title = isEditing ? productTitle : 'Новый товар';
   const prefixClassName = isEditing ? 'edit' : 'add';
 
   const handleFormCancel = () => {
@@ -22,12 +22,11 @@ const ProductFormSection = ({ product, onSubmit }: ProductFormSectionProps): JSX
   return (
     <section className={`${prefixClassName}-item`}>
       <div className="container">
-        <h1 className={`${prefixClassName}-item__title`}>{actionName}</h1>
-        <BreadcrumbList actionName={actionName} />
+        <h1 className={`${prefixClassName}-item__title`}>{title}</h1>
+        <BreadcrumbList title={title} />
         <ProductForm
           isEditing={isEditing}
           prefixClassName={prefixClassName}
-          actionName={actionName}
           product={product}
           onSubmit={onSubmit}
           onCancel={handleFormCancel}

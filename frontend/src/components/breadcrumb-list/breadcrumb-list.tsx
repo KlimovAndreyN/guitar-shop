@@ -1,24 +1,25 @@
-import BreadcrumbItem from '../breadcrumb-item/breadcrumb-item';
-import { AppRoute } from '../../const';
 import classNames from 'classnames';
 
+import BreadcrumbItem from '../breadcrumb-item/breadcrumb-item';
+import { AppRoute } from '../../const';
+
 type BreadcrumbListProps = {
-  actionName?: string;
+  title?: string;
   isFromShowProduct?: boolean;
 }
 
-const BreadcrumbList = ({ actionName, isFromShowProduct: isFromProduct = false }: BreadcrumbListProps): JSX.Element => {
+const BreadcrumbList = ({ title, isFromShowProduct: isFromProduct = false }: BreadcrumbListProps): JSX.Element => {
   const className = classNames('breadcrumbs', { 'page-content__breadcrumbs': isFromProduct });
 
   return (
     <ul className={className}>
       <BreadcrumbItem title='Вход' route={AppRoute.Root} />
       {
-        actionName
+        title
           ?
           <>
             <BreadcrumbItem title='Товары' route={AppRoute.Catalog} />
-            <BreadcrumbItem title={actionName} />
+            <BreadcrumbItem title={title} />
           </>
           :
           <BreadcrumbItem title='Товары' />

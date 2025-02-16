@@ -40,7 +40,7 @@ export const siteData = createSlice({
       .addCase(postProduct.fulfilled, (_state, action) => {
         // eslint-disable-next-line no-console
         console.log(action.payload);
-        //state.offers.push(action.payload);
+        //!state.offers.push(action.payload);
       })
       .addCase(editProduct.fulfilled, (_state, action) => {
         //!

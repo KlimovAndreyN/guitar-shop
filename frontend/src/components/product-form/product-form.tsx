@@ -60,14 +60,12 @@ const getImages = (
 
 import { FormEvent } from 'react';
 
-import BreadcrumbList from '../breadcrumb-list/breadcrumb-list';
 import { GuitarType } from '../../types/backend';
 import { ProductDto } from '../../types/types';
 
 type ProductFormProps = {
   isEditing: boolean;
   prefixClassName: string;
-  actionName: string;
   product: ProductDto;
   onCancel: () => void;
   onSubmit: (productData: ProductDto) => void;
@@ -75,7 +73,7 @@ type ProductFormProps = {
 
 
 const ProductForm = (props: ProductFormProps): JSX.Element => {
-  const { isEditing, prefixClassName, actionName, product, onSubmit, onCancel } = props;
+  const { isEditing, prefixClassName, product, onSubmit, onCancel } = props;
   //!const { id, /*..... */ } = product;
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
   const guitarTypeSpanText = isEditing ? 'Тип товара' : 'Выберите тип товара';
@@ -151,79 +149,72 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
   };
 
   return (
-    <section className={`${prefixClassName}-item`}>
-      <div className="container">
-        <h1 className={`${prefixClassName}-item__title`}>{actionName}</h1>
-        <BreadcrumbList actionName={actionName} />
-        <form className={`${prefixClassName}-item__form`} action="#" method="post" onSubmit={handleFormSubmit} >
-          <div className={`${prefixClassName}-item__form-left`}>
-            <div className={`edit-item-image ${prefixClassName}-item__form-image`}>
-              <div className="edit-item-image__image-wrap">
-              </div>
-              <div className="edit-item-image__btn-wrap">
-                <button className="button button--small button--black-border edit-item-image__btn">{imageEditButtonCaption}</button>
-                <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
-              </div>
-            </div>
-            <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>{guitarTypeSpanText}</span>
-              <input type="radio" id="guitar" name="item-type" value="guitar" />
-              <label htmlFor="guitar">Акустическая гитара</label>
-              <input type="radio" id="el-guitar" name="item-type" value="el-guitar" /*checked*/ />
-              <label htmlFor="el-guitar">Электрогитара</label>
-              <input type="radio" id="ukulele" name="item-type" value="ukulele" />
-              <label htmlFor="ukulele">Укулеле</label>
-            </div>
-            <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>Количество струн</span>
-              <input type="radio" id="string-qty-4" name="string-qty" value="4" /*checked*/ />
-              <label htmlFor="string-qty-4">4</label>
-              <input type="radio" id="string-qty-6" name="string-qty" value="6" />
-              <label htmlFor="string-qty-6">6</label>
-              <input type="radio" id="string-qty-7" name="string-qty" value="7" />
-              <label htmlFor="string-qty-7">7</label>
-              <input type="radio" id="string-qty-12" name="string-qty" value="12" />
-              <label htmlFor="string-qty-12">12</label>
-            </div>
+    <form className={`${prefixClassName}-item__form`} action="#" method="post" onSubmit={handleFormSubmit} >
+      <div className={`${prefixClassName}-item__form-left`}>
+        <div className={`edit-item-image ${prefixClassName}-item__form-image`}>
+          <div className="edit-item-image__image-wrap">
           </div>
-          <div className={`${prefixClassName}-item__form-right`}>
-            <div className={`custom-input ${prefixClassName}-item__form-input`}>
-              <label><span>Дата добавления товара</span>
-                <input type="text" name="date" defaultValue="" placeholder="Дата в формате 00.00.0000" readOnly={!isEditing} />
-              </label>
-              <p>Заполните поле</p>
-            </div>
-            <div className={`custom-input ${prefixClassName}-item__form-input`}>
-              <label><span>{titleSpanText}</span>
-                <input type="text" name="title" defaultValue="" placeholder="Наименование" />
-              </label>
-              <p>Заполните поле</p>
-            </div>
-            <div className={`custom-input ${prefixClassName}-item__form-input ${prefixClassName}-item__form-input--price${isEditing ? '' : ' is-placeholder'}`}>
-              <label><span>{priceSpanText}</span>
-                <input type="text" name="price" defaultValue="" placeholder="Цена в формате 00 000" />
-              </label>
-              <p>Заполните поле</p>
-            </div>
-            <div className={`custom-input ${prefixClassName}-item__form-input`}>
-              <label><span>{artileSpanText}</span>
-                <input type="text" name="sku" defaultValue="" placeholder="Артикул товара" />
-              </label>
-              <p>Заполните поле</p>
-            </div>
-            <div className={`custom-textarea ${prefixClassName}-item__form-textarea`}>
-              <label><span>{descriptionSpanText}</span>
-                <textarea name="description" placeholder=""></textarea>
-              </label>
-              <p>Заполните поле</p>
-            </div>
+          <div className="edit-item-image__btn-wrap">
+            <button className="button button--small button--black-border edit-item-image__btn">{imageEditButtonCaption}</button>
+            <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
           </div>
-          <div className={`${prefixClassName}-item__form-buttons-wrap`}>
-            <button className={`button button--small ${prefixClassName}-item__form-button`} type="submit">Сохранить изменения</button>
-            <button className={`button button--small ${prefixClassName}-item__form-button`} type="button" onClick={handleBackButtonClick}>Вернуться к списку товаров</button>
-          </div>
-        </form>
+        </div>
+        <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>{guitarTypeSpanText}</span>
+          <input type="radio" id="guitar" name="item-type" value="guitar" />
+          <label htmlFor="guitar">Акустическая гитара</label>
+          <input type="radio" id="el-guitar" name="item-type" value="el-guitar" /*checked*/ />
+          <label htmlFor="el-guitar">Электрогитара</label>
+          <input type="radio" id="ukulele" name="item-type" value="ukulele" />
+          <label htmlFor="ukulele">Укулеле</label>
+        </div>
+        <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>Количество струн</span>
+          <input type="radio" id="string-qty-4" name="string-qty" value="4" /*checked*/ />
+          <label htmlFor="string-qty-4">4</label>
+          <input type="radio" id="string-qty-6" name="string-qty" value="6" />
+          <label htmlFor="string-qty-6">6</label>
+          <input type="radio" id="string-qty-7" name="string-qty" value="7" />
+          <label htmlFor="string-qty-7">7</label>
+          <input type="radio" id="string-qty-12" name="string-qty" value="12" />
+          <label htmlFor="string-qty-12">12</label>
+        </div>
       </div>
-    </section>
-
+      <div className={`${prefixClassName}-item__form-right`}>
+        <div className={`custom-input ${prefixClassName}-item__form-input`}>
+          <label><span>Дата добавления товара</span>
+            <input type="text" name="date" defaultValue="" placeholder="Дата в формате 00.00.0000" readOnly={!isEditing} />
+          </label>
+          <p>Заполните поле</p>
+        </div>
+        <div className={`custom-input ${prefixClassName}-item__form-input`}>
+          <label><span>{titleSpanText}</span>
+            <input type="text" name="title" defaultValue="" placeholder="Наименование" />
+          </label>
+          <p>Заполните поле</p>
+        </div>
+        <div className={`custom-input ${prefixClassName}-item__form-input ${prefixClassName}-item__form-input--price${isEditing ? '' : ' is-placeholder'}`}>
+          <label><span>{priceSpanText}</span>
+            <input type="text" name="price" defaultValue="" placeholder="Цена в формате 00 000" />
+          </label>
+          <p>Заполните поле</p>
+        </div>
+        <div className={`custom-input ${prefixClassName}-item__form-input`}>
+          <label><span>{artileSpanText}</span>
+            <input type="text" name="sku" defaultValue="" placeholder="Артикул товара" />
+          </label>
+          <p>Заполните поле</p>
+        </div>
+        <div className={`custom-textarea ${prefixClassName}-item__form-textarea`}>
+          <label><span>{descriptionSpanText}</span>
+            <textarea name="description" placeholder=""></textarea>
+          </label>
+          <p>Заполните поле</p>
+        </div>
+      </div>
+      <div className={`${prefixClassName}-item__form-buttons-wrap`}>
+        <button className={`button button--small ${prefixClassName}-item__form-button`} type="submit">Сохранить изменения</button>
+        <button className={`button button--small ${prefixClassName}-item__form-button`} type="button" onClick={handleBackButtonClick}>Вернуться к списку товаров</button>
+      </div>
+    </form>
   );
 };
 /*
