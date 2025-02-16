@@ -7,11 +7,11 @@ export type ProductDto = {
   id?: string;
   title: string;
   description: string;
-  imageFile: string;
-  guitarType: GuitarType;
+  imageFile?: string;
+  guitarType?: GuitarType;
   article: string;
-  stringsCount: StringsCount;
-  price: number;
+  stringsCount?: StringsCount;
+  price?: number;
   addedDate?: string;
 };
 

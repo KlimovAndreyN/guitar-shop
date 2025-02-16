@@ -12,7 +12,6 @@ import { Offer } from '../../types/types';
 
 import { Helmet } from 'react-helmet-async';
 
-import BreadcrumbList from '../../components/breadcrumb-list/breadcrumb-list';
 import ProductForm from '../../components/product-form/product-form';
 import { editProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
@@ -35,7 +34,7 @@ const product: ProductDto = {
 };
 
 const EditProduct = (): JSX.Element | null => {
-  //!
+  //! product.title
   const actionName = 'СURT Z30 Plus';
   const dispatch = useAppDispatch();
   /*
@@ -74,13 +73,12 @@ const EditProduct = (): JSX.Element | null => {
       <Helmet>
         <title>{PageTitle.EditProduct}</title>
       </Helmet>
-      <section className="edit-item">
-        <div className="container">
-          <h1 className="edit-item__title">{actionName}</h1>
-          <BreadcrumbList actionName={actionName} />
-          <ProductForm product={product} onSubmit={handleFormSubmit} onCancel={handleFormCancel} />
-        </div>
-      </section>
+      <ProductForm
+        actionName={actionName}
+        product={product}
+        onSubmit={handleFormSubmit}
+        onCancel={handleFormCancel}
+      />
     </main>
   );
 };
