@@ -17,13 +17,13 @@ import ProductForm from '../../components/product-form/product-form';
 import { editProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
+import history from '../../history';
 import { GuitarType } from '../../types/backend';
 import { ProductDto } from '../../types/types';
-import { PageTitle } from '../../const';
-
+import { AppRoute, PageTitle } from '../../const';
 
 const product: ProductDto = {
-  id: '',
+  id: 'ProductDtoId',
   article: '',
   description: '',
   guitarType: 'acoustic' as GuitarType, //!
@@ -59,9 +59,14 @@ const EditProduct = (): JSX.Element | null => {
     return null;
   }
 */
+  const handleFormCancel = () => {
+    history.push(AppRoute.Catalog);
+  };
+
   const handleFormSubmit = (productData: ProductDto) => {
     dispatch(editProduct(productData));
   };
+
   useScrollToTop();
 
   return (
@@ -73,7 +78,7 @@ const EditProduct = (): JSX.Element | null => {
         <div className="container">
           <h1 className="edit-item__title">{actionName}</h1>
           <BreadcrumbList actionName={actionName} />
-          <ProductForm product={product} onSubmit={handleFormSubmit} />
+          <ProductForm product={product} onSubmit={handleFormSubmit} onCancel={handleFormCancel} />
         </div>
       </section>
     </main>

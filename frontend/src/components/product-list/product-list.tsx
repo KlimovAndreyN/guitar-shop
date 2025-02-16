@@ -28,6 +28,9 @@ const ProductList = (): JSX.Element => {
     return <Spinner />;
   }
 
+  //! не прокручивает - ошибка
+  //!useScrollToTop();
+
   return (
     <div className="catalog-cards">
       {

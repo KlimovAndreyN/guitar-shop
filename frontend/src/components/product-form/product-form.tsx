@@ -65,11 +65,12 @@ import { ProductDto } from '../../types/types';
 
 type ProductFormProps = {
   product: ProductDto;
+  onCancel: () => void;
   onSubmit: (productData: ProductDto) => void;
 };
 
 
-const ProductForm = ({ product, onSubmit }: ProductFormProps): JSX.Element => {
+const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps): JSX.Element => {
   //!
   // eslint-disable-next-line no-console
   console.log(product);
@@ -95,6 +96,10 @@ const ProductForm = ({ product, onSubmit }: ProductFormProps): JSX.Element => {
       setChosenLocation(CityLocation[value]);
     };
 */
+  const handleBackButtonClick = () => {
+    onCancel();
+  };
+
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     /*
@@ -333,13 +338,13 @@ return (
         <div className="input-radio add-item__form-radio"><span>Выберите тип товара</span>
           <input type="radio" id="guitar" name="item-type" value="guitar" />
           <label htmlFor="guitar">Акустическая гитара</label>
-          <input type="radio" id="el-guitar" name="item-type" value="el-guitar" checked />
+          <input type="radio" id="el-guitar" name="item-type" value="el-guitar" /*checked*/ />
           <label htmlFor="el-guitar">Электрогитара</label>
           <input type="radio" id="ukulele" name="item-type" value="ukulele" />
           <label htmlFor="ukulele">Укулеле</label>
         </div>
         <div className="input-radio add-item__form-radio"><span>Количество струн</span>
-          <input type="radio" id="string-qty-4" name="string-qty" value="4" checked />
+          <input type="radio" id="string-qty-4" name="string-qty" value="4" /*checked*/ />
           <label htmlFor="string-qty-4">4</label>
           <input type="radio" id="string-qty-6" name="string-qty" value="6" />
           <label htmlFor="string-qty-6">6</label>
@@ -352,25 +357,25 @@ return (
       <div className="add-item__form-right">
         <div className="custom-input add-item__form-input">
           <label><span>Дата добавления товара</span>
-            <input type="text" name="date" value="" placeholder="Дата в формате 00.00.0000" readOnly />
+            <input type="text" name="date" defaultValue="" placeholder="Дата в формате 00.00.0000" readOnly />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className="custom-input add-item__form-input">
           <label><span>Введите наименование товара</span>
-            <input type="text" name="title" value="" placeholder="Наименование" />
+            <input type="text" name="title" defaultValue="" placeholder="Наименование" />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className="custom-input add-item__form-input add-item__form-input--price is-placeholder">
           <label><span>Введите цену товара</span>
-            <input type="text" name="price" value="" placeholder="Цена в формате 00 000" />
+            <input type="text" name="price" defaultValue="" placeholder="Цена в формате 00 000" />
           </label>
           <p>Заполните поле</p>
         </div>
         <div className="custom-input add-item__form-input">
           <label><span>Введите артикул товара</span>
-            <input type="text" name="sku" value="" placeholder="Артикул товара" />
+            <input type="text" name="sku" defaultValue="" placeholder="Артикул товара" />
           </label>
           <p>Заполните поле</p>
         </div>
@@ -383,7 +388,7 @@ return (
       </div>
       <div className="add-item__form-buttons-wrap">
         <button className="button button--small add-item__form-button" type="submit">Сохранить изменения</button>
-        <button className="button button--small add-item__form-button" type="button">Вернуться к списку товаров</button>
+        <button className="button button--small add-item__form-button" type="button" onClick={handleBackButtonClick}>Вернуться к списку товаров</button>
       </div>
     </form>
   );
