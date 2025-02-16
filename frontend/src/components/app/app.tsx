@@ -54,7 +54,7 @@ const App = (): JSX.Element => (
           }
         />
         <Route
-          path={`${AppRoute.Product}/:id${AppRoute.Edit}`}
+          path={AppRoute.ProductEdit}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
               <EditProduct />
@@ -62,7 +62,7 @@ const App = (): JSX.Element => (
           }
         />
         <Route
-          path={`${AppRoute.Product}${AppRoute.Edit}`}
+          path={AppRoute.ProductAdd}
           element={
             <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Root}>
               <AddProduct />

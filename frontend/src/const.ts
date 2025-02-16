@@ -18,8 +18,8 @@ export enum AppRoute {
   Register = '/register',
   Catalog = '/catalog',
   Product = '/catalog/product',
-  Add = '/add',
-  Edit = '/edit',
+  ProductAdd = '/catalog/product/add',
+  ProductEdit = '/catalog/product/:id/edit',
   NotFound = '/404',
 }
 

@@ -10,7 +10,7 @@ import { AppRoute, PageTitle } from '../../const';
 
 const Catalog = (): JSX.Element => {
     const handleAddProductButtonClick = () => {
-        history.push(AppRoute.Add);
+        history.push(AppRoute.ProductAdd);
     };
 
     return (
