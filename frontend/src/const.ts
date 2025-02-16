@@ -1,5 +1,3 @@
-import { GuitarType } from './types/backend';
-
 export const MAIN_TITLE = 'Guitar-shop';
 
 export const PageTitle = {
@@ -53,6 +51,16 @@ export enum StoreSlice {
 export enum HttpCode {
   NotFound = 404,
   NoAuth = 401
+}
+
+export const STRINGS_COUNT_VALUES = [4, 6, 7, 12] as const;
+
+export type StringsCount = typeof STRINGS_COUNT_VALUES[number];
+
+export enum GuitarType {
+  Electro = 'electro',
+  Acoustic = 'acoustic',
+  Ukulele = 'ukulele'
 }
 
 export const GuitarTypeTitle: { [key in GuitarType]: string } = {

@@ -58,10 +58,10 @@ const getImages = (
 };
 */
 
-import { FormEvent } from 'react';
+import { FormEvent, Fragment } from 'react';
 
-import { GuitarType } from '../../types/backend';
 import { ProductDto } from '../../types/types';
+import { GuitarTypeTitle, GuitarType, STRINGS_COUNT_VALUES } from '../../const';
 
 type ProductFormProps = {
   isEditing: boolean;
@@ -160,22 +160,40 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
           </div>
         </div>
         <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>{guitarTypeSpanText}</span>
-          <input type="radio" id="guitar" name="item-type" value="guitar" />
-          <label htmlFor="guitar">Акустическая гитара</label>
-          <input type="radio" id="el-guitar" name="item-type" value="el-guitar" /*checked*/ />
-          <label htmlFor="el-guitar">Электрогитара</label>
-          <input type="radio" id="ukulele" name="item-type" value="ukulele" />
-          <label htmlFor="ukulele">Укулеле</label>
+          {
+            Object.values(GuitarType).map(
+              (guitarType) => {
+                const key = guitarType;
+                const inputId = guitarType;
+                const isChecked = false; //!
+
+                return (
+                  <Fragment key={key}>
+                    <input type="radio" id={inputId} name="item-type" value={guitarType} defaultChecked={isChecked} />
+                    <label htmlFor={inputId}>{GuitarTypeTitle[guitarType]}</label>
+                  </Fragment>
+                );
+              }
+            )
+          }
         </div>
         <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>Количество струн</span>
-          <input type="radio" id="string-qty-4" name="string-qty" value="4" /*checked*/ />
-          <label htmlFor="string-qty-4">4</label>
-          <input type="radio" id="string-qty-6" name="string-qty" value="6" />
-          <label htmlFor="string-qty-6">6</label>
-          <input type="radio" id="string-qty-7" name="string-qty" value="7" />
-          <label htmlFor="string-qty-7">7</label>
-          <input type="radio" id="string-qty-12" name="string-qty" value="12" />
-          <label htmlFor="string-qty-12">12</label>
+          {
+            STRINGS_COUNT_VALUES.map(
+              (value) => {
+                const inputName = 'string-qty';
+                const inputId = `${inputName}-${value}`;
+                const isChecked = false; //!
+
+                return (
+                  <Fragment key={`${value}`}>
+                    <input type="radio" id={inputId} name={inputName} value={value} defaultChecked={isChecked} />
+                    <label htmlFor={inputId}>{value}</label>
+                  </Fragment>
+                );
+              }
+            )
+          }
         </div>
       </div>
       <div className={`${prefixClassName}-item__form-right`}>

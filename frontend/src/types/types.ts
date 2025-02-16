@@ -1,5 +1,4 @@
-import { GuitarType, StringsCount } from './backend';
-import { Sorting } from '../const';
+import { Sorting, GuitarType, StringsCount } from '../const';
 
 export type SortName = keyof typeof Sorting;
 

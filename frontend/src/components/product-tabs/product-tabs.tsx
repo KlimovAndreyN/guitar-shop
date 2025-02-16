@@ -1,8 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import classNames from 'classnames';
 
-import { GuitarType } from '../../types/backend';
-import { GuitarTypeTitle } from '../../const';
+import { GuitarTypeTitle, GuitarType, StringsCount } from '../../const';
 
 enum TabOption {
   Characteristics = 'characteristics',
@@ -16,7 +15,7 @@ type ProductTabsProps = {
   description: string;
   guitarType: GuitarType;
   article: string;
-  stringsCount: number;
+  stringsCount: StringsCount;
 }
 
 const ProductTabs = ({ description, guitarType, article, stringsCount }: ProductTabsProps): JSX.Element => {
