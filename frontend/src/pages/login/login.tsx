@@ -32,7 +32,7 @@ const Login = (): JSX.Element => {
           <form method="post" action="/" onSubmit={handleFormSubmit}>
             <div className="input-login">
               <label htmlFor="email">Введите e-mail</label>
-              <input type="email" id="email" name="email" autoComplete="off" required />
+              <input type="text" id="email" name="email" autoComplete="off" required />
               <p className="input-login__error">Заполните поле</p>
             </div>
             <div className="input-login">

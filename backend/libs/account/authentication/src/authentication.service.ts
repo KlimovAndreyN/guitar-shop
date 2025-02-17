@@ -90,14 +90,18 @@ export class AuthenticationService {
 
   public async verifyUser(dto: LoginUserDto): Promise<ShopUserEntity> {
     const { login, password } = dto;
-    const existUser = await this.getUserByEmail(login);
+    try {
+      const existUser = await this.getUserByEmail(login);
+      const isCorrectPassword = await existUser.comparePassword(password);
 
-    const isCorrectPassword = await existUser.comparePassword(password);
+      if (!isCorrectPassword) {
+        throw new UnauthorizedException(AuthenticationUserMessage.WrongLoginOrPassword);
+      }
 
-    if (!isCorrectPassword) {
-      throw new UnauthorizedException(AuthenticationUserMessage.WrongPassword);
+      return existUser;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new UnauthorizedException(AuthenticationUserMessage.WrongLoginOrPassword);
     }
-
-    return existUser;
   }
 }

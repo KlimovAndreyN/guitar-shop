@@ -7,7 +7,7 @@ import { TokenPayloadRdo } from './rdo/token-payload.rdo';
 
 export const AuthenticationUserMessage = {
   Exists: 'User with this email already exists.',
-  WrongPassword: 'User password is wrong.',
+  WrongLoginOrPassword: 'Login or password is wrong.',
   RequireLogout: 'Require logout.'
 } as const;
 
@@ -18,8 +18,15 @@ export const UserValidation = {
   },
   Password: {
     MinLength: 6,
-    MaxLength: 12
-  }
+    MaxLength: 12,
+  },
+  LogonPassword: {
+    LogonMinLength: 1
+  },
+  LogonLogin: {
+    Regexp: /[a-zA-Zа-яА-Я]/,
+    Message: 'login macth least one letter'
+  },
 } as const;
 
 export const AuthenticationApiResponse = {
