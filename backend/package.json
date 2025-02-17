@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "cli": "node ./dist/apps/cli/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
   },
   "private": true,
