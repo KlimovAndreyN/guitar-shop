@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { TokenStore } from '../utils/token-store';
 import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
-import type { UserAuth, User, UserRegister, ProductDto } from '../types/types';
+import type { UserAuth, User, UserRegister, ProductDto, UserLogin } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 
 type Extra = {
@@ -117,9 +117,9 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['name'], undefined, { e
     }
   });
 
-export const loginUser = createAsyncThunk<UserAuth['name'], UserAuth, { extra: Extra }>(
+export const loginUser = createAsyncThunk<UserAuth['name'], UserLogin, { extra: Extra }>(
   Action.LOGIN_USER,
-  async ({ email: login, password }, { extra }) => {
+  async ({ login, password }, { extra }) => {
     const { api, history } = extra;
     const { data } = await api.post<User & Token>(ApiRoute.Login, { login, password });
     const { accessToken, name } = data;

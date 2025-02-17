@@ -19,5 +19,10 @@ export type User = {
   email: string;
 };
 
+export type UserLogin = {
+  login?: string;
+  password?: string;
+};
+
 export type UserAuth = User & { password: string };
 export type UserRegister = UserAuth;
