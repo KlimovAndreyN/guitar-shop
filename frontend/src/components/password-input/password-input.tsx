@@ -32,7 +32,7 @@ const PasswordInput = ({ isFromRegistration = false }: PasswordInputProps): JSX.
     <div className="input-login">
       <label htmlFor={inputId}>{labelText}</label>
       <span>
-        <input type={chosenPasswordType} placeholder="• • • • • • • • • • • •" id={inputId} name="password" autoComplete="off" required />
+        <input type={chosenPasswordType} placeholder={isPasswordType(chosenPasswordType) ? '• • • • • • • • • • • •' : ''} id={inputId} name="password" autoComplete="off" required />
         <button className="input-login__button-eye" type="button" onClick={handleShowPasswordButtonClick}>
           <svg width="14" height="8" aria-hidden="true">
             <use xlinkHref="#icon-eye"></use>
