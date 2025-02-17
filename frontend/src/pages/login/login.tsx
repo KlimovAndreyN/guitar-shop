@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
@@ -7,8 +7,17 @@ import { useAppDispatch } from '../../hooks';
 import { loginUser } from '../../store/action';
 import { AppRoute, PageTitle } from '../../const';
 
+enum PasswordTypeTabOption {
+  Password = 'password',
+  Text = 'text'
+}
+
+const isPasswordType = (value: PasswordTypeTabOption) => (value === PasswordTypeTabOption.Password);
+
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const passwordType = PasswordTypeTabOption.Password;
+  const [chosenPasswordType, setPasswordType] = useState(passwordType);
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,6 +27,17 @@ const Login = (): JSX.Element => {
     const data = Object.fromEntries(formData);
 
     dispatch(loginUser(data));
+  };
+
+  const handleShowPasswordButtonClick = (event: FormEvent<HTMLElement>) => {
+    event.preventDefault();
+
+    if (isPasswordType(chosenPasswordType)) {
+      setPasswordType(PasswordTypeTabOption.Text);
+    }
+    else {
+      setPasswordType(PasswordTypeTabOption.Password);
+    }
   };
 
   return (
@@ -38,8 +58,8 @@ const Login = (): JSX.Element => {
             <div className="input-login">
               <label htmlFor="passwordLogin">Введите пароль</label>
               <span>
-                <input type="password" placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password" autoComplete="off" required />
-                <button className="input-login__button-eye" type="button">
+                <input type={chosenPasswordType} placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password" autoComplete="off" required />
+                <button className="input-login__button-eye" type="button" onClick={handleShowPasswordButtonClick}>
                   <svg width="14" height="8" aria-hidden="true">
                     <use xlinkHref="#icon-eye"></use>
                   </svg>
