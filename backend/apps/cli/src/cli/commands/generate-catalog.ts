@@ -1,16 +1,17 @@
 import { PrismaClient } from '@prisma/client';
 
 import { ConfigAlias, GuitarType } from '@backend/shared/core';
-import { getRandomItem, getRandomStringEnumValue } from '@backend/shared/helpers';
+import { getRandomDate, getRandomItem, getRandomStringEnumValue } from '@backend/shared/helpers';
 import { StringsCountByGuitarType } from '@backend/catalog/product';
 
-import { MOCK_PRODUCT_TEMPLATE } from './mocks';
+import { MOCK_PRODUCT_TEMPLATE, MOCK_START_DATE } from './mocks';
 
 export async function generateCatalog(postgresUrl: string, productCount: number) {
   process.env[ConfigAlias.PostgresDatabaseUrlEnv] = postgresUrl;
 
   const prismaClient = new PrismaClient({});
   const { article, description, price, title } = MOCK_PRODUCT_TEMPLATE;
+  const now = new Date().toISOString();
 
   try {
     const data = Array.from(
@@ -20,6 +21,7 @@ export async function generateCatalog(postgresUrl: string, productCount: number)
         const guitarType = getRandomStringEnumValue(GuitarType);
         const imagePath = '/static/' + guitarType + '.png'; //!
         const stringsCount = getRandomItem<number>(StringsCountByGuitarType[guitarType]);
+        const addedDate = getRandomDate(MOCK_START_DATE, now);
 
         return {
           title: title + digit,
@@ -28,7 +30,8 @@ export async function generateCatalog(postgresUrl: string, productCount: number)
           price: price * digit,
           imagePath,
           guitarType,
-          stringsCount
+          stringsCount,
+          addedDate
         }
       }
     );

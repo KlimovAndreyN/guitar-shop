@@ -14,3 +14,5 @@ export const MOCK_PRODUCT_TEMPLATE =
     article: 'art#',
     price: 5000
   } as const;
+
+export const MOCK_START_DATE = '2025-01-01T00:00:00.000Z';
