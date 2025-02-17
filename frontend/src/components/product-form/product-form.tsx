@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, MouseEvent, useState } from 'react';
 
 import { toMoneyRuLocate } from '../../utils/common';
 import { DetailProduct } from '../../types/backend';
@@ -35,10 +35,8 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
     guitarType,
     stringsCount,
     price,
-    imagePath
+    imagePath: imagePathProduct
   } = product;
-  console.log(imagePath);
-
   const priceString = (price) ? toMoneyRuLocate(price) : '';
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
   const guitarTypeSpanText = isEditing ? 'Тип товара' : 'Выберите тип товара';
@@ -48,15 +46,32 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
   const descriptionSpanText = isEditing ? 'Описание товара' : 'Введите описание товара';
   //! временно
   const [imageFile, setImageFile] = useState<File | undefined>();
+  const [imagePath, setImagePath] = useState<string | undefined>(imagePathProduct);
 
-  const handleImageEditButtonClick = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return;
     }
 
     setImageFile(event.target.files[0]);
   };
-  //
+
+  const handleImageEditButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('imageFile');
+
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
+  const handleImageDeleteButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    setImagePath(undefined);
+    setImageFile(undefined);
+  };
 
   const handleBackButtonClick = () => {
     onCancel();
@@ -85,41 +100,32 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
     onSubmit(data);
   };
 
+  const imageSrc = imageFile ? URL.createObjectURL(imageFile) : imagePath;
+
   return (
     <form className={`${prefixClassName}-item__form`} action="#" method="post" onSubmit={handleFormSubmit} >
       <div className={`${prefixClassName}-item__form-left`}>
         <div className={`edit-item-image ${prefixClassName}-item__form-image`}>
           <div className="edit-item-image__image-wrap">
-            {/* //! временно */}
             <input
-              className="visually-hidden"
+              className="visually-hidden hidden"
               type="file"
               name="imageFile"
               id="imageFile"
               accept="image/png, image/jpeg"
-              onChange={handleImageEditButtonClick}
+              onChange={handleImageFileInputChange}
             />
             <label htmlFor="imageFile">
               {
-                imageFile
-                  ?
-                  (
-                    <img
-                      src={URL.createObjectURL(imageFile)}
-                      alt="Картинка гитары"
-                    />
-                  )
-                  :
-                  (
-                    'Upload image'
-                  )
+                imageFile || imagePath
+                  ? <img className="edit-item-image__image" src={imageSrc} srcSet="" width="133" height="332" alt={title} />
+                  : ''
               }
             </label>
-            {/* // */}
           </div>
           <div className="edit-item-image__btn-wrap">
-            <button className="button button--small button--black-border edit-item-image__btn">{imageEditButtonCaption}</button>
-            <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
+            <button className="button button--small button--black-border edit-item-image__btn" onClick={handleImageEditButtonClick}>{imageEditButtonCaption}</button>
+            <button className="button button--small button--black-border edit-item-image__btn" onClick={handleImageDeleteButtonClick}>Удалить</button>
           </div>
         </div>
         <div className={`input-radio ${prefixClassName}-item__form-radio`}><span>{guitarTypeSpanText}</span>
