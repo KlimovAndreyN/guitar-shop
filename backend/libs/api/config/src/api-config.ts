@@ -8,7 +8,7 @@ export interface ApiConfig {
   environment: string;
   port: number;
   accountServiceUrl: string;
-  blogPostServiceUrl: string;
+  catalogServiceUrl: string;
   fileStorageServiceUrl: string;
 }
 
@@ -16,7 +16,7 @@ const validationSchema = Joi.object({
   environment: Joi.string().valid(...ENVIRONMENTS).required().label(ConfigAlias.NodeEnv),
   port: Joi.number().port().default(DEFAULT_PORT),
   accountServiceUrl: Joi.string().required().label(ConfigAlias.AccountServiceUrlEnv),
-  blogPostServiceUrl: Joi.string().required().label(ConfigAlias.CatalogServiceUrlEnv),
+  catalogServiceUrl: Joi.string().required().label(ConfigAlias.CatalogServiceUrlEnv),
   fileStorageServiceUrl: Joi.string().required().label(ConfigAlias.FileStorageServiceUrlEnv)
 });
 
@@ -33,7 +33,7 @@ function getConfig(): ApiConfig {
     environment: process.env[ConfigAlias.NodeEnv] as Environment,
     port: getPort(ConfigAlias.PortEnv, DEFAULT_PORT),
     accountServiceUrl: process.env[ConfigAlias.AccountServiceUrlEnv],
-    blogPostServiceUrl: process.env[ConfigAlias.CatalogServiceUrlEnv],
+    catalogServiceUrl: process.env[ConfigAlias.CatalogServiceUrlEnv],
     fileStorageServiceUrl: process.env[ConfigAlias.FileStorageServiceUrlEnv]
   };
 

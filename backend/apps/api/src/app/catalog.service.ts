@@ -16,7 +16,7 @@ export class CatalogService {
   ) { }
 
   public getProductsUrl(route = '', query: object = null): string {
-    return makeUrl(this.apiOptions.blogPostServiceUrl, RouteAlias.Products, route, query);
+    return makeUrl(this.apiOptions.catalogServiceUrl, RouteAlias.Products, route, query);
   }
 
   public async createOrUpdateProduct(
