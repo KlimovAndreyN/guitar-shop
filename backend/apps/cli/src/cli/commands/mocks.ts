@@ -6,3 +6,11 @@ export const MOCK_USER_ADMIN: MockUser = {
   name: 'admin',
   password: 'admin'
 } as const;
+
+export const MOCK_PRODUCT_TEMPLATE =
+  {
+    title: 'title title - ',
+    description: 'description description - ',
+    article: 'article',
+    price: 1000
+  } as const;
