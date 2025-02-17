@@ -1,8 +1,15 @@
+import * as Mongoose from 'mongoose';
+import { genSalt, hash } from 'bcrypt';
+
+import { SALT_ROUNDS } from '@backend/account/shop-user';
+
 //!import got from 'got';
 import { Command } from './command.interface';
 //!import { TSVOfferGenerator } from '../../shared/libs/offer-generator/index';
 //!import { TSVFileWriter } from '../../shared/libs/file-writer/index';
 import { CommandType } from './const';
+import { MOCK_USER_ADMIN } from './mocks';
+import { MockUserEntity } from './type';
 
 export class GenerateCommand implements Command {
   public getName(): string {
@@ -10,14 +17,22 @@ export class GenerateCommand implements Command {
   }
 
   public async execute(...parameters: string[]): Promise<void> {
-    const [count, mongoUrl, postgresUrl] = parameters;
+    const [count, mongoDbUrl, postgresUrl] = parameters;
     const productCount = Number.parseInt(count, 10);
 
-    console.log('count', count);
-    console.log('mongoUrl', mongoUrl);
-    console.log('postgresUrl', postgresUrl);
-    console.log('productCount', productCount);
+    console.info('mongoDbUrl:', mongoDbUrl);
+    console.info('postgresUrl:', postgresUrl);
+    console.info('count:', count);
 
+    const mongoose = await Mongoose.connect(mongoDbUrl);
+    const salt = await genSalt(SALT_ROUNDS);
+
+    const { id, email, name, password } = MOCK_USER_ADMIN;
+    const passwordHash = await hash(password, salt);
+    await new MockUserEntity({ id, email, name, passwordHash }).save();
+
+    await mongoose.disconnect?.();
+    console.info('🤘️ Database mongoDb was filled!');
     /*
         try {
           await this.loadMockData(url);
