@@ -13,7 +13,7 @@ export const FileApiProperty = {
   },
   SubDirectory: {
     description: 'The file sub directory',
-    example: 'password'
+    example: 'some/path'
   },
   Mimetype: {
     description: 'The file mimetype',

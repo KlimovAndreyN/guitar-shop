@@ -40,7 +40,7 @@ export class CatalogController {
     const headers = makeHeaders(requestId, null, userId);
     const { data } = await this.httpService.axiosRef.get<ProductsWithPaginationRdo>(url, headers);
 
-    return data;
+    return this.catalogService.changeEntitiesImagePath(data);
   }
 
   @ApiOperation(ApiOperationOption.Product.Detail)
@@ -58,7 +58,7 @@ export class CatalogController {
     const headers = makeHeaders(requestId, null, userId);
     const { data } = await this.httpService.axiosRef.get<DetailProductRdo>(url, headers);
 
-    return data;
+    return this.catalogService.changeImagePath(data);
   }
 
   @ApiOperation(ApiOperationOption.Product.Create)
@@ -77,7 +77,7 @@ export class CatalogController {
   ): Promise<DetailProductRdo> {
     const product = await this.catalogService.createOrUpdateProduct(null, dto, requestId, userId, imageFile);
 
-    return product;
+    return this.catalogService.changeImagePath(product);
   }
 
   @ApiOperation(ApiOperationOption.Product.Update)
@@ -99,7 +99,7 @@ export class CatalogController {
   ): Promise<DetailProductRdo> {
     const product = await this.catalogService.createOrUpdateProduct(productId, dto, requestId, userId, imageFile);
 
-    return product;
+    return this.catalogService.changeImagePath(product);
   }
 
   @ApiOperation(ApiOperationOption.Product.Delete)

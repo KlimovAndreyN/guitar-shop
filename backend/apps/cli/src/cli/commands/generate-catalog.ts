@@ -19,7 +19,7 @@ export async function generateCatalog(postgresUrl: string, productCount: number)
       (_, index) => {
         const digit = index + 1;
         const guitarType = getRandomStringEnumValue(GuitarType);
-        const imagePath = '/static/' + guitarType + '.png'; //!
+        const imagePath = guitarType + '.png';
         const stringsCount = getRandomItem<number>(StringsCountByGuitarType[guitarType]);
         const addedDate = getRandomDate(MOCK_START_DATE, now);
 

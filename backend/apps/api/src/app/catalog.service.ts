@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 
-import { DetailProductRdo, RouteAlias } from '@backend/shared/core';
+import { DetailProductRdo, ProductRdo, ProductsWithPaginationRdo, RouteAlias } from '@backend/shared/core';
 import { dtoToFormData, makeHeaders, makeUrl, multerFileToFormData } from '@backend/shared/helpers';
 import { apiConfig } from '@backend/api/config';
 import { CreateProductDto, ImageOption, UpdateProductDto } from '@backend/catalog/product';
@@ -39,5 +39,21 @@ export class CatalogService {
         : await this.httpService.axiosRef.put<DetailProductRdo>(url, formData, headers);
 
     return data;
+  }
+
+  public changeImagePath<T extends DetailProductRdo | ProductRdo>(rdo: T): T {
+    const { imagePath: oldImagePath } = rdo;
+    const imagePath = [this.apiOptions.fileStorageServiceUrl, oldImagePath].join('/');
+    const changedRdo = { ...rdo, imagePath }
+
+    return changedRdo;
+  }
+
+  public changeEntitiesImagePath(rdo: ProductsWithPaginationRdo): ProductsWithPaginationRdo {
+    const { entities: oldEntities } = rdo;
+    const entities = oldEntities.map((entity) => (this.changeImagePath(entity)));
+    const changedRdo = { ...rdo, entities }
+
+    return changedRdo;
   }
 }

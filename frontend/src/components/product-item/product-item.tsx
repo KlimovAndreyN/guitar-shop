@@ -9,15 +9,14 @@ type ProductItemProps = {
   title: string;
   addedDate: string;
   price: number;
-  //!imagePath: string;
+  imagePath: string;
   onDeleteProduct: (id: string) => void;
 }
 
-const ProductItem = ({ id, title, addedDate, price/*, imagePath*/, onDeleteProduct }: ProductItemProps): JSX.Element => {
+const ProductItem = ({ id, title, addedDate, price, imagePath, onDeleteProduct }: ProductItemProps): JSX.Element => {
   const editLink = AppRoute.ProductEdit.replace(':id', id);
-  //!
-  const imagePath = '/img/content/catalog-product-1.png';
-  const srcSet = '/img/content/catalog-product-1@2x.png 2x';
+  //! по ТЗ нет двух картинок разного размера - "/img/content/catalog-product-1.png" и "/img/content/catalog-product-1@2x.png 2x"
+  const srcSet = '';
 
   const handleDeleteButtonClick = (event: FormEvent<HTMLElement>) => {
     event.preventDefault();
