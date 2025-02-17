@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { join } from 'path/posix';
 
@@ -13,7 +13,7 @@ import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQuery } from './query/product.query';
-import { Default, ProductMessage } from './product.constant';
+import { Default, ProductMessage, StringsCountByGuitarType } from './product.constant';
 
 @Injectable()
 export class ProductService {
@@ -24,18 +24,14 @@ export class ProductService {
     private readonly productRepository: ProductRepository
   ) { }
 
-  //! StringsCountByGuitarType !
-  /*
   private validateProductData(dto: CreateProductDto | UpdateProductDto): void {
-    dto.imageFile = (imageFile) ? '/some/path' : undefined;
+    const { guitarType, stringsCount } = dto;
+    const stringsCounts = StringsCountByGuitarType[guitarType];
 
-    const message = validateProductData(dto);
-
-    if (message) {
-      throw new BadRequestException(message);
+    if (![...stringsCounts].includes(stringsCount)) {
+      throw new BadRequestException(`For guitarType: '${guitarType}' stringsCount mast one of values: ${stringsCounts.join(', ')}!`);
     }
   }
-  */
 
   private async uploadImageFile(imageFile: Express.Multer.File, requestId: string): Promise<string> {
     try {
@@ -83,7 +79,7 @@ export class ProductService {
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //!this.validateProductData(dto); // StringsCountByGuitarType
+    this.validateProductData(dto);
 
     const imagePath = await this.uploadImageFile(imageFile, requestId);
     const newProduct = ProductFactory.createFromDto(dto, imagePath);
@@ -101,7 +97,7 @@ export class ProductService {
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //!this.validateProductData(dto); // StringsCountByGuitarType
+    this.validateProductData(dto);
 
     const existsProduct = await this.productRepository.findById(productId);
     const imagePath = await this.uploadImageFile(imageFile, requestId);
