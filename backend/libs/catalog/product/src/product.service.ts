@@ -1,16 +1,19 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { join } from 'path/posix';
 
-import { PaginationResult } from '@backend/shared/core';
+import { parseAxiosError, uploadFile } from '@backend/shared/helpers';
+import { PaginationResult, RouteAlias } from '@backend/shared/core';
 import { catalogConfig } from '@backend/catalog/config';
+import { FILE_KEY, UploadedFileRdo } from '@backend/file-storage/file-uploader';
 
 import { ProductEntity } from './product.entity';
 import { ProductFactory } from './product.factory';
 import { ProductRepository } from './product.repository';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Default, ProductMessage } from './product.constant';
 import { ProductQuery } from './query/product.query';
+import { Default, ProductMessage } from './product.constant';
 
 @Injectable()
 export class ProductService {
@@ -23,7 +26,7 @@ export class ProductService {
 
   //! StringsCountByGuitarType !
   /*
-  private validateProductData(dto: CreateProductDto | UpdateProductDto, imageFile: Express.Multer.File): void {
+  private validateProductData(dto: CreateProductDto | UpdateProductDto): void {
     dto.imageFile = (imageFile) ? '/some/path' : undefined;
 
     const message = validateProductData(dto);
@@ -33,11 +36,11 @@ export class ProductService {
     }
   }
   */
-  /*
+
   private async uploadImageFile(imageFile: Express.Multer.File, requestId: string): Promise<string> {
     try {
       const fileRdo = await uploadFile<UploadedFileRdo>(
-        join(this.catalogOptions.fileStorageServiceUrl, RouteAlias.Upload),
+        [this.catalogOptions.fileStorageServiceUrl, RouteAlias.Upload].join('/'),
         imageFile,
         FILE_KEY,
         requestId
@@ -50,7 +53,6 @@ export class ProductService {
       throw new InternalServerErrorException('File upload error!');
     }
   }
-  */
 
   private checkAuthorization(userId: string): void {
     if (!userId) {
@@ -81,10 +83,9 @@ export class ProductService {
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //!this.validateProductData(dto, imageFile);
+    //!this.validateProductData(dto); // StringsCountByGuitarType
 
-    //!const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const imagePath = '/some/file';
+    const imagePath = await this.uploadImageFile(imageFile, requestId);
     const newProduct = ProductFactory.createFromDto(dto, imagePath);
 
     await this.productRepository.save(newProduct);
@@ -100,11 +101,10 @@ export class ProductService {
     requestId: string
   ): Promise<ProductEntity> {
     this.checkAuthorization(userId);
-    //!this.validateProductData(dto, imageFile);
+    //!this.validateProductData(dto); // StringsCountByGuitarType
 
     const existsProduct = await this.productRepository.findById(productId);
-    //!const imagePath = await this.uploadImageFile(imageFile, requestId);
-    const imagePath = '/some/file';
+    const imagePath = await this.uploadImageFile(imageFile, requestId);
     const product = ProductFactory.createFromDto(dto, imagePath);
 
     product.id = existsProduct.id;
