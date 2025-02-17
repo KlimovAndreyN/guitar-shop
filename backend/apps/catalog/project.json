@@ -71,14 +71,6 @@
         "cwd": "libs/catalog/models/prisma",
         "envFile": "./apps/catalog/.env"
       }
-    },
-    "db:seed": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx ts-node seed.ts",
-        "cwd": "libs/catalog/models/prisma",
-        "envFile": "./apps/catalog/.env"
-      }
     }
   }
 }

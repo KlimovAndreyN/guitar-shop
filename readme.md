@@ -28,9 +28,13 @@ npx nx run catalog:db:generate
 # инициализировать БД postgres - catalog
 npx nx run catalog:db:migrate
 
+# сборка cli-application
+npx nx run cli:build
+
 # наполнение тестовыми данными
-#//!npx nx run account:db:seed
-#//!npx nx run catalog:db:seed
+./dist/apps/cli/main.js --generate 10
+или
+node ./dist/apps/cli/main.js --generate 10
 
 # запуск сервисов
 npx nx run file-storage:serve

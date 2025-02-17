@@ -12,7 +12,7 @@ export class VersionCommand implements Command {
   }
 
   //!
-  public async execute(..._parameters: string[]): Promise<void> {
+  public async execute(): Promise<void> {
     try {
       const version = getPackageVersion();
 

@@ -9,7 +9,7 @@ export class HelpCommand implements Command {
   }
 
   //!
-  public async execute(..._parameters: string[]): Promise<void> {
+  public async execute(): Promise<void> {
     const exampleText = `${HelpText.EXAMPLE}:\n  ${chalk.green(RUN_EXAMPLE)}`;
 
     const commandsText = Object.values(CommandType).map(
