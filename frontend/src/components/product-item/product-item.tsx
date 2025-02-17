@@ -9,10 +9,11 @@ type ProductItemProps = {
   title: string;
   addedDate: string;
   price: number;
-  //imagePath: string;
+  //!imagePath: string;
+  onDeleteProduct: (id: string) => void;
 }
 
-const ProductItem = ({ id, title, addedDate, price/*, imagePath*/ }: ProductItemProps): JSX.Element => {
+const ProductItem = ({ id, title, addedDate, price/*, imagePath*/, onDeleteProduct }: ProductItemProps): JSX.Element => {
   const editLink = AppRoute.ProductEdit.replace(':id', id);
   //!
   const imagePath = '/img/content/catalog-product-1.png';
@@ -20,10 +21,8 @@ const ProductItem = ({ id, title, addedDate, price/*, imagePath*/ }: ProductItem
 
   const handleDeleteButtonClick = (event: FormEvent<HTMLElement>) => {
     event.preventDefault();
-    //!
-    // eslint-disable-next-line no-console
-    console.log(`handleDeleteButtonClick - ${id}`);
-    //! обновить родителя или самоудалиться или обработчик перенести в родителя
+
+    onDeleteProduct(id);
   };
 
   return (
