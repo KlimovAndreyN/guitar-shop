@@ -9,8 +9,8 @@ export const MOCK_USER_ADMIN: MockUser = {
 
 export const MOCK_PRODUCT_TEMPLATE =
   {
-    title: 'title title - ',
-    description: 'description description - ',
-    article: 'article',
+    title: 'title title #',
+    description: 'description description #',
+    article: 'art#',
     price: 1000
   } as const;

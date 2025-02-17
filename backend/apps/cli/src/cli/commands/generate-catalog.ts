@@ -1,94 +1,42 @@
-export async function generateCatalog(postgresUrl: string, productCount: number) {
-  console.log(11111111111);
-}
-
-
-/*
+import { ConfigAlias, GuitarType, STRINGS_COUNT_VALUES } from '@backend/shared/core';
 import { PrismaClient } from '@prisma/client';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { MOCK_COMMENTS, MOCK_POSTS, MOCK_SUBSCRIPTIONS, MOCK_TAGS } from '../../../../mocks/blog';
+import { MOCK_PRODUCT_TEMPLATE } from './mocks';
 
-async function seedDb(prismaClient: PrismaClient) {
-  for (const tag of MOCK_TAGS) {
-    const { id, title } = tag
+export async function generateCatalog(postgresUrl: string, productCount: number) {
+  process.env[ConfigAlias.PostgresDatabaseUrlEnv] = postgresUrl;
 
-    await prismaClient.tag.upsert({
-      where: { id },
-      update: {},
-      create: { id, title }
-    });
-  }
-
-  for (const post of MOCK_POSTS) {
-    const {
-      id,
-      type,
-      tags,
-      state,
-      title,
-      url,
-      previewText,
-      text,
-      quoteText,
-      quoteAuthor,
-      imagePath,
-      linkDescription,
-      userId
-    } = post;
-
-    await prismaClient.post.upsert({
-      where: { id },
-      update: {},
-      create: {
-        id,
-        type,
-        tags: { connect: tags },
-        state,
-        title,
-        url,
-        previewText,
-        text,
-        quoteText,
-        quoteAuthor,
-        imagePath,
-        linkDescription,
-        userId
-      }
-    });
-  }
-
-  for (const comment of MOCK_COMMENTS) {
-    const { id, message, postId, userId } = comment;
-
-    await prismaClient.comment.upsert({
-      where: { id },
-      update: {},
-      create: { id, message, postId, userId }
-    });
-  }
-
-  for (const subscription of MOCK_SUBSCRIPTIONS) {
-    const { id } = subscription;
-    const authorUserId: string = subscription.authorUserId as string;
-    const userId: string = subscription.userId as string;
-
-    await prismaClient.subscription.upsert({
-      where: { id },
-      update: {},
-      create: { id, authorUserId, userId }
-    });
-  }
-
-  console.info('🤘️ Database was filled');
-}
-
-async function bootstrap() {
-  const prismaClient = new PrismaClient();
+  const prismaClient = new PrismaClient({});
+  const { article, description, price, title } = MOCK_PRODUCT_TEMPLATE;
 
   try {
-    await seedDb(prismaClient);
-    globalThis.process.exit(0);
+    const mockProducts = Array.from(
+      { length: productCount },
+      (_, index) => {
+        const digit = index + 1;
+        const guitarType = GuitarType.Acoustic as string; //!
+        const imagePath = '/static/' + guitarType + '.png'; //!
+        const stringsCount = STRINGS_COUNT_VALUES[0]; //! StringsCountByGuitarType
+
+        return {
+          title: title + digit,
+          description: description + digit,
+          article: article + digit,
+          price: price * digit,
+          imagePath,
+          guitarType,
+          stringsCount
+        }
+      }
+    );
+
+    console.table(mockProducts);
+
+    for (const data of mockProducts) {
+      await prismaClient.product.create({ data });
+    }
+
+    console.info('🤘️ Database postgres was filled!');
   } catch (error: unknown) {
     console.error(error);
     globalThis.process.exit(1);
@@ -96,6 +44,3 @@ async function bootstrap() {
     await prismaClient.$disconnect();
   }
 }
-
-bootstrap();
-*/

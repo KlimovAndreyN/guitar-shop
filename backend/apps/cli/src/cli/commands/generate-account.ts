@@ -9,9 +9,9 @@ import { MockUserEntity } from './type';
 export async function generateAccount(mongoDbUrl: string) {
   const mongoose = await Mongoose.connect(mongoDbUrl);
   const salt = await genSalt(SALT_ROUNDS);
-
   const { id, email, name, password } = MOCK_USER_ADMIN;
   const passwordHash = await hash(password, salt);
+
   await new MockUserEntity({ id, email, name, passwordHash }).save();
 
   await mongoose.disconnect?.();
