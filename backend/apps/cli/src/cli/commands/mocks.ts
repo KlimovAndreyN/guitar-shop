@@ -12,5 +12,5 @@ export const MOCK_PRODUCT_TEMPLATE =
     title: 'title title #',
     description: 'description description #',
     article: 'art#',
-    price: 1000
+    price: 5000
   } as const;

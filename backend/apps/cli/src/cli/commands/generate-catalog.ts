@@ -1,5 +1,8 @@
-import { ConfigAlias, GuitarType, STRINGS_COUNT_VALUES } from '@backend/shared/core';
 import { PrismaClient } from '@prisma/client';
+
+import { ConfigAlias, GuitarType } from '@backend/shared/core';
+import { getRandomItem, getRandomStringEnumValue } from '@backend/shared/helpers';
+import { StringsCountByGuitarType } from '@backend/catalog/product';
 
 import { MOCK_PRODUCT_TEMPLATE } from './mocks';
 
@@ -10,13 +13,13 @@ export async function generateCatalog(postgresUrl: string, productCount: number)
   const { article, description, price, title } = MOCK_PRODUCT_TEMPLATE;
 
   try {
-    const mockProducts = Array.from(
+    const data = Array.from(
       { length: productCount },
       (_, index) => {
         const digit = index + 1;
-        const guitarType = GuitarType.Acoustic as string; //!
+        const guitarType = getRandomStringEnumValue(GuitarType);
         const imagePath = '/static/' + guitarType + '.png'; //!
-        const stringsCount = STRINGS_COUNT_VALUES[0]; //! StringsCountByGuitarType
+        const stringsCount = getRandomItem<number>(StringsCountByGuitarType[guitarType]);
 
         return {
           title: title + digit,
@@ -30,11 +33,9 @@ export async function generateCatalog(postgresUrl: string, productCount: number)
       }
     );
 
-    console.table(mockProducts);
+    console.table(data);
 
-    for (const data of mockProducts) {
-      await prismaClient.product.create({ data });
-    }
+    await prismaClient.product.createMany({ data });
 
     console.info('🤘️ Database postgres was filled!');
   } catch (error: unknown) {

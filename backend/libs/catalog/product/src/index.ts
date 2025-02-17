@@ -2,7 +2,7 @@ export { ProductModule } from './product.module';
 
 export { ProductService } from './product.service';
 
-export { ProductApiResponse, parseFilePipeBuilder, ImageOption } from './product.constant';
+export { ProductApiResponse, parseFilePipeBuilder, ImageOption, StringsCountByGuitarType } from './product.constant';
 
 export { ProductQuery } from './query/product.query';
 

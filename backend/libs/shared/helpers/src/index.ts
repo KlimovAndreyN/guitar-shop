@@ -6,4 +6,5 @@ export { getMailerAsyncOptions } from './lib/mail';
 export { getPackageVersion } from './lib/package-json-config';
 export { parseAxiosError } from './lib/parse-axios-error';
 export { parseTime } from './lib/parse-time';
+export * from './lib/random';
 export { uploadFile } from './lib/upload-file';
