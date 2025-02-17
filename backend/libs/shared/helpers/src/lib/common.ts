@@ -62,3 +62,7 @@ export function makeUrl(mainUrl: string, mainRoute = '', route = '', query: obje
 
   return paths.join('/') + queryString;
 }
+
+export function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : '';
+}
