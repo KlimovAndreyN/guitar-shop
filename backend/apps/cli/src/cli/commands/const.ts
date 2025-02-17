@@ -9,7 +9,7 @@ export enum CommandType {
 export const CommandTypeParams = {
   [CommandType.Version]: '',
   [CommandType.Help]: '',
-  [CommandType.Generate]: '<n> <path> <url>',
+  [CommandType.Generate]: '<n> <mongo connection string> <postgres connection string>',
 } as const;
 
 export const CommandTypeInfo = {

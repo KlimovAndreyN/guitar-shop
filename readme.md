@@ -32,9 +32,9 @@ npx nx run catalog:db:migrate
 npx nx run cli:build
 
 # наполнение тестовыми данными
-./dist/apps/cli/main.js --generate 10
+./dist/apps/cli/main.js --generate 10 mongodb://admin:test@localhost:27019/guitar-shop-account?authSource=admin postgres://admin:test@localhost:5433/guitar-shop-catalog
 или
-node ./dist/apps/cli/main.js --generate 10
+node ./dist/apps/cli/main.js --generate 10 mongodb://admin:test@localhost:27019/guitar-shop-account?authSource=admin postgres://admin:test@localhost:5433/guitar-shop-catalog
 
 # запуск сервисов
 npx nx run file-storage:serve

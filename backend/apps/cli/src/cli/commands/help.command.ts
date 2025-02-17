@@ -8,7 +8,6 @@ export class HelpCommand implements Command {
     return CommandType.Help;
   }
 
-  //!
   public async execute(): Promise<void> {
     const exampleText = `${HelpText.EXAMPLE}:\n  ${chalk.green(RUN_EXAMPLE)}`;
 

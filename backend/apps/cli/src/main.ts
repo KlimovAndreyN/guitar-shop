@@ -2,8 +2,7 @@
 
 import 'reflect-metadata';
 
-//!import { CLIApplication, GenerateCommand, HelpCommand, VersionCommand } from './cli/index';
-import { CLIApplication, HelpCommand, VersionCommand } from './cli/index';
+import { CLIApplication, GenerateCommand, HelpCommand, VersionCommand } from './cli/index';
 
 function bootstrap() {
   const cliApplication = new CLIApplication();
@@ -11,7 +10,7 @@ function bootstrap() {
   cliApplication.registerCommands([
     new HelpCommand(),
     new VersionCommand(),
-    //!new GenerateCommand()
+    new GenerateCommand()
   ]);
 
   cliApplication.processCommand(process.argv);

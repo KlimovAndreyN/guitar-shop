@@ -11,7 +11,6 @@ export class VersionCommand implements Command {
     return CommandType.Version;
   }
 
-  //!
   public async execute(): Promise<void> {
     try {
       const version = getPackageVersion();
