@@ -12,7 +12,7 @@ const ProductList = (): JSX.Element => {
   useScrollToTop();
 
   const dispatch = useAppDispatch();
-  const [isDeleteAction, setIsDeleteAction] = useState(false);
+  const [needUpdate, setNeedUpdate] = useState(false);
   const page = 1;
 
   const isProductsLoading = useAppSelector(getIsProductsLoading);
@@ -24,14 +24,14 @@ const ProductList = (): JSX.Element => {
   useEffect(
     () => {
       dispatch(fetchProducts());
-      setIsDeleteAction(false);
+      setNeedUpdate(false);
     },
-    [isDeleteAction, page, dispatch]
+    [needUpdate, page, dispatch]
   );
 
   const handleDeleteProduct = (id: string) => {
     dispatch(deleteProduct(id));
-    setIsDeleteAction(true);
+    setNeedUpdate(true);
   };
 
   if (isProductsLoading) {

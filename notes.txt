@@ -68,7 +68,7 @@
   наполение монго через имеющюуся модель и репозиторий, может как модуль? или все cli как app...........
   после действия удалить товар на странице «Список товаров»
     обновление списка почемeто не работает через Extra.dispatch... а при инициализации в "const store = configureStore(" ошибка...
-    в action - useAppDispatch()(fetchProducts); тоже не работает
-    сделал через "const [isDeleteAction, setIsDeleteAction] = useState(false);"
+    в action - useAppDispatch()(fetchProducts); срабатывает, но видимо не правильно обрабатываю в ProductList...
+      сделал через useState: "const [needUpdate, setNeedUpdate] = useState(false);"
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
