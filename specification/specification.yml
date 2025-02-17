@@ -1,0 +1,499 @@
+openapi: 3.0.0
+paths:
+  /api/users/register:
+    post:
+      operationId: UsersController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: The new user has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRdo'
+        '400':
+          description: Bad request.
+        '403':
+          description: Require logout.
+        '409':
+          description: User with this email already exists.
+      security:
+        - accessToken: []
+      summary: Создание нового пользователя
+      tags:
+        - users
+  /api/users/login:
+    post:
+      operationId: UsersController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserDto'
+      responses:
+        '200':
+          description: User has been successfully logged.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUserRdo'
+        '400':
+          description: Bad request.
+        '401':
+          description: Password or Login is wrong.
+      summary: Вход в закрытую часть приложения
+      tags:
+        - users
+  /api/users/check:
+    get:
+      operationId: UsersController_checkToken
+      parameters: []
+      responses:
+        '200':
+          description: Check access token success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPayloadRdo'
+        '401':
+          description: Unauthorized.
+      security:
+        - accessToken: []
+      summary: Проверка состояния пользователя
+      tags:
+        - users
+  /api/catalog/products:
+    get:
+      operationId: CatalogController_index
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: The page
+          schema:
+            type: number
+        - name: sortType
+          required: false
+          in: query
+          description: The sorting type
+          schema:
+            example: addedDate
+            enum:
+              - addedDate
+              - price
+            type: string
+        - name: sortDirection
+          required: false
+          in: query
+          description: The sorting direction
+          schema:
+            example: desc
+            enum:
+              - asc
+              - desc
+            type: string
+      responses:
+        '200':
+          description: Product found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailProductRdo'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+      security:
+        - accessToken: []
+      summary: Получение списка товаров
+      tags:
+        - catalog
+    post:
+      operationId: CatalogController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateProductDto'
+      responses:
+        '201':
+          description: The new product has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailProductRdo'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '422':
+          description: Bad file.
+      security:
+        - accessToken: []
+      summary: Создание нового товара
+      tags:
+        - catalog
+  /api/catalog/products/{productId}:
+    get:
+      operationId: CatalogController_show
+      parameters:
+        - name: productId
+          required: true
+          in: path
+          schema:
+            description: The unique product ID
+            example: 2f31b19b-97eb-4305-877a-0b9be7faca8f
+      responses:
+        '200':
+          description: Product found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailProductRdo'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Product not found.
+      security:
+        - accessToken: []
+      summary: Получение детальной информации по товару
+      tags:
+        - catalog
+    put:
+      operationId: CatalogController_update
+      parameters:
+        - name: productId
+          required: true
+          in: path
+          schema:
+            description: The unique product ID
+            example: 2f31b19b-97eb-4305-877a-0b9be7faca8f
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateProductDto'
+      responses:
+        '200':
+          description: The product has been successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailProductRdo'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Product not found.
+        '422':
+          description: Bad file.
+      security:
+        - accessToken: []
+      summary: Редактирование карточки товара
+      tags:
+        - catalog
+    delete:
+      operationId: CatalogController_delete
+      parameters:
+        - name: productId
+          required: true
+          in: path
+          schema:
+            description: The unique product ID
+            example: 2f31b19b-97eb-4305-877a-0b9be7faca8f
+      responses:
+        '204':
+          description: The product has been successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Product not found.
+      security:
+        - accessToken: []
+      summary: Удаление товара
+      tags:
+        - catalog
+info:
+  title: Api API
+  description: The Api API description
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    accessToken:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The unique user email
+          example: user@local.local
+        name:
+          type: string
+          description: The user name
+          example: Name
+        password:
+          type: string
+          description: The user password
+          example: password
+      required:
+        - email
+        - name
+        - password
+    UserRdo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique user ID
+          example: 658170cbb954e9f5b905ccf4
+        email:
+          type: string
+          description: The unique user email
+          example: user@local.local
+        name:
+          type: string
+          description: The user name
+          example: Name
+      required:
+        - id
+        - email
+        - name
+    LoginUserDto:
+      type: object
+      properties:
+        login:
+          type: string
+          description: The login user (email)
+          example: admin
+        password:
+          type: string
+          description: The user password
+          example: password
+      required:
+        - login
+        - password
+    LoggedUserRdo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique user ID
+          example: 658170cbb954e9f5b905ccf4
+        email:
+          type: string
+          description: The unique user email
+          example: user@local.local
+        name:
+          type: string
+          description: The user name
+          example: Name
+        accessToken:
+          type: string
+          description: The user access JWT token
+          example: asdasdsdfetyhetyhythgfnghnlkcsdkfajowfjlsdkmcv
+      required:
+        - id
+        - email
+        - name
+        - accessToken
+    TokenPayloadRdo:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: The unique user ID
+          example: 658170cbb954e9f5b905ccf4
+        email:
+          type: string
+          description: The unique user email
+          example: user@local.local
+        name:
+          type: string
+          description: The user name
+          example: Name
+      required:
+        - sub
+        - email
+        - name
+    DetailProductRdo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique product ID
+          example: 2f31b19b-97eb-4305-877a-0b9be7faca8f
+        title:
+          type: string
+          description: The product title
+          example: title title
+        addedDate:
+          type: string
+          description: The product added date
+          example: 12.02.2025
+        imagePath:
+          type: string
+          description: The product image path
+          example: /img/12345.jpg
+        price:
+          type: number
+          description: The product price
+          example: 10000
+        description:
+          type: string
+          description: The product description
+          example: description description
+        guitarType:
+          type: string
+          description: The guitar type
+          enum:
+            - electro
+            - acoustic
+            - ukulele
+          example: electro
+        article:
+          type: string
+          description: The product article
+          example: article
+        stringsCount:
+          type: number
+          description: The product strings count
+          enum:
+            - 4
+            - 6
+            - 7
+            - 12
+          example: 4
+      required:
+        - id
+        - title
+        - addedDate
+        - imagePath
+        - price
+        - description
+        - guitarType
+        - article
+        - stringsCount
+    CreateProductDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The product title
+          example: title title
+        description:
+          type: string
+          description: The product description
+          example: description description
+        imageFile:
+          type: string
+          description: The product image file
+          format: binary
+        guitarType:
+          type: string
+          description: The guitar type
+          enum:
+            - electro
+            - acoustic
+            - ukulele
+          example: electro
+        article:
+          type: string
+          description: The product article
+          example: article
+        stringsCount:
+          type: number
+          description: The product strings count
+          enum:
+            - 4
+            - 6
+            - 7
+            - 12
+          example: 4
+        price:
+          type: number
+          description: The product price
+          example: 10000
+        addedDate:
+          type: string
+          description: The product added date
+          example: 12.02.2025
+      required:
+        - title
+        - description
+        - imageFile
+        - guitarType
+        - article
+        - stringsCount
+        - price
+    UpdateProductDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The product title
+          example: title title
+        description:
+          type: string
+          description: The product description
+          example: description description
+        imageFile:
+          type: string
+          description: The product image file
+          format: binary
+        guitarType:
+          type: string
+          description: The guitar type
+          enum:
+            - electro
+            - acoustic
+            - ukulele
+          example: electro
+        article:
+          type: string
+          description: The product article
+          example: article
+        stringsCount:
+          type: number
+          description: The product strings count
+          enum:
+            - 4
+            - 6
+            - 7
+            - 12
+          example: 4
+        price:
+          type: number
+          description: The product price
+          example: 10000
+        addedDate:
+          type: string
+          description: The product added date
+          example: 12.02.2025
+      required:
+        - title
+        - description
+        - imageFile
+        - guitarType
+        - article
+        - stringsCount
+        - price
+        - addedDate
