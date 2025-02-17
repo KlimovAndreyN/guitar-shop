@@ -33,6 +33,13 @@
          1.3.4. CLI предоставляет команду --help. Команда выводит информацию о доступных командах. Формат вывода остаётся на усмотрение студента.
          1.3.5. Запуск CLI без аргументов приводит к выполнению команды --help.
          1.3.6. удалить seed, как будет cli
+    "start:cli:dev": "nodemon --exec npm run ts ./src/main.cli.ts",
+    "start:cli:dev:version": "npm run start:cli:dev -- -- -- --version",
+    "start:cli:dev:help": "npm run start:cli:dev -- -- -- --help",
+    "start:cli:dev:none": "npm run start:cli:dev -- -- -- --none",
+    "start:cli:dev:import": "npm run start:cli:dev -- -- -- --import ./mocks/offers.tsv admin test localhost 27017 six-cities abcdefg",
+    "start:cli:dev:generate": "npm run start:cli:dev -- -- -- --generate 200 ./mocks/offers.tsv http://localhost:3123/api",
+         
 -----------------
 2. Frontend
   2.1. Валидация (силами html и Backend) форм "Регистрация", "Вход" и "Карточка продукта"
