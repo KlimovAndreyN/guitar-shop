@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import { Helmet } from 'react-helmet-async';
 
+import PasswordInput from '../../components/password-input/password-input';
 import type { UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
@@ -41,18 +42,7 @@ const Register = (): JSX.Element => {
               <input type="email" id="email" name="email" autoComplete="off" required />
               <p className="input-login__error">Заполните поле</p>
             </div>
-            <div className="input-login">
-              <label htmlFor="password">Придумайте пароль</label>
-              <span>
-                <input type="password" placeholder="• • • • • • • • • • • •" id="password" name="password" autoComplete="off" required />
-                <button className="input-login__button-eye" type="button">
-                  <svg width="14" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-eye"></use>
-                  </svg>
-                </button>
-              </span>
-              <p className="input-login__error">Заполните поле</p>
-            </div>
+            <PasswordInput isFromRegistration />
             <button className="button login__button button--medium" type="submit">Зарегистрироваться</button>
           </form>
         </section>
