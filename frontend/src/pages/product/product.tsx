@@ -35,10 +35,9 @@ const Product = (): JSX.Element | null => {
     return null;
   }
 
-  //!const { title: productTitle, imagePath } = product;
-  const { title: productTitle } = product;
-  const imagePath = '/img/content/catalog-product-1.png';
-  const srcSet = '/img/content/catalog-product-1@2x.png 2x';
+  const { title: productTitle, imagePath } = product;
+  //! по ТЗ нет двух картинок разного размера - "/img/content/catalog-product-1.png" и "/img/content/catalog-product-1@2x.png 2x"
+  const srcSet = '';
   const title = 'Товар';
 
   return (

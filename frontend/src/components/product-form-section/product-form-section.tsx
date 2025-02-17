@@ -1,17 +1,18 @@
 import BreadcrumbList from '../breadcrumb-list/breadcrumb-list';
 import ProductForm from '../product-form/product-form';
 import history from '../../history';
+import { DetailProduct } from '../../types/backend';
 import { ProductDto } from '../../types/types';
 import { AppRoute } from '../../const';
 
 type ProductFormSectionProps = {
-  product: ProductDto;
+  product: DetailProduct;
   onSubmit: (productData: ProductDto) => void;
 };
 
 const ProductFormSection = ({ product, onSubmit }: ProductFormSectionProps): JSX.Element => {
   const { id, title: productTitle } = product;
-  const isEditing = id !== undefined;
+  const isEditing = id !== '';
   const title = isEditing ? productTitle : 'Новый товар';
   const prefixClassName = isEditing ? 'edit' : 'add';
 

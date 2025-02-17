@@ -4,13 +4,20 @@ import ProductFormSection from '../../components/product-form-section/product-fo
 import { postProduct } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
 import useScrollToTop from '../../hooks/use-scroll-to-top';
+import { DetailProduct } from '../../types/backend';
 import { ProductDto } from '../../types/types';
-import { PageTitle } from '../../const';
+import { GuitarType, PageTitle, STRINGS_COUNT_VALUES } from '../../const';
 
-const emptyProduct: ProductDto = {
+const emptyProduct: DetailProduct = {
   title: '',
   description: '',
-  article: ''
+  article: '',
+  imagePath: '',
+  addedDate: '',
+  guitarType: GuitarType.Acoustic,
+  price: 0,
+  id: '',
+  stringsCount: STRINGS_COUNT_VALUES[0]
 };
 
 const AddProduct = (): JSX.Element => {

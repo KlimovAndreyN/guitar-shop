@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 
 import { toMoneyRuLocate } from '../../utils/common';
+import { DetailProduct } from '../../types/backend';
 import { ProductDto } from '../../types/types';
 import { GuitarTypeTitle, GuitarType, STRINGS_COUNT_VALUES, StringsCount } from '../../const';
 
@@ -18,7 +19,7 @@ enum FormFieldName {
 type ProductFormProps = {
   isEditing: boolean;
   prefixClassName: string;
-  product: ProductDto;
+  product: DetailProduct;
   onCancel: () => void;
   onSubmit: (productData: ProductDto) => void;
 };
@@ -33,8 +34,11 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
     addedDate,
     guitarType,
     stringsCount,
-    price
+    price,
+    imagePath
   } = product;
+  console.log(imagePath);
+
   const priceString = (price) ? toMoneyRuLocate(price) : '';
   const imageEditButtonCaption = isEditing ? 'Заменить' : 'Добавить';
   const guitarTypeSpanText = isEditing ? 'Тип товара' : 'Выберите тип товара';
@@ -124,7 +128,7 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
               (type) => {
                 const key = type;
                 const inputId = type;
-                const isChecked = type === guitarType;
+                const isChecked = isEditing && (type === guitarType);
 
                 return (
                   <Fragment key={key}>
@@ -142,7 +146,7 @@ const ProductForm = (props: ProductFormProps): JSX.Element => {
               (value) => {
                 const inputName = 'string-qty';
                 const inputId = `${inputName}-${value}`;
-                const isChecked = value === stringsCount;
+                const isChecked = isEditing && (value === stringsCount);
 
                 return (
                   <Fragment key={`${value}`}>
