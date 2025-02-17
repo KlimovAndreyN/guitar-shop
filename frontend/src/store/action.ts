@@ -6,6 +6,7 @@ import { TokenStore } from '../utils/token-store';
 import { DetailProduct, ProductsWithPagination, Token } from '../types/backend';
 import type { UserAuth, User, UserRegister, ProductDto, UserLogin } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
+import { convertProductDtoToFormData } from '../utils/common';
 
 type Extra = {
   api: AxiosInstance;
@@ -60,23 +61,7 @@ export const postProduct = createAsyncThunk<DetailProduct, ProductDto, { extra: 
   Action.POST_PRODUCT,
   async (productDto, { extra }) => {
     const { api, history } = extra;
-    const formData = new FormData();
-    const fileKeyName = 'imageFile';
-    const imageFile = productDto[fileKeyName];
-
-    //! тест
-    for (const [key, value] of Object.entries(productDto)) {
-      if (key !== fileKeyName) {
-        formData.append(key, value as string);
-      }
-    }
-
-    if (imageFile) {
-      formData.append(fileKeyName, imageFile);
-    }
-    //
-
-    const { data } = await api.post<DetailProduct>(ApiRoute.Products, formData);
+    const { data } = await api.post<DetailProduct>(ApiRoute.Products, convertProductDtoToFormData(productDto));
 
     history.push(`${AppRoute.Product}/${data.id}`);
 
@@ -88,7 +73,7 @@ export const editProduct = createAsyncThunk<DetailProduct, ProductDto, { extra: 
   Action.EDIT_PRODUCT,
   async (productDto, { extra }) => {
     const { api, history } = extra;
-    const { data } = await api.put<DetailProduct>(`${ApiRoute.Products}/${productDto.id}`, productDto);
+    const { data } = await api.put<DetailProduct>(`${ApiRoute.Products}/${productDto.id}`, convertProductDtoToFormData(productDto));
 
     history.push(`${AppRoute.Product}/${data.id}`);
 
