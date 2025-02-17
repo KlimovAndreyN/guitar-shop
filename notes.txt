@@ -36,7 +36,8 @@
            двойная перегонка formData...  components\product-form\product-form.tsx и store\action.ts
            попробовать как tmp-html-frontend\src\pages\register\register.tsx
   2.4. Страница «Список товаров»
-         1. Пагинация
+       const [searchParams, setSearchParams] = useSearchParams();
+         1. Пагинация 
          2. Сортировка и сортировка по умолчанию - по дате по возрастанию
          3. Фильтры
            3.1. "Тип гитар"

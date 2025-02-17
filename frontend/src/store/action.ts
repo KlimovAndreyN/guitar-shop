@@ -24,11 +24,12 @@ export const Action = {
   REGISTER_USER: 'user/register',
 };
 
-export const fetchProducts = createAsyncThunk<ProductsWithPagination, undefined, { extra: Extra }>(
+export const fetchProducts = createAsyncThunk<ProductsWithPagination, string, { extra: Extra }>(
   Action.FETCH_PRODUCTS,
-  async (_, { extra }) => {
+  //! временно
+  async (query, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<ProductsWithPagination>(ApiRoute.Products);
+    const { data } = await api.get<ProductsWithPagination>(ApiRoute.Products + query);
 
     return data;
   }

@@ -13,8 +13,6 @@ const ProductList = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const [needUpdate, setNeedUpdate] = useState(false);
-  const page = 1;
-
   const isProductsLoading = useAppSelector(getIsProductsLoading);
   const productsWithPagination = useAppSelector(getProductsWithPagination);
 
@@ -23,10 +21,11 @@ const ProductList = (): JSX.Element => {
 
   useEffect(
     () => {
-      dispatch(fetchProducts());
+      //! временно, потом const [searchParams, setSearchParams] = useSearchParams();
+      dispatch(fetchProducts(location.search));
       setNeedUpdate(false);
     },
-    [needUpdate, page, dispatch]
+    [needUpdate, dispatch]
   );
 
   const handleDeleteProduct = (id: string) => {
