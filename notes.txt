@@ -69,3 +69,18 @@
   Вставить email на форме входа, после успешной регистрации при перенаправления на вход
   Карточка товара - что делать с /*href="#characteristics"*/ и /*href="#description"*/ может есть вариант уравлять якорями?
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://www.locode.dev/questions/42471755/convert-image-into-blob-using-javascript
+1.
+promise.downloadFile().then(function(imageElement){
+    imageElement.crossOrigin = "anonymous"; // Set cross-origin attribute if not already set
+    return imageElement.toBlob(function(blob) {
+        var myBlob = blob;
+    }, "image/jpeg");
+});
+2.
+const image = document.querySelector('img[name="imageXXX"]');
+// Read the image data as a blob
+const blob = new Blob([image.src], 'image/jpg');
+// Access the image data
+const imageData = blob.blobFromStream();
